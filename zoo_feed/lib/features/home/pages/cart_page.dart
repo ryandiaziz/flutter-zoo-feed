@@ -17,9 +17,7 @@ class CartPage extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.center,
             children: const [
               CartCard(
-                  name: 'Pisang',
-                  price: 35000,
-                  image: 'assets/img/empty_cart.png')
+                  name: 'Pisang', price: 35000, image: 'assets/img/pisang.png')
             ],
           )),
     );
