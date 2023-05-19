@@ -8,8 +8,7 @@ class OnboardingPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget image() {
       return Container(
-        color: Colors.amber,
-        margin: const EdgeInsets.symmetric(horizontal: 20),
+        margin: const EdgeInsets.only(left: 30, right: 30, top: 200),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
@@ -46,7 +45,7 @@ class OnboardingPage extends StatelessWidget {
           image(),
           const Expanded(child: SizedBox()),
           Container(
-            margin: const EdgeInsets.only(bottom: 20),
+            margin: const EdgeInsets.only(bottom: 20, left: 30, right: 30),
             child: Column(
               children: [
                 CustomElevatedButton(

@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:zoo_feed/features/auth/pages/login_page.dart';
+import 'package:zoo_feed/features/auth/pages/sign_up_page.dart';
 import 'package:zoo_feed/features/home/pages/home_page.dart';
 import 'package:zoo_feed/features/home/pages/profile_page.dart';
 import 'package:zoo_feed/features/home/pages/ticket_page.dart';
@@ -19,7 +21,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: HomePage(),
+      home: SignUpPage(),
+      // home: LoginPage(),
+      // home: OnboardingPage(),
+      // home: HomePage(),
       routes: {
         ProfilePage.routeName: (ctx) => ProfilePage(),
         TicketPage.routeName: (ctx) => TicketPage(),
