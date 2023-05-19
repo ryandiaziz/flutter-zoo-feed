@@ -21,10 +21,10 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: SignUpPage(),
+      // home: SignUpPage(),
       // home: LoginPage(),
       // home: OnboardingPage(),
-      // home: HomePage(),
+      home: HomePage(),
       routes: {
         ProfilePage.routeName: (ctx) => ProfilePage(),
         TicketPage.routeName: (ctx) => TicketPage(),
