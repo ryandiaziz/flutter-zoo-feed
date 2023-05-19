@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zoo_feed/features/home/pages/profile_page.dart';
-import 'package:zoo_feed/features/home/pages/ticket_page.dart';
-import 'package:zoo_feed/features/home/pages/cart_page.dart';
+import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
+import 'package:zoo_feed/features/home/pages/sub_home_page/animal_page.dart';
+import 'package:zoo_feed/features/home/pages/sub_home_page/habitats_page.dart';
+import 'package:zoo_feed/features/home/pages/sub_home_page/typeclass_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,7 +14,6 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _tabIndex = 0;
-  int _bottomNavIndex = 0;
 
   List<Tab> myTab = [
     Tab(text: "Animals"),
@@ -182,80 +182,13 @@ class _HomePageState extends State<HomePage>
           ),
         ),
       ),
-      bottomNavigationBar: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(37),
-            topRight: Radius.circular(37),
-          ),
-        ),
-        child: ClipRRect(
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(37),
-            topRight: Radius.circular(37),
-          ),
-          child: Container(
-            height: 70,
-            color: Color(0xFF019267),
-            child: Theme(
-              data: Theme.of(context).copyWith(
-                canvasColor: Color(0xFF019267),
-              ),
-              child: BottomNavigationBar(
-                selectedItemColor: Color(0xFFFB983E),
-                unselectedItemColor: Colors.white,
-                currentIndex: _bottomNavIndex,
-                onTap: (int index) {
-                  if (_bottomNavIndex != index) {
-                    setState(() {
-                      _bottomNavIndex = index;
-                      _tabController.index = index;
-                    });
-                  }
-
-                  if (index == 1) {
-                    Navigator.pushNamed(context, ProfilePage.routeName);
-                  } else if (index == 2) {
-                    Navigator.pushNamed(context, TicketPage.routeName);
-                  } else if (index == 3) {
-                    Navigator.pushNamed(context, CartPage.routeName);
-                  }
-                },
-                items: const <BottomNavigationBarItem>[
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.home),
-                    label: 'Home',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.person),
-                    label: 'Profile',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.confirmation_number),
-                    label: 'Ticket',
-                  ),
-                  BottomNavigationBarItem(
-                    icon: Icon(Icons.shopping_cart),
-                    label: 'Cart',
-                  ),
-                ],
-              ),
-            ),
-          ),
-        ),
-      ),
+      bottomNavigationBar: bottomnavbar(data: 0),
       body: TabBarView(
         controller: _tabController,
         children: [
-          Center(
-            child: Text("Animals"),
-          ),
-          Center(
-            child: Text("Class"),
-          ),
-          Center(
-            child: Text("Habitat"),
-          ),
+          HabitatPage(),
+          HabitatPage(),
+          TypeclassPage(),
         ],
       ),
     );
