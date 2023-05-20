@@ -3,36 +3,39 @@ import 'package:zoo_feed/features/home/widgets/cart_card.dart';
 import 'package:flutter/services.dart';
 import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
 
+import '../../../common/utils/coloors.dart';
+
 class CartPage extends StatelessWidget {
   static const String routeName = '/cart';
 
   const CartPage({super.key});
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(37),
             bottomRight: Radius.circular(37),
           ),
         ),
-        systemOverlayStyle: SystemUiOverlayStyle(
+        systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
         ),
-        backgroundColor: Color(0xFF019267),
-        title: Text(
+        backgroundColor: Coloors.green,
+        title: const Text(
           "Hello, Michael!",
           style: TextStyle(fontSize: 15, fontFamily: "inter"),
         ),
         centerTitle: true,
         actions: [
           Padding(
-            padding: EdgeInsets.only(right: 25),
+            padding: const EdgeInsets.only(right: 25),
             child: Container(
               width: 40,
               height: 40,
-              decoration: BoxDecoration(
+              decoration: const BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
               ),

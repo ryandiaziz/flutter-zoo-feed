@@ -18,7 +18,11 @@ class TicketCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        padding: const EdgeInsets.only(
+          left: 16.0,
+          right: 16,
+          bottom: 16,
+        ),
         child: AspectRatio(
           aspectRatio: 16 / 7,
           child: Container(
