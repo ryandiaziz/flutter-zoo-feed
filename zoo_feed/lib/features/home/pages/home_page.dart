@@ -14,6 +14,8 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _tabIndex = 0;
+  bool _isSearching = false;
+  TextEditingController _searchController = TextEditingController();
 
   List<Tab> myTab = [
     Tab(text: "Animals"),
@@ -70,10 +72,20 @@ class _HomePageState extends State<HomePage>
     });
   }
 
+  void _toggleSearchBar() {
+    setState(() {
+      _isSearching = !_isSearching;
+      if (!_isSearching) {
+        _searchController.clear();
+      }
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        automaticallyImplyLeading: false,
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(37),
@@ -84,11 +96,38 @@ class _HomePageState extends State<HomePage>
           statusBarColor: Colors.transparent,
         ),
         backgroundColor: Color(0xFF019267),
-        title: Text(
-          "Hello, Michael!",
-          style: TextStyle(fontSize: 15, fontFamily: "inter"),
-        ),
+        title: _isSearching
+            ? TextField(
+                controller: _searchController,
+                style: TextStyle(color: Colors.white, fontSize: 15),
+                decoration: InputDecoration(
+                  hintText: "Search",
+                  hintStyle: TextStyle(color: Colors.white.withOpacity(0.75)),
+                  enabledBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                  focusedBorder: UnderlineInputBorder(
+                    borderSide: BorderSide(color: Colors.white),
+                  ),
+                ),
+              )
+            : Container(
+                child: GestureDetector(
+                  onTap: _toggleSearchBar,
+                  child: Text(
+                    "Hello, Michael!",
+                    style: TextStyle(fontSize: 15, fontFamily: "inter"),
+                  ),
+                ),
+              ),
         centerTitle: true,
+        leading: IconButton(
+          icon: Icon(
+            _isSearching ? Icons.clear : Icons.search,
+            color: Colors.white,
+          ),
+          onPressed: _toggleSearchBar,
+        ),
         actions: [
           Padding(
             padding: EdgeInsets.only(right: 25),
@@ -186,7 +225,7 @@ class _HomePageState extends State<HomePage>
       body: TabBarView(
         controller: _tabController,
         children: [
-          HabitatPage(),
+          AnimalPage(),
           HabitatPage(),
           TypeclassPage(),
         ],

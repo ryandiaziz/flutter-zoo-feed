@@ -23,8 +23,8 @@ class _bottomnavbarState extends State<bottomnavbar> {
           topRight: Radius.circular(37),
         ),
         child: Container(
+          color: Colors.transparent,
           height: 70,
-          color: Color(0xFF019267),
           child: Theme(
             data: Theme.of(context).copyWith(
               canvasColor: Color(0xFF019267),
@@ -36,7 +36,7 @@ class _bottomnavbarState extends State<bottomnavbar> {
               onTap: (index) {
                 switch (index) {
                   case 0:
-                    Navigator.pushNamed(context, '/');
+                    Navigator.popAndPushNamed(context, '/');
                     break;
                   case 1:
                     Navigator.pushNamed(context, '/ticket');
