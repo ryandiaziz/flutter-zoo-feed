@@ -39,13 +39,13 @@ class _bottomnavbarState extends State<bottomnavbar> {
                     Navigator.popAndPushNamed(context, '/');
                     break;
                   case 1:
-                    Navigator.pushNamed(context, '/ticket');
+                    Navigator.popAndPushNamed(context, '/ticket');
                     break;
                   case 2:
-                    Navigator.pushNamed(context, '/cart');
+                    Navigator.popAndPushNamed(context, '/cart');
                     break;
                   case 3:
-                    Navigator.pushNamed(context, '/profile');
+                    Navigator.popAndPushNamed(context, '/profile');
                     break;
                 }
               },
