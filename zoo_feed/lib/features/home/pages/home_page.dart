@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
 import 'package:zoo_feed/features/home/pages/sub_home_page/animal_page.dart';
 import 'package:zoo_feed/features/home/pages/sub_home_page/habitats_page.dart';
 import 'package:zoo_feed/features/home/pages/sub_home_page/typeclass_page.dart';
+import 'package:http/http.dart' as http;
 
 class HomePage extends StatefulWidget {
   static const String routeName = '/home';
@@ -16,6 +20,7 @@ class _HomePageState extends State<HomePage>
   late TabController _tabController;
   int _tabIndex = 0;
   bool _isSearching = false;
+  Map<String, dynamic> users = {};
   TextEditingController _searchController = TextEditingController();
 
   List<Tab> myTab = [
@@ -54,11 +59,32 @@ class _HomePageState extends State<HomePage>
     ),
   ];
 
+  Future<void> fetchUser() async {
+    final pref = await SharedPreferences.getInstance();
+    final accessToken = pref.getString('access_token');
+    final url = Uri.parse('http://192.168.1.7:3000/api/users/account');
+    Map<String, String> headers = {
+      'access_token': accessToken!,
+    };
+
+    final response = await http.get(url, headers: headers);
+
+    if (response.statusCode == 200) {
+      setState(() {
+        users = json.decode(response.body);
+      });
+      print(users);
+    } else {
+      throw Exception('Failed to fetch animals');
+    }
+  }
+
   @override
   void initState() {
-    super.initState();
+    fetchUser();
     _tabController = TabController(length: myTab.length, vsync: this);
     _tabController.addListener(_handleTabSelection);
+    super.initState();
   }
 
   @override
@@ -87,38 +113,36 @@ class _HomePageState extends State<HomePage>
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
-        shape: RoundedRectangleBorder(
+        shape: const RoundedRectangleBorder(
           borderRadius: BorderRadius.only(
             bottomLeft: Radius.circular(37),
             bottomRight: Radius.circular(37),
           ),
         ),
-        systemOverlayStyle: SystemUiOverlayStyle(
+        systemOverlayStyle: const SystemUiOverlayStyle(
           statusBarColor: Colors.transparent,
         ),
-        backgroundColor: Color(0xFF019267),
+        backgroundColor: const Color(0xFF019267),
         title: _isSearching
             ? TextField(
                 controller: _searchController,
-                style: TextStyle(color: Colors.white, fontSize: 15),
+                style: const TextStyle(color: Colors.white, fontSize: 15),
                 decoration: InputDecoration(
                   hintText: "Search",
                   hintStyle: TextStyle(color: Colors.white.withOpacity(0.75)),
-                  enabledBorder: UnderlineInputBorder(
+                  enabledBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
                   ),
-                  focusedBorder: UnderlineInputBorder(
+                  focusedBorder: const UnderlineInputBorder(
                     borderSide: BorderSide(color: Colors.white),
                   ),
                 ),
               )
-            : Container(
-                child: GestureDetector(
-                  onTap: _toggleSearchBar,
-                  child: Text(
-                    "Hello, Michael!",
-                    style: TextStyle(fontSize: 15, fontFamily: "inter"),
-                  ),
+            : GestureDetector(
+                onTap: _toggleSearchBar,
+                child: Text(
+                  'Hello, ${users['name']}!',
+                  style: TextStyle(fontSize: 15, fontFamily: "inter"),
                 ),
               ),
         centerTitle: true,

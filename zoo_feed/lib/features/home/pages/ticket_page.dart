@@ -19,7 +19,7 @@ class _TicketPageState extends State<TicketPage> {
   List<dynamic>? tickets = [];
 
   Future getTicket() async {
-    final url = Uri.parse("http://192.168.1.6:3000/api/ticket/");
+    final url = Uri.parse("http://192.168.1.7:3000/api/ticket/");
     final response = await http.get(url);
     setState(() {
       tickets = json.decode(response.body);

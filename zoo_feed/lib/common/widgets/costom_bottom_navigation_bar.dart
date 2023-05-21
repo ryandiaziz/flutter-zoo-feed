@@ -36,7 +36,7 @@ class _bottomnavbarState extends State<bottomnavbar> {
               onTap: (index) {
                 switch (index) {
                   case 0:
-                    Navigator.popAndPushNamed(context, '/');
+                    Navigator.popAndPushNamed(context, '/home');
                     break;
                   case 1:
                     Navigator.popAndPushNamed(context, '/ticket');
