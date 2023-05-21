@@ -113,12 +113,11 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
-      body: Center(
-        child: Text(
-          'Profile Page',
-          style: TextStyle(fontSize: 24),
-        ),
-      ),
-    );
+        body: Column(
+      children: [
+        profileHeader(),
+        profileMenu(),
+      ],
+    ));
   }
 }
