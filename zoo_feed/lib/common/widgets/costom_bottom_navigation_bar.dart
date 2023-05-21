@@ -1,13 +1,23 @@
 import 'package:flutter/material.dart';
 
 class bottomnavbar extends StatefulWidget {
-  late int data;
-  bottomnavbar({required this.data});
+  late int selectedIndex;
+  final Function(int) onIndexChanged;
+  bottomnavbar({required this.selectedIndex, required this.onIndexChanged});
+
   @override
   State<bottomnavbar> createState() => _bottomnavbarState();
 }
 
 class _bottomnavbarState extends State<bottomnavbar> {
+  late int selectedIndex;
+
+  @override
+  void initState() {
+    super.initState();
+    selectedIndex = widget.selectedIndex;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -32,23 +42,6 @@ class _bottomnavbarState extends State<bottomnavbar> {
             child: BottomNavigationBar(
               selectedItemColor: Color(0xFFFB983E),
               unselectedItemColor: Colors.white,
-              currentIndex: widget.data,
-              onTap: (index) {
-                switch (index) {
-                  case 0:
-                    Navigator.popAndPushNamed(context, '/');
-                    break;
-                  case 1:
-                    Navigator.popAndPushNamed(context, '/ticket');
-                    break;
-                  case 2:
-                    Navigator.popAndPushNamed(context, '/cart');
-                    break;
-                  case 3:
-                    Navigator.popAndPushNamed(context, '/profile');
-                    break;
-                }
-              },
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),
@@ -67,6 +60,13 @@ class _bottomnavbarState extends State<bottomnavbar> {
                   label: 'Profile',
                 ),
               ],
+              currentIndex: selectedIndex,
+              onTap: (int index) {
+                setState(() {
+                  selectedIndex = index;
+                });
+                widget.onIndexChanged(selectedIndex);
+              },
             ),
           ),
         ),

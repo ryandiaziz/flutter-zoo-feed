@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
 import 'package:zoo_feed/common/utils/coloors.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
 import '../widgets/ticket_card.dart';
 
 class TicketPage extends StatefulWidget {
-  static const String routeName = '/ticket';
-
   TicketPage({super.key});
 
   @override
@@ -19,7 +16,7 @@ class _TicketPageState extends State<TicketPage> {
   List<dynamic>? tickets = [];
 
   Future getTicket() async {
-    final url = Uri.parse("http://192.168.1.6:3000/api/ticket/");
+    final url = Uri.parse("http://192.168.2.4:3000/api/ticket/");
     final response = await http.get(url);
     setState(() {
       tickets = json.decode(response.body);
@@ -65,7 +62,6 @@ class _TicketPageState extends State<TicketPage> {
           ),
         ],
       ),
-      bottomNavigationBar: bottomnavbar(data: 1),
       body: Padding(
           padding: const EdgeInsets.only(top: 16.0),
           child: ListView.builder(

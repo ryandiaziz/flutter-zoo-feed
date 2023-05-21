@@ -1,13 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:zoo_feed/features/home/widgets/cart_card.dart';
 import 'package:flutter/services.dart';
-import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
-
 import '../../../common/utils/coloors.dart';
 
 class CartPage extends StatelessWidget {
-  static const String routeName = '/cart';
-
   const CartPage({super.key});
 
   @override
@@ -43,7 +39,6 @@ class CartPage extends StatelessWidget {
           ),
         ],
       ),
-      bottomNavigationBar: bottomnavbar(data: 2),
       body: Padding(
           padding: const EdgeInsets.only(top: 16),
           child: Column(

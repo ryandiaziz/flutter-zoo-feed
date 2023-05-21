@@ -1,9 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
 
 class ProfilePage extends StatelessWidget {
-  static const String routeName = '/profile';
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -43,7 +41,6 @@ class ProfilePage extends StatelessWidget {
           style: TextStyle(fontSize: 24),
         ),
       ),
-      bottomNavigationBar: bottomnavbar(data: 3),
     );
   }
 }

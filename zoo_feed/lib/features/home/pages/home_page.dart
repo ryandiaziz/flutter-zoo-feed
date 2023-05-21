@@ -221,13 +221,12 @@ class _HomePageState extends State<HomePage>
           ),
         ),
       ),
-      bottomNavigationBar: bottomnavbar(data: 0),
       body: TabBarView(
         controller: _tabController,
         children: [
           AnimalPage(),
-          HabitatPage(),
           TypeclassPage(),
+          HabitatPage(),
         ],
       ),
     );
