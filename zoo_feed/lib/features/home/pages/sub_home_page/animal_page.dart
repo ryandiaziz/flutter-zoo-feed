@@ -23,16 +23,6 @@ class _AnimalPageState extends State<AnimalPage> {
     }
   }
 
-  Future<dynamic> getAnimalDetail(int id) async {
-    final response = await http
-        .get(Uri.parse('http://192.168.2.4:3000/api/animals/detail/$id'));
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to fetch animal detail');
-    }
-  }
-
   @override
   void initState() {
     getAnimals();

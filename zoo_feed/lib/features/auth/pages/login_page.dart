@@ -9,6 +9,7 @@ import 'package:zoo_feed/common/widgets/custom_textfield.dart';
 import 'package:zoo_feed/features/auth/widgets/footer.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zoo_feed/features/home/pages/page_controller.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
@@ -36,7 +37,12 @@ class _LoginPageState extends State<LoginPage> {
 
       final pref = await SharedPreferences.getInstance();
       pref.setString('access_token', dataResponse['access_token']);
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyHomePage(),
+        ),
+      );
       setState(() {});
     } else {
       throw Exception('Failed to login');

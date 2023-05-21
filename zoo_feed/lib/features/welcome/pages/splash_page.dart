@@ -1,6 +1,8 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zoo_feed/features/auth/pages/login_page.dart';
+import 'package:zoo_feed/features/home/pages/page_controller.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
@@ -14,9 +16,19 @@ class _SplashPageState extends State<SplashPage> {
     final pref = await SharedPreferences.getInstance();
     final accessToken = pref.getString('access_token');
     if (accessToken!.isNotEmpty) {
-      Navigator.pushReplacementNamed(context, '/home');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => MyHomePage(),
+        ),
+      );
     } else {
-      Navigator.pushReplacementNamed(context, '/login');
+      Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (context) => LoginPage(),
+        ),
+      );
     }
   }
 

@@ -19,9 +19,10 @@ class MyApp extends StatelessWidget {
         primarySwatch: Colors.blue,
       ),
       // home: LoginPage(),
+      home: SplashPage(),
       // home: SplashPage(),
       // home: OnboardingPage(),
-      home: MyHomePage(),
+      // home: MyHomePage(),
       routes: {
         // ProfilePage.routeName: (ctx) => ProfilePage(),
       },
