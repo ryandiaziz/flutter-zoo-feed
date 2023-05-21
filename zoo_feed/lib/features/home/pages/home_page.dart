@@ -6,6 +6,7 @@ import 'package:zoo_feed/features/home/pages/sub_home_page/habitats_page.dart';
 import 'package:zoo_feed/features/home/pages/sub_home_page/typeclass_page.dart';
 
 class HomePage extends StatefulWidget {
+  static const String routeName = '/home';
   @override
   _HomePageState createState() => _HomePageState();
 }

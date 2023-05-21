@@ -1,20 +1,78 @@
+import 'dart:convert';
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 import 'package:zoo_feed/common/utils/coloors.dart';
 import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
 import 'package:zoo_feed/common/widgets/custom_passwordfield.dart';
 import 'package:zoo_feed/common/widgets/custom_textfield.dart';
 import 'package:zoo_feed/features/auth/widgets/footer.dart';
+import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginPage extends StatefulWidget {
+  static const String routeName = '/login';
   const LoginPage({super.key});
 
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
+String p =
+    r'^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$';
+
+RegExp regExp = RegExp(p);
+
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
+
+  Future<void> login() async {
+    final data = {'email': emailC.text, 'password': passwordC.text};
+    final response = await http
+        .post(Uri.parse('http://192.168.1.6:3000/api/users/login'), body: data);
+    if (response.statusCode == 200) {
+      final Map<String, dynamic> dataResponse = json.decode(response.body);
+
+      final pref = await SharedPreferences.getInstance();
+      pref.setString('access_token', dataResponse['access_token']);
+      Navigator.pushReplacementNamed(context, '/home');
+      setState(() {});
+    } else {
+      throw Exception('Failed to login');
+    }
+  }
+
+  void vaildationSignIn() async {
+    if (emailC.text.isEmpty && passwordC.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text("Both Flied Are Empty"),
+        ),
+      );
+    } else if (emailC.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Email Is Empty"),
+        ),
+      );
+    } else if (!regExp.hasMatch(emailC.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please Try Vaild Email"),
+        ),
+      );
+    } else if (passwordC.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password Is Empty"),
+        ),
+      );
+    } else {
+      login();
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -57,7 +115,7 @@ class _LoginPageState extends State<LoginPage> {
             CustomPasswordField(controller: passwordC),
             const SizedBox(height: 30),
             CustomElevatedButton(
-              onPressed: () => {},
+              onPressed: vaildationSignIn,
               text: 'Log In',
               isOutline: false,
             ),
