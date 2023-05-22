@@ -18,8 +18,8 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: LoginPage(),
-      // home: SplashPage(),
+      // home: LoginPage(),
+      home: SplashPage(),
       // home: SplashPage(),
       // home: OnboardingPage(),
       // home: MyHomePage(),

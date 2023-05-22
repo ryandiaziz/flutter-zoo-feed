@@ -1,18 +1,21 @@
 import 'package:flutter/material.dart';
+import '../../../../common/utils/coloors.dart';
 
 class smallcardbuy extends StatelessWidget {
   final dynamic imageUrl;
-  final dynamic text;
   final String destext;
   final double fontsize;
+  final int userId;
+  final int foodId;
 
   const smallcardbuy({
-    super.key,
+    Key? key,
+    required this.userId,
+    required this.foodId,
     required this.imageUrl,
-    required this.text,
     required this.destext,
     this.fontsize = 45,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class smallcardbuy extends StatelessWidget {
             ),
           ),
           Positioned(
-            top: 0,
+            top: 25,
             left: 0,
             child: Container(
               width: 100,
@@ -43,22 +46,35 @@ class smallcardbuy extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-              child: Align(
-                alignment: Alignment.center,
-                child: Text(
-                  '${text}',
-                  style: TextStyle(
-                    fontSize: fontsize,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.white,
-                  ),
-                  textAlign: TextAlign.center,
+            ),
+          ),
+          Positioned(
+            top: 95,
+            left: 0,
+            child: InkWell(
+              onTap: () {
+                showModalBottomSheet(
+                  context: context,
+                  builder: modalbuybuild,
+                );
+              },
+              child: Container(
+                width: 100,
+                height: 30,
+                child: Icon(
+                  Icons.shopping_cart_checkout,
+                  color: Colors.white,
+                ),
+                decoration: BoxDecoration(
+                  color: Coloors.green,
+                  borderRadius:
+                      BorderRadius.vertical(bottom: Radius.circular(15.0)),
                 ),
               ),
             ),
           ),
           Positioned(
-            bottom: 20,
+            top: 0,
             left: 0,
             right: 0,
             child: Align(
@@ -68,13 +84,26 @@ class smallcardbuy extends StatelessWidget {
                 textAlign: TextAlign.justify,
                 style: TextStyle(
                   fontSize: 16,
-                  color: Colors.green,
+                  color: Color(0xFFFB983E),
                   fontWeight: FontWeight.bold,
                 ),
               ),
             ),
           ),
         ],
+      ),
+    );
+  }
+
+  Widget modalbuybuild(BuildContext context) {
+    return Container(
+      height: 400,
+      color: Colors.white,
+      child: Center(
+        child: Text(
+          'Ini adalah modal',
+          style: TextStyle(fontSize: 24),
+        ),
       ),
     );
   }
