@@ -6,6 +6,14 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoo_feed/common/utils/coloors.dart';
 import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
 import 'package:http/http.dart' as http;
+import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
+import 'package:zoo_feed/features/auth/pages/login_page.dart';
+import 'package:zoo_feed/features/home/widgets/profile_menu.dart';
+import 'package:zoo_feed/features/user/pages/user_history_page.dart';
+import 'package:zoo_feed/features/user/pages/user_liked_page.dart';
+import 'package:zoo_feed/features/user/pages/user_ticket_page.dart';
+
+import '../../user/widgets/animal_liked_item.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String routeName = '/profile';
@@ -39,9 +47,15 @@ class _ProfilePageState extends State<ProfilePage> {
   }
 
   void logout() async {
-    final pref = await SharedPreferences.getInstance();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('access_token');
 
-    pref.clear();
+    Navigator.pushReplacement(
+      context,
+      MaterialPageRoute(
+        builder: (context) => const LoginPage(),
+      ),
+    );
   }
 
   @override
@@ -55,20 +69,18 @@ class _ProfilePageState extends State<ProfilePage> {
     Widget profileHeader() {
       return SafeArea(
           child: Container(
-        height: MediaQuery.of(context).size.height / 2,
+        height: MediaQuery.of(context).size.height * 1 / 3,
         width: double.infinity,
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.red,
-          ),
+        decoration: const BoxDecoration(
+          color: Colors.white,
         ),
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             SizedBox(
-              width: 150,
-              height: 150,
+              width: 120,
+              height: 120,
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: Image.network(
@@ -97,15 +109,112 @@ class _ProfilePageState extends State<ProfilePage> {
       ));
     }
 
-    Widget profileMenu() {
+    Widget logoutMenu() {
       return Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
+        decoration: BoxDecoration(
+          color: Colors.grey.shade100,
+          borderRadius: BorderRadius.circular(8),
+        ),
+        child: ListTile(
+          leading: SizedBox(
+            height: 25,
+            width: 25,
+            child: Image.asset(
+              'assets/icon/sign-out-alt.png',
+              color: Colors.grey.shade500,
+            ),
+          ),
+          title: Text(
+            'Logout',
+            style: TextStyle(
+              color: Colors.grey.shade700,
+              fontSize: 18,
+            ),
+          ),
+          trailing: Icon(
+            Icons.arrow_forward_ios,
+            color: Colors.grey.shade500,
+          ),
+          onTap: () {
+            showDialog(
+                context: context,
+                builder: (context) {
+                  return AlertDialog(
+                    title: const Text('CONFIRM'),
+                    content: const Text('are you sure to logout?'),
+                    actions: [
+                      CustomElevatedButton(
+                        onPressed: logout,
+                        text: 'Yes',
+                        isOutline: true,
+                        buttonWidth: 60,
+                      ),
+                      CustomElevatedButton(
+                        onPressed: () => Navigator.of(context).pop(),
+                        text: 'No',
+                        isOutline: false,
+                        buttonWidth: 60,
+                      ),
+                    ],
+                  );
+                });
+          },
+        ),
+      );
+    }
+
+    Widget animalLiked() {
+      return Container(
+        margin: const EdgeInsets.symmetric(vertical: 10),
+        padding: const EdgeInsets.only(bottom: 16),
+        decoration: const BoxDecoration(
+          color: Colors.white,
+        ),
         child: Column(
           children: [
-            ListTile(
-              leading: Icon(Icons.logout),
-              title: Text('Logout'),
-              trailing: Icon(Icons.arrow_forward_ios),
-              onTap: () => logout(),
+            // header text
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                const Padding(
+                  padding: EdgeInsets.all(16.0),
+                  child: Text(
+                    'Animals Liked',
+                    style: TextStyle(
+                      fontSize: 16,
+                    ),
+                  ),
+                ),
+                TextButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UserLikedPage(),
+                      ),
+                    );
+                  },
+                  child: const Text('See all'),
+                ),
+              ],
+            ),
+            // content
+            SingleChildScrollView(
+              scrollDirection: Axis.horizontal,
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: const [
+                  // item content
+                  AnimalLikedItem(),
+                  AnimalLikedItem(),
+                  AnimalLikedItem(),
+                  AnimalLikedItem(),
+                  AnimalLikedItem(),
+                  AnimalLikedItem(),
+                  AnimalLikedItem(),
+                ],
+              ),
             )
           ],
         ),
@@ -113,11 +222,50 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
-        body: Column(
-      children: [
-        profileHeader(),
-        profileMenu(),
-      ],
-    ));
+      backgroundColor: Colors.grey.shade200,
+      body: Column(
+        children: [
+          profileHeader(),
+          animalLiked(),
+          // profile menu
+          Container(
+            padding: const EdgeInsets.symmetric(vertical: 16),
+            decoration: const BoxDecoration(
+              color: Colors.white,
+            ),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                ProfileMenu(
+                  title: 'Your ticket',
+                  icon: 'assets/icon/ticket.png',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UserTicketPage(),
+                      ),
+                    );
+                  },
+                ),
+                ProfileMenu(
+                  title: 'History',
+                  icon: 'assets/icon/time-past.png',
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const UserHistoryPage(),
+                      ),
+                    );
+                  },
+                ),
+                logoutMenu(),
+              ],
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }

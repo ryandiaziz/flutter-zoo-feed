@@ -22,7 +22,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
 
   Future<void> getAnimalDetail() async {
     final response = await http.get(Uri.parse(
-        'http://192.168.2.4:3000/api/animals/detail/${widget.animalId}'));
+        'http://192.168.1.7:3000/api/animals/detail/${widget.animalId}'));
     if (response.statusCode == 200) {
       setState(() {
         animalDetail = json.decode(response.body);

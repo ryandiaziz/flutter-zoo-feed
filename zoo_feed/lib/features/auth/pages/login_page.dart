@@ -6,6 +6,7 @@ import 'package:zoo_feed/common/utils/coloors.dart';
 import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
 import 'package:zoo_feed/common/widgets/custom_passwordfield.dart';
 import 'package:zoo_feed/common/widgets/custom_textfield.dart';
+import 'package:zoo_feed/features/auth/pages/sign_up_page.dart';
 import 'package:zoo_feed/features/auth/widgets/footer.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -132,9 +133,15 @@ class _LoginPageState extends State<LoginPage> {
               text: 'Log In',
               isOutline: false,
             ),
-            const Footer(
+            Footer(
               text: 'Don’t have an account?',
               title: 'Sign Up',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SignUpPage(),
+                ),
+              ),
             )
           ],
         ),

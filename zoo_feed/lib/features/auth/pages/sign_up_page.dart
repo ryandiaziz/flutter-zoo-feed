@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zoo_feed/features/auth/pages/login_page.dart';
 import 'package:zoo_feed/features/auth/widgets/footer.dart';
 
 import '../../../common/utils/coloors.dart';
@@ -69,9 +70,15 @@ class _SignUpPageState extends State<SignUpPage> {
               text: 'Sign Up',
               isOutline: false,
             ),
-            const Footer(
+            Footer(
               text: 'Already have an account?',
               title: 'Sign In',
+              onTap: () => Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const LoginPage(),
+                ),
+              ),
             )
           ],
         ),

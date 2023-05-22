@@ -62,7 +62,7 @@ class _AnimalPageState extends State<AnimalPage> {
                             top: Radius.circular(15.0),
                             bottom: Radius.circular(15.0)),
                         child: Image.network(
-                          'http://192.168.2.4:3000/' + animal['imageUrl'],
+                          'http://192.168.1.7:3000/' + animal['imageUrl'],
                           fit: BoxFit.cover,
                           width: constraints.maxWidth,
                           height: constraints.maxHeight,
