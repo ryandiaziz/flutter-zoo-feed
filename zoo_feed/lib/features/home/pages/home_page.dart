@@ -64,7 +64,7 @@ class _HomePageState extends State<HomePage>
   Future<void> fetchUser() async {
     final pref = await SharedPreferences.getInstance();
     final accessToken = pref.getString('access_token');
-    final url = Uri.parse('http://192.168.1.7:3000/api/users/account');
+    final url = Uri.parse('http://192.168.2.4:3000/api/users/account');
     Map<String, String> headers = {
       'access_token': accessToken!,
     };
@@ -75,6 +75,7 @@ class _HomePageState extends State<HomePage>
       setState(() {
         users = json.decode(response.body);
       });
+      await pref.setString('user_data', response.body);
     } else {
       throw Exception('Failed to fetch animals');
     }
@@ -160,9 +161,14 @@ class _HomePageState extends State<HomePage>
             child: Container(
               width: 40,
               height: 40,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(
+                      'http://192.168.2.4:3000/${users['imageUrl']}'),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),

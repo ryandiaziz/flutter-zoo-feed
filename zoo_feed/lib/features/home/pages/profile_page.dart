@@ -22,7 +22,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> fetchUser() async {
     final pref = await SharedPreferences.getInstance();
     final accessToken = pref.getString('access_token');
-    final url = Uri.parse('http://192.168.1.7:3000/api/users/account');
+    final url = Uri.parse('http://192.168.2.4:3000/api/users/account');
     Map<String, String> headers = {
       'access_token': accessToken!,
     };
@@ -72,7 +72,7 @@ class _ProfilePageState extends State<ProfilePage> {
               child: ClipRRect(
                 borderRadius: BorderRadius.circular(100),
                 child: Image.network(
-                  'http://192.168.1.7:3000/${users['imageUrl']}',
+                  'http://192.168.2.4:3000/${users['imageUrl']}',
                   fit: BoxFit.cover,
                 ),
               ),
