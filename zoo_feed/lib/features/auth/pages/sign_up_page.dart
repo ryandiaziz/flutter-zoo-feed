@@ -1,11 +1,16 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoo_feed/features/auth/pages/login_page.dart';
 import 'package:zoo_feed/features/auth/widgets/footer.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../common/utils/coloors.dart';
 import '../../../common/widgets/custom_elevated_button.dart';
 import '../../../common/widgets/custom_passwordfield.dart';
 import '../../../common/widgets/custom_textfield.dart';
+import '../../home/pages/page_controller.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -18,6 +23,83 @@ class _SignUpPageState extends State<SignUpPage> {
   TextEditingController nameC = TextEditingController();
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
+
+  void signUp() async {
+    final dataSignUp = {
+      'name': nameC.text,
+      'age': '0',
+      'email': emailC.text,
+      'password': passwordC.text,
+      'roleId': '1',
+    };
+    final url = Uri.parse('http://192.168.1.2:3000/api/users/create');
+    final responseSignUp = await http.post(url, body: dataSignUp);
+
+    if (responseSignUp.statusCode == 201) {
+      final responseSignIn = await http.post(
+        Uri.parse('http://192.168.1.2:3000/api/users/login'),
+        body: {
+          'email': emailC.text,
+          'password': passwordC.text,
+        },
+      );
+      if (responseSignIn.statusCode == 200) {
+        final Map<String, dynamic> dataResponse =
+            json.decode(responseSignIn.body);
+        final pref = await SharedPreferences.getInstance();
+        pref.setString('access_token', dataResponse['access_token']);
+        Navigator.pushReplacement(
+          context,
+          MaterialPageRoute(
+            builder: (context) => MyHomePage(),
+          ),
+        );
+        setState(() {});
+      } else {
+        throw Exception('Failed to login');
+      }
+    } else {
+      throw Exception('Failed to Sign Up');
+    }
+  }
+
+  void vaildation() async {
+    if (emailC.text.isEmpty && passwordC.text.isEmpty && nameC.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          duration: Duration(seconds: 1),
+          content: Text("Fields Are Empty"),
+        ),
+      );
+    } else if (emailC.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Email Is Empty"),
+        ),
+      );
+    } else if (nameC.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Name Is Empty"),
+        ),
+      );
+    } else if (!regExp.hasMatch(emailC.text)) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Please Try Vaild Email"),
+        ),
+      );
+    } else if (passwordC.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Password Is Empty"),
+        ),
+      );
+    } else {
+      signUp();
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     Widget title() {
@@ -66,7 +148,7 @@ class _SignUpPageState extends State<SignUpPage> {
             CustomPasswordField(controller: passwordC),
             const SizedBox(height: 30),
             CustomElevatedButton(
-              onPressed: () => {},
+              onPressed: vaildation,
               text: 'Sign Up',
               isOutline: false,
             ),

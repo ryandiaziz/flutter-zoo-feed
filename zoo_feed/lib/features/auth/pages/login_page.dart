@@ -50,7 +50,7 @@ class _LoginPageState extends State<LoginPage> {
     }
   }
 
-  void vaildationSignIn() async {
+  void vaildation() async {
     if (emailC.text.isEmpty && passwordC.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
@@ -129,7 +129,7 @@ class _LoginPageState extends State<LoginPage> {
             CustomPasswordField(controller: passwordC),
             const SizedBox(height: 30),
             CustomElevatedButton(
-              onPressed: vaildationSignIn,
+              onPressed: vaildation,
               text: 'Log In',
               isOutline: false,
             ),

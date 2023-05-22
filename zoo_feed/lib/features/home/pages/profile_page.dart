@@ -9,6 +9,7 @@ import 'package:http/http.dart' as http;
 import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
 import 'package:zoo_feed/features/auth/pages/login_page.dart';
 import 'package:zoo_feed/features/home/widgets/profile_menu.dart';
+import 'package:zoo_feed/features/user/pages/user_edit_page.dart';
 import 'package:zoo_feed/features/user/pages/user_history_page.dart';
 import 'package:zoo_feed/features/user/pages/user_liked_page.dart';
 import 'package:zoo_feed/features/user/pages/user_ticket_page.dart';
@@ -30,7 +31,7 @@ class _ProfilePageState extends State<ProfilePage> {
   Future<void> fetchUser() async {
     final pref = await SharedPreferences.getInstance();
     final accessToken = pref.getString('access_token');
-    final url = Uri.parse('http://192.168.1.7:3000/api/users/account');
+    final url = Uri.parse('http://192.168.1.2:3000/api/users/account');
     Map<String, String> headers = {
       'access_token': accessToken!,
     };
@@ -78,16 +79,53 @@ class _ProfilePageState extends State<ProfilePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(
-              width: 120,
-              height: 120,
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(100),
-                child: Image.network(
-                  'http://192.168.1.7:3000/${users['imageUrl']}',
-                  fit: BoxFit.cover,
+            Stack(
+              children: [
+                SizedBox(
+                  width: 120,
+                  height: 120,
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(100),
+                    child: Image.network(
+                      'http://192.168.1.2:3000/${users['imageUrl']}',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
                 ),
-              ),
+                Positioned(
+                  bottom: -1,
+                  right: 1,
+                  child: Container(
+                    height: 35,
+                    width: 35,
+                    decoration: const BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Coloors.green,
+                    ),
+                    child: Center(
+                      child: IconButton(
+                        color: Colors.amber,
+                        tooltip: 'Edit profile',
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) => UserEditPage(
+                                users: users,
+                              ),
+                            ),
+                          );
+                        },
+                        icon: const Icon(
+                          Icons.edit,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                      ),
+                    ),
+                  ),
+                )
+              ],
             ),
             const SizedBox(height: 5),
             Text(
@@ -100,7 +138,7 @@ class _ProfilePageState extends State<ProfilePage> {
             Text(
               users['roleId'] == 1 ? 'Visitor' : 'Zookeeper',
               style: const TextStyle(
-                fontSize: 25,
+                fontSize: 22,
                 color: Coloors.gray,
               ),
             )
