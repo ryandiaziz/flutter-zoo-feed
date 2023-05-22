@@ -13,9 +13,9 @@ class SplashPage extends StatefulWidget {
 
 class _SplashPageState extends State<SplashPage> {
   void userCheck() async {
-    final pref = await SharedPreferences.getInstance();
-    final accessToken = pref.getString('access_token');
-    if (accessToken!.isNotEmpty) {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString('access_token');
+    if (accessToken != null) {
       Navigator.pushReplacement(
         context,
         MaterialPageRoute(
