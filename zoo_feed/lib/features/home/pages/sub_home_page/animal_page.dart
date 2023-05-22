@@ -13,7 +13,7 @@ class _AnimalPageState extends State<AnimalPage> {
 
   Future<void> getAnimals() async {
     final response =
-        await http.get(Uri.parse('http://192.168.1.7:3000/api/animals/'));
+        await http.get(Uri.parse('http://192.168.1.2:3000/api/animals/'));
     if (response.statusCode == 200) {
       setState(() {
         animals = json.decode(response.body);

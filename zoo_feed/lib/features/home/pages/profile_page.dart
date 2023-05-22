@@ -28,23 +28,11 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   Map<String, dynamic> users = {};
 
-  Future<void> fetchUser() async {
+  Future<void> getUser() async {
     final pref = await SharedPreferences.getInstance();
-    final accessToken = pref.getString('access_token');
-    final url = Uri.parse('http://192.168.1.7:3000/api/users/account');
-    Map<String, String> headers = {
-      'access_token': accessToken!,
-    };
-
-    final response = await http.get(url, headers: headers);
-
-    if (response.statusCode == 200) {
-      setState(() {
-        users = json.decode(response.body);
-      });
-    } else {
-      throw Exception('Failed to fetch users');
-    }
+    setState(() {
+      users = json.decode(pref.getString('user_data')!);
+    });
   }
 
   void logout() async {
@@ -61,7 +49,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   @override
   void initState() {
-    fetchUser();
+    getUser();
     super.initState();
   }
 
@@ -69,82 +57,83 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     Widget profileHeader() {
       return SafeArea(
-          child: Container(
-        height: MediaQuery.of(context).size.height * 1 / 3,
-        width: double.infinity,
-        decoration: const BoxDecoration(
-          color: Colors.white,
-        ),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            Stack(
-              children: [
-                SizedBox(
-                  width: 120,
-                  height: 120,
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(100),
-                    child: Image.network(
-                      'http://192.168.1.2:3000/${users['imageUrl']}',
-                      fit: BoxFit.cover,
-                    ),
-                  ),
-                ),
-                Positioned(
-                  bottom: -1,
-                  right: 1,
-                  child: Container(
-                    height: 35,
-                    width: 35,
-                    decoration: const BoxDecoration(
-                      shape: BoxShape.circle,
-                      color: Coloors.green,
-                    ),
-                    child: Center(
-                      child: IconButton(
-                        color: Colors.amber,
-                        tooltip: 'Edit profile',
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => UserEditPage(
-                                users: users,
-                              ),
-                            ),
-                          );
-                        },
-                        icon: const Icon(
-                          Icons.edit,
-                          color: Colors.white,
-                          size: 20,
-                        ),
+        child: Container(
+          height: MediaQuery.of(context).size.height * 1 / 3,
+          width: double.infinity,
+          decoration: const BoxDecoration(
+            color: Colors.white,
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              Stack(
+                children: [
+                  SizedBox(
+                    width: 120,
+                    height: 120,
+                    child: ClipRRect(
+                      borderRadius: BorderRadius.circular(100),
+                      child: Image.network(
+                        'http://192.168.1.2:3000/${users['imageUrl']}',
+                        fit: BoxFit.cover,
                       ),
                     ),
                   ),
-                )
-              ],
-            ),
-            const SizedBox(height: 5),
-            Text(
-              users['name'],
-              style: const TextStyle(
-                fontSize: 35,
+                  Positioned(
+                    bottom: -1,
+                    right: 1,
+                    child: Container(
+                      height: 35,
+                      width: 35,
+                      decoration: const BoxDecoration(
+                        shape: BoxShape.circle,
+                        color: Coloors.green,
+                      ),
+                      child: Center(
+                        child: IconButton(
+                          color: Colors.amber,
+                          tooltip: 'Edit profile',
+                          onPressed: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => UserEditPage(
+                                  users: users,
+                                ),
+                              ),
+                            );
+                          },
+                          icon: const Icon(
+                            Icons.edit,
+                            color: Colors.white,
+                            size: 20,
+                          ),
+                        ),
+                      ),
+                    ),
+                  )
+                ],
               ),
-            ),
-            const SizedBox(height: 5),
-            Text(
-              users['roleId'] == 1 ? 'Visitor' : 'Zookeeper',
-              style: const TextStyle(
-                fontSize: 22,
-                color: Coloors.gray,
+              const SizedBox(height: 5),
+              Text(
+                users['name'],
+                style: const TextStyle(
+                  fontSize: 35,
+                ),
               ),
-            )
-          ],
+              const SizedBox(height: 5),
+              Text(
+                users['roleId'] == 1 ? 'Visitor' : 'Zookeeper',
+                style: const TextStyle(
+                  fontSize: 22,
+                  color: Coloors.gray,
+                ),
+              )
+            ],
+          ),
         ),
-      ));
+      );
     }
 
     Widget logoutMenu() {
@@ -156,11 +145,11 @@ class _ProfilePageState extends State<ProfilePage> {
         ),
         child: ListTile(
           leading: SizedBox(
-            height: 25,
-            width: 25,
+            height: 22,
+            width: 22,
             child: Image.asset(
               'assets/icon/sign-out-alt.png',
-              color: Colors.grey.shade500,
+              color: Colors.red.shade500,
             ),
           ),
           title: Text(
@@ -244,8 +233,6 @@ class _ProfilePageState extends State<ProfilePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: const [
                   // item content
-                  AnimalLikedItem(),
-                  AnimalLikedItem(),
                   AnimalLikedItem(),
                   AnimalLikedItem(),
                   AnimalLikedItem(),
