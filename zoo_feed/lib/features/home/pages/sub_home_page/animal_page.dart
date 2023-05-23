@@ -23,6 +23,15 @@ class _AnimalPageState extends State<AnimalPage> {
     }
   }
 
+  void navigateToAnimalDetail(int id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => AnimalDetailPage(animalId: id),
+      ),
+    );
+  }
+
   @override
   void initState() {
     getAnimals();
@@ -112,15 +121,6 @@ class _AnimalPageState extends State<AnimalPage> {
             ),
           );
         },
-      ),
-    );
-  }
-
-  void navigateToAnimalDetail(int id) {
-    Navigator.push(
-      context,
-      MaterialPageRoute(
-        builder: (context) => AnimalDetailPage(animalId: id),
       ),
     );
   }

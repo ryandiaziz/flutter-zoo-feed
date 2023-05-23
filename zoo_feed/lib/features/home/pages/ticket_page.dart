@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:zoo_feed/common/utils/coloors.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:http/http.dart' as http;
+import 'package:zoo_feed/common/widgets/custom_modal_ticket_buy.dart';
 import '../widgets/ticket_card.dart';
+import 'package:zoo_feed/common/widgets/custom_headline_animation.dart';
 
 class TicketPage extends StatefulWidget {
   TicketPage({super.key});
@@ -14,6 +17,17 @@ class TicketPage extends StatefulWidget {
 
 class _TicketPageState extends State<TicketPage> {
   List<dynamic>? tickets = [];
+  dynamic users;
+
+  Future<void> getUserData() async {
+    final pref = await SharedPreferences.getInstance();
+    final userData = pref.getString('user_data');
+    if (userData != null) {
+      setState(() {
+        users = jsonDecode(userData);
+      });
+    }
+  }
 
   Future getTicket() async {
     final url = Uri.parse("http://192.168.2.4:3000/api/ticket/");
@@ -26,6 +40,7 @@ class _TicketPageState extends State<TicketPage> {
   @override
   void initState() {
     getTicket();
+    getUserData();
     super.initState();
   }
 
@@ -43,9 +58,8 @@ class _TicketPageState extends State<TicketPage> {
           statusBarColor: Colors.transparent,
         ),
         backgroundColor: Coloors.green,
-        title: const Text(
-          "Hello, Michael!",
-          style: TextStyle(fontSize: 15, fontFamily: "inter"),
+        title: AnimatedTitleWidget(
+          username: users!['name'],
         ),
         centerTitle: true,
         actions: [
@@ -54,9 +68,15 @@ class _TicketPageState extends State<TicketPage> {
             child: Container(
               width: 40,
               height: 40,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(
+                    'http://192.168.2.4:3000/${users!['imageUrl']}',
+                  ),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
@@ -67,10 +87,24 @@ class _TicketPageState extends State<TicketPage> {
           child: ListView.builder(
             itemCount: tickets!.length,
             itemBuilder: (BuildContext context, int index) {
-              return TicketCard(
-                ticketType: tickets![index]['ticketType']['category'],
-                price: tickets![index]['ticketType']['price'],
-                image: 'assets/img/ticket_regular.png',
+              return GestureDetector(
+                onTap: () {
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return ModalTicketBuy(
+                          destext: tickets![index]['ticketType']['category'],
+                          stock: tickets![index]['stock'],
+                          price: tickets![index]['ticketType']['price'],
+                          ticketId: tickets![index]['id']);
+                    },
+                  );
+                },
+                child: TicketCard(
+                  ticketType: tickets![index]['ticketType']['category'],
+                  price: tickets![index]['ticketType']['price'],
+                  image: 'assets/img/ticket_regular.png',
+                ),
               );
             },
           )),

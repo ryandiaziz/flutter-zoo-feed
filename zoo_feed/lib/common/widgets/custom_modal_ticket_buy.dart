@@ -5,26 +5,24 @@ import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-class ModalBuyWidget extends StatefulWidget {
-  final String imageUrl;
+class ModalTicketBuy extends StatefulWidget {
   final String destext;
   final int stock;
   final dynamic price;
-  final int foodId;
+  final int ticketId;
 
-  const ModalBuyWidget({
-    required this.imageUrl,
+  const ModalTicketBuy({
     required this.destext,
     required this.stock,
     required this.price,
-    required this.foodId,
+    required this.ticketId,
   });
 
   @override
-  _ModalBuyWidgetState createState() => _ModalBuyWidgetState();
+  _ModalTicketBuyState createState() => _ModalTicketBuyState();
 }
 
-class _ModalBuyWidgetState extends State<ModalBuyWidget> {
+class _ModalTicketBuyState extends State<ModalTicketBuy> {
   int count = 0;
 
   void incrementCount() {
@@ -43,7 +41,7 @@ class _ModalBuyWidgetState extends State<ModalBuyWidget> {
     });
   }
 
-  void buyFood() async {
+  void buyTicket() async {
     if (count <= 0) {
       await QuickAlert.show(
         context: context,
@@ -51,38 +49,40 @@ class _ModalBuyWidgetState extends State<ModalBuyWidget> {
         text: 'Must have at least one item',
       );
     } else {
-      await QuickAlert.show(
+      bool addToCart = await QuickAlert.show(
         context: context,
         type: QuickAlertType.confirm,
-        text: 'Add to cart: ${widget.destext}',
+        text: 'Add to cart: ${widget.destext} Ticket',
         confirmBtnText: 'Yes',
         cancelBtnText: 'No',
         confirmBtnColor: Colors.green,
       );
 
-      final url = Uri.parse('http://192.168.2.4:3000/api/cartfood/create');
-      final pref = await SharedPreferences.getInstance();
-      final accessToken = pref.getString('access_token');
-      Map<String, String> headers = {'access_token': accessToken!};
-      final body = {
-        'qty': count.toString(),
-        'foodId': widget.foodId.toString()
-      };
+      if (addToCart) {
+        final url = Uri.parse('http://192.168.2.4:3000/api/cartTicket/create');
+        final pref = await SharedPreferences.getInstance();
+        final accessToken = pref.getString('access_token');
+        Map<String, String> headers = {'access_token': accessToken!};
+        final body = {
+          'qty': count.toString(),
+          'foodId': widget.ticketId.toString()
+        };
 
-      final response = await http.post(url, headers: headers, body: body);
-      if (response.statusCode == 200) {
-        await QuickAlert.show(
-          context: context,
-          type: QuickAlertType.success,
-          text: '${widget.destext} added to your cart',
-        );
-      } else {
-        QuickAlert.show(
-          context: context,
-          type: QuickAlertType.error,
-          title: 'Oops...',
-          text: 'Sorry, something went wrong ${response.statusCode}',
-        );
+        final response = await http.post(url, headers: headers, body: body);
+        if (response.statusCode == 200) {
+          await QuickAlert.show(
+            context: context,
+            type: QuickAlertType.success,
+            text: '${widget.destext} Ticket added to your cart',
+          );
+        } else {
+          QuickAlert.show(
+            context: context,
+            type: QuickAlertType.error,
+            title: 'Oops...',
+            text: 'Sorry, something went wrong ${response.statusCode}',
+          );
+        }
       }
     }
   }
@@ -101,22 +101,14 @@ class _ModalBuyWidgetState extends State<ModalBuyWidget> {
             style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
-                color: Coloors.green,
+                color: Coloors.orange,
                 fontFamily: 'inter'),
           ),
           SizedBox(height: 20),
           Container(
             width: 300,
             height: 200,
-            decoration: BoxDecoration(
-              color: Color(0xFFFB983E),
-              borderRadius: BorderRadius.circular(15),
-              image: DecorationImage(
-                image:
-                    NetworkImage('http://192.168.2.4:3000/' + widget.imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
+            child: Image.asset('assets/img/ticket_regular.png'),
           ),
           SizedBox(height: 16),
           Container(
@@ -218,7 +210,7 @@ class _ModalBuyWidgetState extends State<ModalBuyWidget> {
                 color: Colors.white,
               ),
               onPressed: () {
-                buyFood();
+                buyTicket();
               },
             ),
           ),

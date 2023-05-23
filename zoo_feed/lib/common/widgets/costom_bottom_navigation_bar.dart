@@ -40,8 +40,10 @@ class _bottomnavbarState extends State<bottomnavbar> {
               canvasColor: Color(0xFF019267),
             ),
             child: BottomNavigationBar(
-              selectedItemColor: Color(0xFFFB983E),
               unselectedItemColor: Colors.white,
+              selectedLabelStyle:
+                  TextStyle(fontFamily: 'inter', fontWeight: FontWeight.w800),
+              selectedIconTheme: IconThemeData(color: Color(0xFFFB983E)),
               items: const <BottomNavigationBarItem>[
                 BottomNavigationBarItem(
                   icon: Icon(Icons.home),

@@ -1,10 +1,40 @@
 import 'package:flutter/material.dart';
-import 'package:zoo_feed/features/home/widgets/cart_card.dart';
 import 'package:flutter/services.dart';
 import '../../../common/utils/coloors.dart';
+import 'dart:convert';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zoo_feed/features/home/pages/sub_cart_page/cart_detail_page.dart';
+import 'package:zoo_feed/features/home/pages/sub_cart_page/payment_page.dart';
+import 'package:zoo_feed/common/widgets/custom_headline_animation.dart';
 
-class CartPage extends StatelessWidget {
-  const CartPage({super.key});
+class CartPage extends StatefulWidget {
+  const CartPage({Key? key});
+
+  @override
+  State<CartPage> createState() => _CartPageState();
+}
+
+class _CartPageState extends State<CartPage>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+  dynamic users;
+
+  Future<void> getUserData() async {
+    final pref = await SharedPreferences.getInstance();
+    final userData = pref.getString('user_data');
+    if (userData != null) {
+      setState(() {
+        users = jsonDecode(userData);
+      });
+    }
+  }
+
+  @override
+  void initState() {
+    getUserData();
+    super.initState();
+    _tabController = TabController(length: 2, vsync: this);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -20,9 +50,8 @@ class CartPage extends StatelessWidget {
           statusBarColor: Colors.transparent,
         ),
         backgroundColor: Coloors.green,
-        title: const Text(
-          "Hello, Michael!",
-          style: TextStyle(fontSize: 15, fontFamily: "inter"),
+        title: AnimatedTitleWidget(
+          username: users['name'],
         ),
         centerTitle: true,
         actions: [
@@ -31,23 +60,44 @@ class CartPage extends StatelessWidget {
             child: Container(
               width: 40,
               height: 40,
-              decoration: const BoxDecoration(
+              decoration: BoxDecoration(
                 color: Colors.white,
                 shape: BoxShape.circle,
+                image: DecorationImage(
+                  image: NetworkImage(
+                    'http://192.168.2.4:3000/${users['imageUrl']}',
+                  ),
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
           ),
         ],
+        bottom: TabBar(
+          controller: _tabController,
+          indicator: UnderlineTabIndicator(
+            borderSide: BorderSide(
+              color: Coloors.orange,
+              width: 8,
+            ),
+            insets: EdgeInsets.symmetric(horizontal: 30.0),
+          ),
+          tabs: const [
+            Tab(
+              text: 'Cart',
+              icon: Icon(Icons.shopping_cart),
+            ),
+            Tab(text: 'Payment', icon: Icon(Icons.payment)),
+          ],
+        ),
       ),
-      body: Padding(
-          padding: const EdgeInsets.only(top: 16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: const [
-              CartCard(
-                  name: 'Pisang', price: 35000, image: 'assets/img/pisang.png')
-            ],
-          )),
+      body: TabBarView(
+        controller: _tabController,
+        children: [
+          CartDetailPage(),
+          PaymentPage(),
+        ],
+      ),
     );
   }
 }

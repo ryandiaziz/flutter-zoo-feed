@@ -62,10 +62,12 @@ class smallcardbuy extends StatelessWidget {
                   context: context,
                   builder: (BuildContext context) {
                     return ModalBuyWidget(
-                        imageUrl: imageUrl,
-                        destext: destext,
-                        stock: stock,
-                        price: price);
+                      imageUrl: imageUrl,
+                      destext: destext,
+                      stock: stock,
+                      price: price,
+                      foodId: foodId,
+                    );
                   },
                 );
               },
@@ -101,69 +103,6 @@ class smallcardbuy extends StatelessWidget {
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
-
-  Widget modalbuybuild(BuildContext context) {
-    return Container(
-      height: 550,
-      color: Colors.white,
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SizedBox(height: 16),
-          Text(
-            '${destext}',
-            style: TextStyle(
-                fontSize: 24,
-                fontFamily: 'inter',
-                fontWeight: FontWeight.bold,
-                color: Coloors.green),
-          ),
-          SizedBox(height: 20),
-          Container(
-            width: 300,
-            height: 150,
-            decoration: BoxDecoration(
-              color: Color(0xFFFB983E),
-              borderRadius: BorderRadius.circular(15),
-              image: DecorationImage(
-                image: NetworkImage('http://192.168.2.4:3000/' + imageUrl),
-                fit: BoxFit.cover,
-              ),
-            ),
-          ),
-          SizedBox(height: 16),
-          Container(
-              padding: EdgeInsets.only(left: 50),
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                children: [
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Stocks : ${stock}',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'inter',
-                      ),
-                    ),
-                  ),
-                  SizedBox(height: 16),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      'Price : ${price}',
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontFamily: 'inter',
-                      ),
-                    ),
-                  ),
-                ],
-              )),
         ],
       ),
     );
