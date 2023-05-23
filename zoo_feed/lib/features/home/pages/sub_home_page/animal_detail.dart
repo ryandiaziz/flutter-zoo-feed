@@ -39,7 +39,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
 
   Future<void> getAnimalDetail() async {
     final response = await http.get(Uri.parse(
-        'http://192.168.1.2:3000/api/animals/detail/${widget.animalId}'));
+        'http://192.168.1.6:3000/api/animals/detail/${widget.animalId}'));
     if (response.statusCode == 200) {
       setState(() {
         animalDetail = json.decode(response.body);
@@ -86,7 +86,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                       shape: BoxShape.circle,
                       image: DecorationImage(
                         image: NetworkImage(
-                            'http://192.168.1.2:3000/${users['imageUrl']}'),
+                            'http://192.168.1.6:3000/${users['imageUrl']}'),
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -132,7 +132,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                               height: 200,
                               color: Colors.transparent,
                               child: Image(
-                                image: NetworkImage('http://192.168.1.2:3000/' +
+                                image: NetworkImage('http://192.168.1.6:3000/' +
                                     animalDetail['resultAF']['imageUrl']),
                                 fit: BoxFit.cover,
                               ),

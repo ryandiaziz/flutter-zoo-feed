@@ -41,6 +41,8 @@ dependencies:
   flutter_bloc: ^7.0.0
   flutter_bloc_provider: any
   shared_preferences: ^2.1.1
+  image_picker: ^0.8.7+5
+  image_cropper: ^4.0.1
 
 dev_dependencies:
   flutter_test:

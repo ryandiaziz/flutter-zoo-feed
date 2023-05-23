@@ -43,7 +43,7 @@ class _CustomPasswordFieldState extends State<CustomPasswordField> {
                   Image.asset(
                     'assets/icon/Lock.png',
                     width: 20,
-                    color: Coloors.gray,
+                    color: Colors.grey.shade500,
                   ),
                   const SizedBox(
                     width: 16,

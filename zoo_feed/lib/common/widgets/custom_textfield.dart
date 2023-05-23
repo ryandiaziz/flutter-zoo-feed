@@ -42,6 +42,7 @@ class CustomTextField extends StatelessWidget {
                   Image.asset(
                     image,
                     width: 20,
+                    color: Colors.grey.shade500,
                   ),
                   const SizedBox(
                     width: 16,

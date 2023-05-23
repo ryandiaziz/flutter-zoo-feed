@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
 
 class AnimalLikedItem extends StatelessWidget {
+  final String image;
+  final String name;
   const AnimalLikedItem({
     super.key,
+    required this.image,
+    required this.name,
   });
 
   @override
@@ -14,15 +18,25 @@ class AnimalLikedItem extends StatelessWidget {
         Container(
           height: 50,
           width: 50,
-          margin: const EdgeInsets.only(left: 16),
+          margin: const EdgeInsets.only(left: 18),
           decoration: BoxDecoration(
             borderRadius: BorderRadius.circular(25),
-            image: const DecorationImage(
-                image: AssetImage('assets/img/harimau.png'), fit: BoxFit.cover),
+            image: DecorationImage(
+              image: NetworkImage('http://192.168.1.6:3000/$image'),
+              fit: BoxFit.cover,
+            ),
           ),
         ),
         const SizedBox(height: 5),
-        const Text('Harimau')
+        SizedBox(
+          width: 60,
+          child: Text(
+            name,
+            overflow: TextOverflow.ellipsis,
+            maxLines: 2,
+            textAlign: TextAlign.center,
+          ),
+        )
       ],
     );
   }

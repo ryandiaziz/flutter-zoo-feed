@@ -1,13 +1,12 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoo_feed/common/utils/coloors.dart';
-import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
 import 'package:http/http.dart' as http;
 import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
 import 'package:zoo_feed/features/auth/pages/login_page.dart';
+import 'package:zoo_feed/features/home/pages/page_controller.dart';
 import 'package:zoo_feed/features/home/widgets/profile_menu.dart';
 import 'package:zoo_feed/features/user/pages/user_edit_page.dart';
 import 'package:zoo_feed/features/user/pages/user_history_page.dart';
@@ -27,6 +26,7 @@ class ProfilePage extends StatefulWidget {
 
 class _ProfilePageState extends State<ProfilePage> {
   Map<String, dynamic> users = {};
+  List<Map<String, dynamic>> animalsLiked = [];
 
   Future<void> getUser() async {
     final pref = await SharedPreferences.getInstance();
@@ -47,9 +47,34 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
+  Future getAnimal() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final accessToken = prefs.getString('access_token');
+      final url = Uri.parse('http://192.168.1.6:3000/api/animaluser/info');
+
+      final response =
+          await http.get(url, headers: {'access_token': accessToken!});
+
+      if (response.statusCode == 200) {
+        List data = (json.decode(response.body)
+            as Map<String, dynamic>)['resultUA']['animals'];
+        setState(() {
+          data.forEach((element) {
+            animalsLiked.add(element);
+          });
+        });
+        print(animalsLiked);
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
     getUser();
+    getAnimal();
     super.initState();
   }
 
@@ -75,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Image.network(
-                        'http://192.168.1.2:3000/${users['imageUrl']}',
+                        'http://192.168.1.6:3000/${users['imageUrl']}',
                         fit: BoxFit.cover,
                       ),
                     ),
@@ -213,33 +238,58 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
                 ),
-                TextButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const UserLikedPage(),
-                      ),
-                    );
-                  },
-                  child: const Text('See all'),
-                ),
+                animalsLiked.isNotEmpty
+                    ? TextButton(
+                        onPressed: () {
+                          Navigator.push(
+                            context,
+                            MaterialPageRoute(
+                              builder: (context) =>
+                                  UserLikedPage(animals: animalsLiked),
+                            ),
+                          );
+                        },
+                        child: const Text('See all'),
+                      )
+                    : const SizedBox()
               ],
             ),
             // content
-            SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: const [
-                  // item content
-                  AnimalLikedItem(),
-                  AnimalLikedItem(),
-                  AnimalLikedItem(),
-                  AnimalLikedItem(),
-                  AnimalLikedItem(),
-                ],
+            Container(
+              height: 90,
+              decoration: BoxDecoration(
+                border: Border.all(
+                  color: Colors.red,
+                ),
               ),
+              child: animalsLiked.isNotEmpty
+                  ? ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: animalsLiked.length,
+                      itemBuilder: (context, index) {
+                        return AnimalLikedItem(
+                          image: animalsLiked[index]['imageUrl'],
+                          name: animalsLiked[index]['name'],
+                        );
+                      },
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        const Text('No liked animals.'),
+                        TextButton(
+                          onPressed: () {
+                            Navigator.pushReplacement(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => MyHomePage(),
+                              ),
+                            );
+                          },
+                          child: const Text("Explore more"),
+                        ),
+                      ],
+                    ),
             )
           ],
         ),
@@ -247,6 +297,7 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade200,
       body: Column(
         children: [

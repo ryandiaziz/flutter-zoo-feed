@@ -21,13 +21,14 @@ class SignUpPage extends StatefulWidget {
 
 class _SignUpPageState extends State<SignUpPage> {
   TextEditingController nameC = TextEditingController();
+  TextEditingController ageC = TextEditingController();
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
 
   void signUp() async {
     final dataSignUp = {
       'name': nameC.text,
-      'age': '0',
+      'age': ageC.text,
       'email': emailC.text,
       'password': passwordC.text,
       'roleId': '1',
@@ -64,7 +65,10 @@ class _SignUpPageState extends State<SignUpPage> {
   }
 
   void vaildation() async {
-    if (emailC.text.isEmpty && passwordC.text.isEmpty && nameC.text.isEmpty) {
+    if (emailC.text.isEmpty &&
+        ageC.text.isEmpty &&
+        passwordC.text.isEmpty &&
+        nameC.text.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           duration: Duration(seconds: 1),
@@ -75,6 +79,12 @@ class _SignUpPageState extends State<SignUpPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Email Is Empty"),
+        ),
+      );
+    } else if (ageC.text.isEmpty) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(
+          content: Text("Age Is Empty"),
         ),
       );
     } else if (nameC.text.isEmpty) {
@@ -111,6 +121,7 @@ class _SignUpPageState extends State<SignUpPage> {
     }
 
     return Scaffold(
+      resizeToAvoidBottomInset: false,
       appBar: AppBar(
         leading: const Icon(
           Icons.arrow_back_rounded,
@@ -136,6 +147,13 @@ class _SignUpPageState extends State<SignUpPage> {
               controller: nameC,
               hintText: 'Full Name',
               keyBoardType: TextInputType.text,
+              read: false,
+            ),
+            CustomTextField(
+              image: 'assets/icon/calendar.png',
+              controller: ageC,
+              hintText: 'Age',
+              keyBoardType: TextInputType.number,
               read: false,
             ),
             CustomTextField(
