@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import '../../../common/utils/coloors.dart';
+import '../../home/pages/sub_home_page/animal_detail.dart';
 
 class UserLikedPage extends StatefulWidget {
   final List<dynamic> animals;
@@ -51,7 +52,15 @@ class _UserLikedPageState extends State<UserLikedPage> {
         ),
         itemBuilder: (BuildContext context, int index) {
           return GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) =>
+                      AnimalDetailPage(animalId: widget.animals[index]['id']),
+                ),
+              );
+            },
             child: Card(
               shape: RoundedRectangleBorder(
                 borderRadius: BorderRadius.circular(15.0),

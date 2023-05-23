@@ -255,13 +255,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             // content
-            Container(
+            SizedBox(
               height: 90,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.red,
-                ),
-              ),
               child: animalsLiked.isNotEmpty
                   ? ListView.builder(
                       scrollDirection: Axis.horizontal,

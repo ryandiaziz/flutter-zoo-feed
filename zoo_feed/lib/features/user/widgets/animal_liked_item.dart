@@ -33,7 +33,7 @@ class AnimalLikedItem extends StatelessWidget {
           child: Text(
             name,
             overflow: TextOverflow.ellipsis,
-            maxLines: 2,
+            maxLines: 1,
             textAlign: TextAlign.center,
           ),
         )
