@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:zoo_feed/features/home/pages/sub_home_page/habitats_detail.dart';
 
 class HabitatPage extends StatefulWidget {
   @override
@@ -38,53 +39,67 @@ class _HabitatPageState extends State<HabitatPage> {
           scrollDirection: Axis.horizontal,
           itemCount: habitats.length,
           itemBuilder: (context, index) {
-            final type = habitats[index];
-            return Container(
-              margin: EdgeInsets.all(8.0),
-              width: 150.0,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(8.0),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.grey.withOpacity(0.5),
-                    spreadRadius: 2,
-                    blurRadius: 5,
-                    offset: Offset(0, 3),
-                  ),
-                ],
-              ),
-              child: ClipRRect(
-                borderRadius: BorderRadius.circular(8.0),
-                child: Stack(
-                  fit: StackFit.expand,
-                  children: [
-                    Image.network(
-                      'http://192.168.2.4:3000/' + type['imageUrl'],
-                      fit: BoxFit.cover,
+            final habitat = habitats[index];
+            return GestureDetector(
+              onTap: () {
+                navigateToHabitatDetail(habitat['id']);
+              },
+              child: Container(
+                margin: EdgeInsets.all(8.0),
+                width: 150.0,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(8.0),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.grey.withOpacity(0.5),
+                      spreadRadius: 2,
+                      blurRadius: 5,
+                      offset: Offset(0, 3),
                     ),
-                    Align(
-                      alignment: Alignment.bottomLeft,
-                      child: Container(
-                        padding: EdgeInsets.all(15),
-                        decoration: BoxDecoration(
-                          color: Colors.transparent,
-                        ),
-                        child: Text(
-                          type['name'],
-                          style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 16.0,
-                            fontWeight: FontWeight.bold,
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(8.0),
+                  child: Stack(
+                    fit: StackFit.expand,
+                    children: [
+                      Image.network(
+                        'http://192.168.2.4:3000/' + habitat['imageUrl'],
+                        fit: BoxFit.cover,
+                      ),
+                      Align(
+                        alignment: Alignment.bottomLeft,
+                        child: Container(
+                          padding: EdgeInsets.all(15),
+                          decoration: BoxDecoration(
+                            color: Colors.transparent,
+                          ),
+                          child: Text(
+                            habitat['name'],
+                            style: TextStyle(
+                              color: Colors.white,
+                              fontSize: 16.0,
+                              fontWeight: FontWeight.bold,
+                            ),
                           ),
                         ),
                       ),
-                    ),
-                  ],
+                    ],
+                  ),
                 ),
               ),
             );
           },
         ),
+      ),
+    );
+  }
+
+  void navigateToHabitatDetail(int id) {
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => HabitatDetailPage(habitatId: id),
       ),
     );
   }

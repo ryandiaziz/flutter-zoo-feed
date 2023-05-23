@@ -1,13 +1,12 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
 import 'package:zoo_feed/features/home/pages/sub_home_page/animal_page.dart';
 import 'package:zoo_feed/features/home/pages/sub_home_page/habitats_page.dart';
 import 'package:zoo_feed/features/home/pages/sub_home_page/typeclass_page.dart';
 import 'package:http/http.dart' as http;
+import 'package:zoo_feed/common/widgets/custom_headline_animation.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = '/home';
@@ -142,9 +141,8 @@ class _HomePageState extends State<HomePage>
               )
             : GestureDetector(
                 onTap: _toggleSearchBar,
-                child: Text(
-                  'Hello, ${users['name']}!',
-                  style: const TextStyle(fontSize: 15, fontFamily: "inter"),
+                child: AnimatedTitleWidget(
+                  username: users['name'],
                 ),
               ),
         centerTitle: true,

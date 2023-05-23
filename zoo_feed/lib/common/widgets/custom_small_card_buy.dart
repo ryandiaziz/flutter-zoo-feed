@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:zoo_feed/common/widgets/custom_modal_card_buy.dart';
 import '../../../../common/utils/coloors.dart';
 
 class smallcardbuy extends StatelessWidget {
@@ -7,13 +8,17 @@ class smallcardbuy extends StatelessWidget {
   final double fontsize;
   final int userId;
   final int foodId;
+  final dynamic stock;
+  final dynamic price;
 
   const smallcardbuy({
     Key? key,
     required this.userId,
+    required this.stock,
     required this.foodId,
     required this.imageUrl,
     required this.destext,
+    required this.price,
     this.fontsize = 45,
   }) : super(key: key);
 
@@ -55,7 +60,13 @@ class smallcardbuy extends StatelessWidget {
               onTap: () {
                 showModalBottomSheet(
                   context: context,
-                  builder: modalbuybuild,
+                  builder: (BuildContext context) {
+                    return ModalBuyWidget(
+                        imageUrl: imageUrl,
+                        destext: destext,
+                        stock: stock,
+                        price: price);
+                  },
                 );
               },
               child: Container(
@@ -97,13 +108,63 @@ class smallcardbuy extends StatelessWidget {
 
   Widget modalbuybuild(BuildContext context) {
     return Container(
-      height: 400,
+      height: 550,
       color: Colors.white,
-      child: Center(
-        child: Text(
-          'Ini adalah modal',
-          style: TextStyle(fontSize: 24),
-        ),
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.start,
+        children: [
+          SizedBox(height: 16),
+          Text(
+            '${destext}',
+            style: TextStyle(
+                fontSize: 24,
+                fontFamily: 'inter',
+                fontWeight: FontWeight.bold,
+                color: Coloors.green),
+          ),
+          SizedBox(height: 20),
+          Container(
+            width: 300,
+            height: 150,
+            decoration: BoxDecoration(
+              color: Color(0xFFFB983E),
+              borderRadius: BorderRadius.circular(15),
+              image: DecorationImage(
+                image: NetworkImage('http://192.168.2.4:3000/' + imageUrl),
+                fit: BoxFit.cover,
+              ),
+            ),
+          ),
+          SizedBox(height: 16),
+          Container(
+              padding: EdgeInsets.only(left: 50),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Stocks : ${stock}',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'inter',
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: 16),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: Text(
+                      'Price : ${price}',
+                      style: TextStyle(
+                        fontSize: 20,
+                        fontFamily: 'inter',
+                      ),
+                    ),
+                  ),
+                ],
+              )),
+        ],
       ),
     );
   }
