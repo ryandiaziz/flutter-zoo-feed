@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../../../common/utils/coloors.dart';
-
 class ProfileMenu extends StatelessWidget {
   final String title;
   final String icon;
@@ -23,8 +21,8 @@ class ProfileMenu extends StatelessWidget {
       ),
       child: ListTile(
         leading: SizedBox(
-          height: 25,
-          width: 25,
+          height: 22,
+          width: 22,
           child: Image.asset(
             icon,
             color: Colors.grey.shade500,
