@@ -41,6 +41,11 @@ class _UserTicketPageState extends State<UserTicketPage> {
     }
   }
 
+  Future refresh() async {
+    tickets.clear();
+    getTickets();
+  }
+
   @override
   void initState() {
     getTickets();
@@ -75,83 +80,89 @@ class _UserTicketPageState extends State<UserTicketPage> {
           color: Colors.white,
         ),
       ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(15.0),
-        itemCount: tickets.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 7 / 8,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {
-              showDialog(
-                context: context,
-                builder: (context) {
-                  return AlertDialog(
-                    content: SizedBox(
-                      height: MediaQuery.of(context).size.height * 1 / 3,
-                      width: MediaQuery.of(context).size.width * 3 / 4,
-                      child: Image.network(
-                        'http://192.168.1.6:3000/${tickets[index]['barcode']}',
-                        fit: BoxFit.cover,
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: GridView.builder(
+          padding: const EdgeInsets.all(15.0),
+          itemCount: tickets.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 7 / 8,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            return tickets[index]['status']
+                ? const SizedBox()
+                : GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 1 / 3,
+                              width: MediaQuery.of(context).size.width * 3 / 4,
+                              child: Image.network(
+                                'http://192.168.1.6:3000/${tickets[index]['barcode']}',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 20.0, // Soften the shaodw
+                            spreadRadius: 2.0,
+                            offset: Offset(0.0, 0.0),
+                          )
+                        ],
+                      ),
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(15.0),
+                                bottom: Radius.circular(15.0)),
+                            child: SizedBox(
+                              height: 150,
+                              width: 150,
+                              child: Image.network(
+                                'http://192.168.1.6:3000/${tickets[index]['barcode']}',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            color: Colors.transparent,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('ID ${tickets[index]['id']}'),
+                                Text(
+                                  tickets[index]['ticketType']['category'],
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey.shade700),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
                       ),
                     ),
                   );
-                },
-              );
-            },
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(15.0),
-                boxShadow: const [
-                  BoxShadow(
-                    color: Colors.grey,
-                    blurRadius: 20.0, // Soften the shaodw
-                    spreadRadius: 2.0,
-                    offset: Offset(0.0, 0.0),
-                  )
-                ],
-              ),
-              child: Column(
-                children: [
-                  ClipRRect(
-                    borderRadius: const BorderRadius.vertical(
-                        top: Radius.circular(15.0),
-                        bottom: Radius.circular(15.0)),
-                    child: SizedBox(
-                      height: 150,
-                      width: 150,
-                      child: Image.network(
-                        'http://192.168.1.6:3000/${tickets[index]['barcode']}',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
-                  Container(
-                    color: Colors.transparent,
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Text('ID ${tickets[index]['id']}'),
-                        Text(
-                          tickets[index]['ticketType']['category'],
-                          style: TextStyle(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey.shade700),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-          );
-        },
+          },
+        ),
       ),
     );
   }

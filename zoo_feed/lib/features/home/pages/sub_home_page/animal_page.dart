@@ -185,7 +185,10 @@ class _AnimalPageState extends State<AnimalPage> {
                               top: 8,
                               right: 8,
                               child: IconButton(
-                                icon: const Icon(Icons.favorite),
+                                icon: Icon(
+                                  Icons.favorite,
+                                  color: Colors.red.shade300,
+                                ),
                                 color: Colors.white,
                                 onPressed: () {
                                   // like(animal['id']);
