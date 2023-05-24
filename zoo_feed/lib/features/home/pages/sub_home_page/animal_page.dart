@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:shared_preferences/shared_preferences.dart';
 import 'dart:convert';
 import 'package:zoo_feed/features/home/pages/sub_home_page/animal_detail.dart';
 
@@ -10,6 +11,7 @@ class AnimalPage extends StatefulWidget {
 
 class _AnimalPageState extends State<AnimalPage> {
   List<dynamic> animals = [];
+  List<dynamic> animalsLiked = [];
 
   Future<void> getAnimals() async {
     final response =
@@ -32,8 +34,67 @@ class _AnimalPageState extends State<AnimalPage> {
     );
   }
 
+  Future like(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString('access_token');
+    final url = Uri.parse('http://192.168.1.6:3000/api/animaluser/add');
+    final response = await http.post(
+      url,
+      headers: {
+        'access_token': accessToken!,
+      },
+      body: {
+        'animalId': '$id',
+      },
+    );
+
+    if (response.statusCode == 200) {
+      animalsLiked.clear();
+      getLikedAnimals();
+    }
+  }
+
+  Future unLike(int id) async {
+    final prefs = await SharedPreferences.getInstance();
+    final accessToken = prefs.getString('access_token');
+    final url = Uri.parse('http://192.168.1.6:3000/api/animaluser/delete/$id');
+    final response = await http.delete(url, headers: {
+      'access_token': accessToken!,
+    });
+
+    if (response.statusCode == 200) {
+      animalsLiked.clear();
+      getLikedAnimals();
+    }
+  }
+
+  Future getLikedAnimals() async {
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final accessToken = prefs.getString('access_token');
+      final url = Uri.parse('http://192.168.1.6:3000/api/animaluser/info');
+
+      final response =
+          await http.get(url, headers: {'access_token': accessToken!});
+
+      if (response.statusCode == 200) {
+        List data = (json.decode(response.body)
+            as Map<String, dynamic>)['resultUA']['animals'];
+        setState(() {
+          data.forEach((element) {
+            animalsLiked.add(element);
+          });
+        });
+      }
+      print(animalsLiked);
+    } catch (e) {
+      print(e);
+    }
+  }
+
   @override
   void initState() {
+    getLikedAnimals();
     getAnimals();
     super.initState();
   }
@@ -105,15 +166,34 @@ class _AnimalPageState extends State<AnimalPage> {
                           ),
                         ),
                       ),
-                      Positioned(
-                        top: 8,
-                        right: 8,
-                        child: IconButton(
-                          icon: Icon(Icons.favorite_border),
-                          color: Colors.white,
-                          onPressed: () {},
-                        ),
-                      ),
+                      animalsLiked
+                              .where((element) => element['id'] == animal['id'])
+                              .isEmpty
+                          ? Positioned(
+                              top: 8,
+                              right: 8,
+                              child: IconButton(
+                                icon: const Icon(Icons.favorite_border),
+                                color: Colors.white,
+                                onPressed: () {
+                                  like(animal['id']);
+                                  // print(animal['id']);
+                                },
+                              ),
+                            )
+                          : Positioned(
+                              top: 8,
+                              right: 8,
+                              child: IconButton(
+                                icon: const Icon(Icons.favorite),
+                                color: Colors.white,
+                                onPressed: () {
+                                  // like(animal['id']);
+                                  // print(animal['id']);
+                                  unLike(animal['id']);
+                                },
+                              ),
+                            )
                     ],
                   );
                 },

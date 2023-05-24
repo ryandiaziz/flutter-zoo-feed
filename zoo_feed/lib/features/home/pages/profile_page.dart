@@ -47,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Future getAnimal() async {
+  Future getAnimalLiked() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final accessToken = prefs.getString('access_token');
@@ -64,7 +64,6 @@ class _ProfilePageState extends State<ProfilePage> {
             animalsLiked.add(element);
           });
         });
-        print(animalsLiked);
       }
     } catch (e) {
       print(e);
@@ -74,7 +73,7 @@ class _ProfilePageState extends State<ProfilePage> {
   @override
   void initState() {
     getUser();
-    getAnimal();
+    getAnimalLiked();
     super.initState();
   }
 
@@ -244,8 +243,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  UserLikedPage(animals: animalsLiked),
+                              builder: (context) => const UserLikedPage(),
                             ),
                           );
                         },

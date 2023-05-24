@@ -132,7 +132,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                           right: 20,
                           child: Card(
                             elevation: 8,
-                            margin: EdgeInsets.symmetric(horizontal: 40),
+                            margin: const EdgeInsets.symmetric(horizontal: 40),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(37),
                             ),
