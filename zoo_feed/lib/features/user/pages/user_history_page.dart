@@ -1,13 +1,32 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
 
 import '../../../common/utils/coloors.dart';
 
-class UserHistoryPage extends StatelessWidget {
+class UserHistoryPage extends StatefulWidget {
   const UserHistoryPage({super.key});
 
   @override
+  State<UserHistoryPage> createState() => _UserHistoryPageState();
+}
+
+class _UserHistoryPageState extends State<UserHistoryPage> {
+  Future getPayments() async {}
+  @override
   Widget build(BuildContext context) {
+    Widget card() {
+      return Container(
+        height: MediaQuery.of(context).size.height * 1 / 5,
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: Colors.amber,
+          borderRadius: BorderRadius.circular(8),
+        ),
+      );
+    }
+
     return Scaffold(
       appBar: AppBar(
         shape: const RoundedRectangleBorder(
@@ -34,8 +53,13 @@ class UserHistoryPage extends StatelessWidget {
           color: Colors.white,
         ),
       ),
-      body: Center(
-        child: Text('Animal Liked Page'),
+      body: Container(
+        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+        child: ListView.builder(
+            itemCount: 5,
+            itemBuilder: (context, index) {
+              return card();
+            }),
       ),
     );
   }

@@ -41,6 +41,11 @@ class _UserTicketPageState extends State<UserTicketPage> {
     }
   }
 
+  Future refresh() async {
+    tickets.clear();
+    getTickets();
+  }
+
   @override
   void initState() {
     getTickets();
@@ -75,67 +80,89 @@ class _UserTicketPageState extends State<UserTicketPage> {
           color: Colors.white,
         ),
       ),
-      body: GridView.builder(
-        padding: const EdgeInsets.all(15.0),
-        itemCount: tickets.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          return GestureDetector(
-            onTap: () {},
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
-              ),
-              elevation: 30.0,
-              shadowColor: Colors.black,
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(15.0),
-                            bottom: Radius.circular(15.0)),
-                        child: Image.network(
-                          'http://192.168.2.4:3000/${tickets[index]['barcode']}',
-                          fit: BoxFit.cover,
-                          width: constraints.maxWidth,
-                          height: constraints.maxHeight,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        left: 10,
-                        right: 0,
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          color: Colors.transparent,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                'regular',
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: GridView.builder(
+          padding: const EdgeInsets.all(15.0),
+          itemCount: tickets.length,
+          gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+            crossAxisCount: 2,
+            childAspectRatio: 7 / 8,
+            mainAxisSpacing: 10,
+            crossAxisSpacing: 10,
+          ),
+          itemBuilder: (BuildContext context, int index) {
+            return tickets[index]['status']
+                ? const SizedBox()
+                : GestureDetector(
+                    onTap: () {
+                      showDialog(
+                        context: context,
+                        builder: (context) {
+                          return AlertDialog(
+                            content: SizedBox(
+                              height:
+                                  MediaQuery.of(context).size.height * 1 / 3,
+                              width: MediaQuery.of(context).size.width * 3 / 4,
+                              child: Image.network(
+                                'http://192.168.1.6:3000/${tickets[index]['barcode']}',
+                                fit: BoxFit.cover,
                               ),
-                            ],
-                          ),
-                        ),
+                            ),
+                          );
+                        },
+                      );
+                    },
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(15.0),
+                        boxShadow: const [
+                          BoxShadow(
+                            color: Colors.grey,
+                            blurRadius: 20.0, // Soften the shaodw
+                            spreadRadius: 2.0,
+                            offset: Offset(0.0, 0.0),
+                          )
+                        ],
                       ),
-                    ],
+                      child: Column(
+                        children: [
+                          ClipRRect(
+                            borderRadius: const BorderRadius.vertical(
+                                top: Radius.circular(15.0),
+                                bottom: Radius.circular(15.0)),
+                            child: SizedBox(
+                              height: 150,
+                              width: 150,
+                              child: Image.network(
+                                'http://192.168.1.6:3000/${tickets[index]['barcode']}',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Container(
+                            color: Colors.transparent,
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              children: [
+                                Text('ID ${tickets[index]['id']}'),
+                                Text(
+                                  tickets[index]['ticketType']['category'],
+                                  style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.bold,
+                                      color: Colors.grey.shade700),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ],
+                      ),
+                    ),
                   );
-                },
-              ),
-            ),
-          );
-        },
+          },
+        ),
       ),
     );
   }

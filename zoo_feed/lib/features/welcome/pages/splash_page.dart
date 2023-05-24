@@ -51,7 +51,7 @@ class _SplashPageState extends State<SplashPage> {
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(
-                'assets/icon/Minus.png',
+                'assets/img/zoo_feed-01.png',
               ),
             ),
           ),

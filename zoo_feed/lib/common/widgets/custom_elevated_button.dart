@@ -7,13 +7,15 @@ class CustomElevatedButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final bool isOutline;
+  final bool? isLoading;
 
   const CustomElevatedButton(
       {Key? key,
       this.buttonWidth,
       required this.onPressed,
       required this.text,
-      required this.isOutline})
+      required this.isOutline,
+      this.isLoading})
       : super(key: key);
 
   @override
@@ -36,9 +38,7 @@ class CustomElevatedButton extends StatelessWidget {
                   )
                 : null),
         onPressed: onPressed,
-        child: Text(
-          text,
-        ),
+        child: Text(text),
       ),
     );
   }

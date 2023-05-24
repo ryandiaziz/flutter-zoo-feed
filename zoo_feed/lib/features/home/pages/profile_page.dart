@@ -47,7 +47,7 @@ class _ProfilePageState extends State<ProfilePage> {
     );
   }
 
-  Future getAnimal() async {
+  Future getAnimalLiked() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final accessToken = prefs.getString('access_token');
@@ -64,17 +64,21 @@ class _ProfilePageState extends State<ProfilePage> {
             animalsLiked.add(element);
           });
         });
-        print(animalsLiked);
       }
     } catch (e) {
       print(e);
     }
   }
 
+  Future refresh() async {
+    animalsLiked.clear();
+    getAnimalLiked();
+  }
+
   @override
   void initState() {
     getUser();
-    getAnimal();
+    getAnimalLiked();
     super.initState();
   }
 
@@ -82,83 +86,86 @@ class _ProfilePageState extends State<ProfilePage> {
   Widget build(BuildContext context) {
     Widget profileHeader() {
       return SafeArea(
-        child: Container(
-          height: MediaQuery.of(context).size.height * 1 / 3,
-          width: double.infinity,
-          decoration: const BoxDecoration(
-            color: Colors.white,
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              Stack(
-                children: [
-                  SizedBox(
-                    width: 120,
-                    height: 120,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(100),
-                      child: Image.network(
-                        'http://192.168.2.4:3000/${users['imageUrl']}',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
+          child: users.isNotEmpty
+              ? Container(
+                  height: MediaQuery.of(context).size.height * 1 / 3,
+                  width: double.infinity,
+                  decoration: const BoxDecoration(
+                    color: Colors.white,
                   ),
-                  Positioned(
-                    bottom: -1,
-                    right: 1,
-                    child: Container(
-                      height: 35,
-                      width: 35,
-                      decoration: const BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Coloors.green,
-                      ),
-                      child: Center(
-                        child: IconButton(
-                          color: Colors.amber,
-                          tooltip: 'Edit profile',
-                          onPressed: () {
-                            Navigator.push(
-                              context,
-                              MaterialPageRoute(
-                                builder: (context) => UserEditPage(
-                                  users: users,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Stack(
+                        children: [
+                          SizedBox(
+                            width: 120,
+                            height: 120,
+                            child: ClipRRect(
+                              borderRadius: BorderRadius.circular(100),
+                              child: Image.network(
+                                'http://192.168.1.6:3000/${users['imageUrl']}',
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                          ),
+                          Positioned(
+                            bottom: -1,
+                            right: 1,
+                            child: Container(
+                              height: 35,
+                              width: 35,
+                              decoration: const BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: Coloors.green,
+                              ),
+                              child: Center(
+                                child: IconButton(
+                                  color: Colors.amber,
+                                  tooltip: 'Edit profile',
+                                  onPressed: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => UserEditPage(
+                                          users: users,
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                  icon: const Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                    size: 20,
+                                  ),
                                 ),
                               ),
-                            );
-                          },
-                          icon: const Icon(
-                            Icons.edit,
-                            color: Colors.white,
-                            size: 20,
-                          ),
+                            ),
+                          )
+                        ],
+                      ),
+                      const SizedBox(height: 5),
+                      Text(
+                        users['name'],
+                        style: const TextStyle(
+                          fontSize: 35,
                         ),
                       ),
-                    ),
-                  )
-                ],
-              ),
-              const SizedBox(height: 5),
-              Text(
-                users['name'],
-                style: const TextStyle(
-                  fontSize: 35,
-                ),
-              ),
-              const SizedBox(height: 5),
-              Text(
-                users['roleId'] == 1 ? 'Visitor' : 'Zookeeper',
-                style: const TextStyle(
-                  fontSize: 22,
-                  color: Coloors.gray,
-                ),
-              )
-            ],
-          ),
-        ),
-      );
+                      const SizedBox(height: 5),
+                      Text(
+                        users['roleId'] == 1 ? 'Visitor' : 'Zookeeper',
+                        style: const TextStyle(
+                          fontSize: 22,
+                          color: Coloors.gray,
+                        ),
+                      )
+                    ],
+                  ),
+                )
+              : const Center(
+                  child: CircularProgressIndicator(),
+                ));
     }
 
     Widget logoutMenu() {
@@ -244,8 +251,7 @@ class _ProfilePageState extends State<ProfilePage> {
                           Navigator.push(
                             context,
                             MaterialPageRoute(
-                              builder: (context) =>
-                                  UserLikedPage(animals: animalsLiked),
+                              builder: (context) => const UserLikedPage(),
                             ),
                           );
                         },
@@ -255,13 +261,8 @@ class _ProfilePageState extends State<ProfilePage> {
               ],
             ),
             // content
-            Container(
+            SizedBox(
               height: 90,
-              decoration: BoxDecoration(
-                border: Border.all(
-                  color: Colors.red,
-                ),
-              ),
               child: animalsLiked.isNotEmpty
                   ? ListView.builder(
                       scrollDirection: Axis.horizontal,
@@ -297,50 +298,60 @@ class _ProfilePageState extends State<ProfilePage> {
     }
 
     return Scaffold(
-      resizeToAvoidBottomInset: false,
       backgroundColor: Colors.grey.shade200,
-      body: Column(
-        children: [
-          profileHeader(),
-          animalLiked(),
-          // profile menu
-          Container(
-            padding: const EdgeInsets.symmetric(vertical: 16),
-            decoration: const BoxDecoration(
-              color: Colors.white,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
+      body: RefreshIndicator(
+        onRefresh: refresh,
+        child: Stack(
+          children: [
+            ListView(
               children: [
-                ProfileMenu(
-                  title: 'Your ticket',
-                  icon: 'assets/icon/ticket.png',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const UserTicketPage(),
+                Column(
+                  children: [
+                    profileHeader(),
+                    animalLiked(),
+                    // profile menu
+                    Container(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
                       ),
-                    );
-                  },
-                ),
-                ProfileMenu(
-                  title: 'History',
-                  icon: 'assets/icon/time-past.png',
-                  onTap: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const UserHistoryPage(),
+                      child: Column(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          ProfileMenu(
+                            title: 'Your ticket',
+                            icon: 'assets/icon/ticket.png',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const UserTicketPage(),
+                                ),
+                              );
+                            },
+                          ),
+                          ProfileMenu(
+                            title: 'History',
+                            icon: 'assets/icon/time-past.png',
+                            onTap: () {
+                              Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => const UserHistoryPage(),
+                                ),
+                              );
+                            },
+                          ),
+                          logoutMenu(),
+                        ],
                       ),
-                    );
-                  },
+                    ),
+                  ],
                 ),
-                logoutMenu(),
               ],
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }

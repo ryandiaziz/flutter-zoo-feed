@@ -28,6 +28,7 @@ RegExp regExp = RegExp(p);
 class _LoginPageState extends State<LoginPage> {
   TextEditingController emailC = TextEditingController();
   TextEditingController passwordC = TextEditingController();
+  bool isLoading = false;
 
   Future<void> login() async {
     final data = {'email': emailC.text, 'password': passwordC.text};
@@ -78,6 +79,9 @@ class _LoginPageState extends State<LoginPage> {
       );
     } else {
       login();
+      setState(() {
+        isLoading = true;
+      });
     }
   }
 
@@ -128,11 +132,13 @@ class _LoginPageState extends State<LoginPage> {
             ),
             CustomPasswordField(controller: passwordC),
             const SizedBox(height: 30),
-            CustomElevatedButton(
-              onPressed: vaildation,
-              text: 'Log In',
-              isOutline: false,
-            ),
+            isLoading
+                ? const Center(child: CircularProgressIndicator())
+                : CustomElevatedButton(
+                    onPressed: vaildation,
+                    text: 'Log In',
+                    isOutline: false,
+                  ),
             Footer(
               text: 'Don’t have an account?',
               title: 'Sign Up',

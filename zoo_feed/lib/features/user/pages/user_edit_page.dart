@@ -47,7 +47,7 @@ class _UserEditPageState extends State<UserEditPage> {
       'name': nameC.text,
       'age': ageC.text,
       'email': emailC.text,
-      // 'imageUrl': image,
+      'imageUrl': image,
     };
     final headers = {
       'Content-Type': 'multipart/form-data',
