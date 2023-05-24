@@ -6,7 +6,7 @@ import 'package:zoo_feed/common/utils/coloors.dart';
 import 'package:http/http.dart' as http;
 import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
 import 'package:zoo_feed/features/auth/pages/login_page.dart';
-import 'package:zoo_feed/features/home/pages/page_controller.dart';
+import 'package:zoo_feed/features/page_controller.dart';
 import 'package:zoo_feed/features/home/widgets/profile_menu.dart';
 import 'package:zoo_feed/features/user/pages/user_edit_page.dart';
 import 'package:zoo_feed/features/user/pages/user_history_page.dart';
@@ -51,7 +51,7 @@ class _ProfilePageState extends State<ProfilePage> {
     try {
       final prefs = await SharedPreferences.getInstance();
       final accessToken = prefs.getString('access_token');
-      final url = Uri.parse('http://192.168.1.6:3000/api/animaluser/info');
+      final url = Uri.parse('http://192.168.2.4:3000/api/animaluser/info');
 
       final response =
           await http.get(url, headers: {'access_token': accessToken!});
@@ -100,7 +100,7 @@ class _ProfilePageState extends State<ProfilePage> {
                     child: ClipRRect(
                       borderRadius: BorderRadius.circular(100),
                       child: Image.network(
-                        'http://192.168.1.6:3000/${users['imageUrl']}',
+                        'http://192.168.2.4:3000/${users['imageUrl']}',
                         fit: BoxFit.cover,
                       ),
                     ),

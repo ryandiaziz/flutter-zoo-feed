@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zoo_feed/features/home/widgets/cart_card.dart';
+import 'package:zoo_feed/features/cart/widgets/cart_card.dart';
 
 class PaymentPage extends StatelessWidget {
   const PaymentPage({
@@ -13,14 +13,7 @@ class PaymentPage extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
-        children: [
-          CartCard(
-            name: 'Pisang',
-            price: 35000,
-            image: 'assets/img/pisang.png',
-            qty: 1,
-          ),
-        ],
+        children: [],
       ),
     );
   }

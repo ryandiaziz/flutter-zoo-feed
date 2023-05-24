@@ -67,7 +67,7 @@ class _UserLikedPageState extends State<UserLikedPage> {
                             top: Radius.circular(15.0),
                             bottom: Radius.circular(15.0)),
                         child: Image.network(
-                          'http://192.168.1.6:3000/${widget.animals[index]['imageUrl']}',
+                          'http://192.168.2.4:3000/${widget.animals[index]['imageUrl']}',
                           fit: BoxFit.cover,
                           width: constraints.maxWidth,
                           height: constraints.maxHeight,

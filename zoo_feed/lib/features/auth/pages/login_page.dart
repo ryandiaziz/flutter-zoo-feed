@@ -10,7 +10,7 @@ import 'package:zoo_feed/features/auth/pages/sign_up_page.dart';
 import 'package:zoo_feed/features/auth/widgets/footer.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zoo_feed/features/home/pages/page_controller.dart';
+import 'package:zoo_feed/features/page_controller.dart';
 
 class LoginPage extends StatefulWidget {
   static const String routeName = '/login';
@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> login() async {
     final data = {'email': emailC.text, 'password': passwordC.text};
     final response = await http
-        .post(Uri.parse('http://192.168.1.6:3000/api/users/login'), body: data);
+        .post(Uri.parse('http://192.168.2.4:3000/api/users/login'), body: data);
     if (response.statusCode == 200) {
       final Map<String, dynamic> dataResponse = json.decode(response.body);
 

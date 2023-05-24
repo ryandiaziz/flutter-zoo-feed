@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:zoo_feed/features/home/pages/home_page.dart';
-import 'package:zoo_feed/features/home/pages/cart_page.dart';
-import 'package:zoo_feed/features/home/pages/ticket_page.dart';
+import 'package:zoo_feed/features/cart/pages/cart_page.dart';
+import 'package:zoo_feed/features/ticket/ticket_page.dart';
 import 'package:zoo_feed/features/home/pages/profile_page.dart';
 import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
 

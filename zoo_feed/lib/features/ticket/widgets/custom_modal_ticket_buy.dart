@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../../../../common/utils/coloors.dart';
+import '../../../../../common/utils/coloors.dart';
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -49,40 +49,29 @@ class _ModalTicketBuyState extends State<ModalTicketBuy> {
         text: 'Must have at least one item',
       );
     } else {
-      bool addToCart = await QuickAlert.show(
-        context: context,
-        type: QuickAlertType.confirm,
-        text: 'Add to cart: ${widget.destext} Ticket',
-        confirmBtnText: 'Yes',
-        cancelBtnText: 'No',
-        confirmBtnColor: Colors.green,
-      );
+      final url = Uri.parse('http://192.168.2.4:3000/api/cartTicket/create');
+      final pref = await SharedPreferences.getInstance();
+      final accessToken = pref.getString('access_token');
+      Map<String, String> headers = {'access_token': accessToken!};
+      final body = {
+        'qty': count.toString(),
+        'ticketId': widget.ticketId.toString()
+      };
 
-      if (addToCart) {
-        final url = Uri.parse('http://192.168.2.4:3000/api/cartTicket/create');
-        final pref = await SharedPreferences.getInstance();
-        final accessToken = pref.getString('access_token');
-        Map<String, String> headers = {'access_token': accessToken!};
-        final body = {
-          'qty': count.toString(),
-          'foodId': widget.ticketId.toString()
-        };
-
-        final response = await http.post(url, headers: headers, body: body);
-        if (response.statusCode == 200) {
-          await QuickAlert.show(
-            context: context,
-            type: QuickAlertType.success,
-            text: '${widget.destext} Ticket added to your cart',
-          );
-        } else {
-          QuickAlert.show(
-            context: context,
-            type: QuickAlertType.error,
-            title: 'Oops...',
-            text: 'Sorry, something went wrong ${response.statusCode}',
-          );
-        }
+      final response = await http.post(url, headers: headers, body: body);
+      if (response.statusCode == 200) {
+        await QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: '${widget.destext} Ticket added to your cart',
+        );
+      } else {
+        QuickAlert.show(
+          context: context,
+          type: QuickAlertType.error,
+          title: 'Oops...',
+          text: 'Sorry, something went wrong ${response.statusCode}',
+        );
       }
     }
   }

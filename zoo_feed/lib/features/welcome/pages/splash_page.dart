@@ -2,7 +2,7 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoo_feed/features/auth/pages/login_page.dart';
-import 'package:zoo_feed/features/home/pages/page_controller.dart';
+import 'package:zoo_feed/features/page_controller.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);

@@ -10,7 +10,7 @@ import '../../../common/utils/coloors.dart';
 import '../../../common/widgets/custom_elevated_button.dart';
 import '../../../common/widgets/custom_passwordfield.dart';
 import '../../../common/widgets/custom_textfield.dart';
-import '../../home/pages/page_controller.dart';
+import '../../page_controller.dart';
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});

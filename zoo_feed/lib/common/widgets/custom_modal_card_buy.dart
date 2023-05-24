@@ -51,15 +51,6 @@ class _ModalBuyWidgetState extends State<ModalBuyWidget> {
         text: 'Must have at least one item',
       );
     } else {
-      await QuickAlert.show(
-        context: context,
-        type: QuickAlertType.confirm,
-        text: 'Add to cart: ${widget.destext}',
-        confirmBtnText: 'Yes',
-        cancelBtnText: 'No',
-        confirmBtnColor: Colors.green,
-      );
-
       final url = Uri.parse('http://192.168.2.4:3000/api/cartfood/create');
       final pref = await SharedPreferences.getInstance();
       final accessToken = pref.getString('access_token');
