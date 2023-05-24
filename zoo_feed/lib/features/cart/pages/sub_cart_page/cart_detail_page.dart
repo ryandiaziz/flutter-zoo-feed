@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:zoo_feed/common/utils/coloors.dart';
 import 'package:zoo_feed/common/widgets/costom_loading_screen.dart';
 import 'dart:convert';
 import 'package:zoo_feed/features/cart/widgets/cart_card.dart';
@@ -45,15 +44,15 @@ class _CartDetailPageState extends State<CartDetailPage> {
     final pref = await SharedPreferences.getInstance();
     final accessToken = pref.getString('access_token');
     Map<String, String> headers = {'access_token': accessToken!};
-    setState(() {
-      cart.removeAt(index);
-    });
+    // setState(() {
+    //   cart.removeAt(index);
+    // });
     final response = await http.delete(url, headers: headers);
     if (response.statusCode == 200) {
+      cart.clear();
+      getCart();
+
       print('deleted');
-      // setState(() {
-      //   cart.removeAt(index);
-      // });
     } else {
       throw Exception('Failed to delete item');
     }
@@ -112,7 +111,7 @@ class _CartDetailPageState extends State<CartDetailPage> {
       final filteredCart =
           cart.where((item) => item['status'] == false).toList();
       if (filteredCart.isEmpty) {
-        return Scaffold(
+        return const Scaffold(
           body: Center(
             child: Text('No Items in your cart'),
           ),
