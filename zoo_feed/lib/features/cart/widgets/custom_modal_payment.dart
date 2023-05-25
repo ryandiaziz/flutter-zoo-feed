@@ -39,29 +39,51 @@ class _custom_modal_paymentState extends State<custom_modal_payment> {
       'access_token': accessToken!,
     };
 
-    final response = await http.put(
-      url,
-      headers: headers,
-      body: {
-        'orderId': widget.orderId.toString(),
-        'method': selectedMethodPayment,
-      },
-    );
-
-    if (response.statusCode == 200) {
-      await QuickAlert.show(
-        context: context,
-        type: QuickAlertType.success,
-        text: 'Payment successful',
+    try {
+      final response = await http.put(
+        url,
+        headers: headers,
+        body: {
+          'orderId': widget.orderId.toString(),
+          'method': selectedMethodPayment,
+        },
       );
-    } else {
+
+      if (response.statusCode == 200) {
+        await QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Payment successful',
+        );
+      }
+    } catch (error) {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
         title: 'Oops...',
-        text: 'Sorry, something went wrong ${response.statusCode}',
+        text: 'Sorry, something went wrong ${error}',
       );
     }
+  }
+
+  void showDialogLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text('Loading'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Uploading your data'),
+                CircularProgressIndicator(),
+              ],
+            ),
+          ),
+        );
+      },
+    );
   }
 
   @override

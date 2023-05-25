@@ -3,6 +3,8 @@ import 'package:intl/intl.dart';
 import 'package:zoo_feed/common/widgets/costom_small_button_circle.dart';
 import 'package:zoo_feed/common/utils/coloors.dart';
 
+typedef QtyChangedCallback = void Function(int qty, int isIncrease);
+
 class CartCard extends StatefulWidget {
   final String image;
   final String name;
@@ -12,7 +14,9 @@ class CartCard extends StatefulWidget {
   final bool isTicket;
   final bool isVip;
   final bool isChecked;
+  final int stock;
   final ValueChanged<bool> onCheckboxChanged;
+  final QtyChangedCallback onQtyChanged;
 
   CartCard({
     required this.image,
@@ -23,7 +27,9 @@ class CartCard extends StatefulWidget {
     this.isTicket = false,
     this.isVip = false,
     required this.isChecked,
+    required this.stock,
     required this.onCheckboxChanged,
+    required this.onQtyChanged,
   });
 
   @override
@@ -31,6 +37,35 @@ class CartCard extends StatefulWidget {
 }
 
 class _CartCardState extends State<CartCard> {
+  int _qty = 0;
+  late int isIncrease;
+
+  @override
+  void initState() {
+    super.initState();
+    _qty = widget.qty;
+  }
+
+  void increaseQty() {
+    if (widget.stock > 0) {
+      setState(() {
+        _qty++;
+      });
+      isIncrease = 1;
+      widget.onQtyChanged(_qty, isIncrease);
+    }
+  }
+
+  void decreaseQty() {
+    if (_qty > 1) {
+      setState(() {
+        _qty--;
+      });
+      isIncrease = 0;
+      widget.onQtyChanged(_qty, isIncrease);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -59,7 +94,7 @@ class _CartCardState extends State<CartCard> {
                 return null;
               }),
             ),
-            SizedBox(width: 16.0),
+            SizedBox(width: 10.0),
             Container(
               width: 80,
               height: 80,
@@ -67,10 +102,10 @@ class _CartCardState extends State<CartCard> {
                 image: DecorationImage(
                   image: widget.isTicket
                       ? AssetImage(widget.isVip
-                              ? 'assets/img/ticket_vip.png'
-                              : 'assets/img/ticket_regular.png')
-                          as ImageProvider<Object>
-                      : NetworkImage('http://192.168.2.4:3000/' + widget.image),
+                          ? 'assets/img/ticket_vip.png'
+                          : 'assets/img/ticket_regular.png')
+                      : NetworkImage('http://192.168.2.4:3000/' + widget.image)
+                          as ImageProvider,
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(8.0),
@@ -100,23 +135,45 @@ class _CartCardState extends State<CartCard> {
                       color: Colors.grey,
                     ),
                   ),
+                  SizedBox(height: 8.0),
+                  Text(
+                    'Max Stock: ${widget.stock}',
+                    style: TextStyle(
+                      fontSize: 14.0,
+                      color: Colors.red,
+                    ),
+                  ),
                 ],
               ),
             ),
             SizedBox(width: 16.0),
             Row(
               children: [
-                CustomSmallButtonCircle(iconData: Icons.remove),
+                CustomSmallButtonCircle(
+                  iconData: Icons.remove,
+                  onPressed: () {
+                    setState(() {
+                      decreaseQty();
+                    });
+                  },
+                ),
                 SizedBox(width: 15),
                 Text(
-                  widget.qty.toString(),
+                  _qty.toString(),
                   style: TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
                 SizedBox(width: 15),
-                CustomSmallButtonCircle(iconData: Icons.add),
+                CustomSmallButtonCircle(
+                  iconData: Icons.add,
+                  onPressed: () {
+                    setState(() {
+                      increaseQty();
+                    });
+                  },
+                ),
               ],
             ),
           ],

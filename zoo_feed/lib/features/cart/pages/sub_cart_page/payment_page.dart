@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import 'package:zoo_feed/common/widgets/costom_loading_screen.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoo_feed/features/cart/widgets/payment_card.dart';
+import 'package:zoo_feed/common/widgets/costom_skeleton_widget.dart';
 
 class PaymentPage extends StatefulWidget {
   const PaymentPage({
@@ -34,6 +34,11 @@ class _PaymentPageState extends State<PaymentPage> {
     }
   }
 
+  Future refresh() async {
+    order.clear();
+    getOrder();
+  }
+
   @override
   void initState() {
     getOrder();
@@ -43,7 +48,7 @@ class _PaymentPageState extends State<PaymentPage> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return LoadingScreen();
+      return buildLoadingSkeleton();
     } else {
       final filteredOrder =
           order.where((item) => item['status'] == false).toList();
@@ -54,7 +59,10 @@ class _PaymentPageState extends State<PaymentPage> {
           ),
         );
       } else {
-        return Scaffold(body: OrderList(orderList: filteredOrder));
+        return Scaffold(
+            body: RefreshIndicator(
+                onRefresh: refresh,
+                child: OrderList(orderList: filteredOrder)));
       }
     }
   }

@@ -6,6 +6,7 @@ import 'package:zoo_feed/features/cart/widgets/cart_card.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:zoo_feed/features/cart/widgets/custom_modal_checkout.dart';
+import 'package:zoo_feed/common/widgets/costom_skeleton_widget.dart';
 
 class CartDetailPage extends StatefulWidget {
   const CartDetailPage({
@@ -37,24 +38,24 @@ class _CartDetailPageState extends State<CartDetailPage> {
     }
   }
 
-  Future<void> deleteCartItem(int index) async {
-    final item = cart[index];
-    final cartId = item['id'];
+  Future<void> deleteCartItem(int cartId) async {
     final url = Uri.parse('http://192.168.2.4:3000/api/cart/delete/$cartId');
     final pref = await SharedPreferences.getInstance();
     final accessToken = pref.getString('access_token');
     Map<String, String> headers = {'access_token': accessToken!};
-    // setState(() {
-    //   cart.removeAt(index);
-    // });
-    final response = await http.delete(url, headers: headers);
-    if (response.statusCode == 200) {
-      cart.clear();
-      getCart();
 
-      print('deleted');
-    } else {
-      throw Exception('Failed to delete item');
+    setState(() {
+      cart.removeWhere((item) => item['id'] == cartId);
+    });
+
+    try {
+      final response = await http.delete(url, headers: headers);
+      if (response.statusCode == 200) {
+        cart.clear();
+        getCart();
+      }
+    } catch (error) {
+      throw Exception('Failed to delete item: $error');
     }
   }
 
@@ -97,6 +98,32 @@ class _CartDetailPageState extends State<CartDetailPage> {
     }
   }
 
+  Future<void> updateQty(int cartId, int qty, int isIncrease) async {
+    final url = Uri.parse('http://192.168.2.4:3000/api/cart/update');
+    final pref = await SharedPreferences.getInstance();
+    final accessToken = pref.getString('access_token');
+    Map<String, String> headers = {'access_token': accessToken!};
+    Map<String, String> body = {
+      'id': cartId.toString(),
+      'qty': qty.toString(),
+      'indicator': isIncrease.toString()
+    };
+    try {
+      final response = await http.put(url, body: body, headers: headers);
+      if (response.statusCode == 200) {
+        cart.clear();
+        getCart();
+      }
+    } catch (error) {
+      throw Exception('Failed to update item: $error');
+    }
+  }
+
+  Future<void> refresh() async {
+    cart.clear();
+    getCart();
+  }
+
   @override
   void initState() {
     getCart();
@@ -106,7 +133,7 @@ class _CartDetailPageState extends State<CartDetailPage> {
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return LoadingScreen();
+      return buildLoadingSkeleton();
     } else {
       final filteredCart =
           cart.where((item) => item['status'] == false).toList();
@@ -118,80 +145,89 @@ class _CartDetailPageState extends State<CartDetailPage> {
         );
       } else {
         return Scaffold(
-          body: Padding(
-            padding: const EdgeInsets.only(top: 16),
-            child: ListView.builder(
-              itemCount: filteredCart.length,
-              itemBuilder: (BuildContext context, int index) {
-                final item = filteredCart[index];
-                if (item['tickets'].isEmpty) {
-                  return Dismissible(
-                    key: UniqueKey(),
-                    onDismissed: (_) => deleteCartItem(index),
-                    direction: DismissDirection.startToEnd,
-                    background: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: const Icon(
-                        Icons.delete,
-                        color: Colors.white,
+          body: RefreshIndicator(
+            onRefresh: refresh,
+            child: Padding(
+              padding: const EdgeInsets.only(top: 16),
+              child: ListView.builder(
+                itemCount: filteredCart.length,
+                itemBuilder: (BuildContext context, int index) {
+                  final item = filteredCart[index];
+                  if (item['tickets'].isEmpty) {
+                    return Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (_) => deleteCartItem(item['id']),
+                      direction: DismissDirection.startToEnd,
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                        child: const Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
                       ),
-                    ),
-                    child: CartCard(
-                      cartId: item['id'],
-                      name: item['food'][0]['name'],
-                      price: item['food'][0]['price'],
-                      image: item['food'][0]['imageUrl'],
-                      qty: item['qty'],
-                      isChecked: checkedItems.contains(item['id']),
-                      onCheckboxChanged: (isChecked) {
-                        setState(() {
-                          if (isChecked) {
-                            checkedItems.add(item['id']);
-                          } else {
-                            checkedItems.remove(item['id']);
-                          }
-                        });
-                      },
-                    ),
-                  );
-                } else {
-                  return Dismissible(
-                    key: UniqueKey(),
-                    onDismissed: (_) => deleteCartItem(index),
-                    direction: DismissDirection.startToEnd,
-                    background: Container(
-                      color: Colors.red,
-                      alignment: Alignment.centerLeft,
-                      padding: const EdgeInsets.symmetric(horizontal: 30.0),
-                      child: const Icon(
-                        Icons.delete,
-                        color: Colors.white,
+                      child: CartCard(
+                        cartId: item['id'],
+                        name: item['food'][0]['name'],
+                        price: item['food'][0]['price'],
+                        image: item['food'][0]['imageUrl'],
+                        qty: item['qty'],
+                        stock: item['food'][0]['stock'],
+                        isChecked: checkedItems.contains(item['id']),
+                        onCheckboxChanged: (isChecked) {
+                          setState(() {
+                            if (isChecked) {
+                              checkedItems.add(item['id']);
+                            } else {
+                              checkedItems.remove(item['id']);
+                            }
+                          });
+                        },
+                        onQtyChanged: (newqty, isIncrease) =>
+                            {updateQty(item['id'], newqty, isIncrease)},
                       ),
-                    ),
-                    child: CartCard(
-                      cartId: item['id'],
-                      name: item['tickets'][0]['ticketType']['category'],
-                      price: item['tickets'][0]['ticketType']['price'],
-                      image: '',
-                      qty: item['qty'],
-                      isTicket: true,
-                      isVip: item['tickets'][0]['ticketTypeId'] == 2,
-                      isChecked: checkedItems.contains(item['id']),
-                      onCheckboxChanged: (isChecked) {
-                        setState(() {
-                          if (isChecked) {
-                            checkedItems.add(item['id']);
-                          } else {
-                            checkedItems.remove(item['id']);
-                          }
-                        });
-                      },
-                    ),
-                  );
-                }
-              },
+                    );
+                  } else {
+                    return Dismissible(
+                      key: UniqueKey(),
+                      onDismissed: (_) => deleteCartItem(item['id']),
+                      direction: DismissDirection.startToEnd,
+                      background: Container(
+                        color: Colors.red,
+                        alignment: Alignment.centerLeft,
+                        padding: const EdgeInsets.symmetric(horizontal: 30.0),
+                        child: const Icon(
+                          Icons.delete,
+                          color: Colors.white,
+                        ),
+                      ),
+                      child: CartCard(
+                        cartId: item['id'],
+                        name: item['tickets'][0]['ticketType']['category'],
+                        price: item['tickets'][0]['ticketType']['price'],
+                        image: '',
+                        qty: item['qty'],
+                        isTicket: true,
+                        stock: item['tickets'][0]['stock'],
+                        isVip: item['tickets'][0]['ticketTypeId'] == 2,
+                        isChecked: checkedItems.contains(item['id']),
+                        onCheckboxChanged: (isChecked) {
+                          setState(() {
+                            if (isChecked) {
+                              checkedItems.add(item['id']);
+                            } else {
+                              checkedItems.remove(item['id']);
+                            }
+                          });
+                        },
+                        onQtyChanged: (newqty, isIncrease) =>
+                            {updateQty(item['id'], newqty, isIncrease)},
+                      ),
+                    );
+                  }
+                },
+              ),
             ),
           ),
           floatingActionButton: FloatingActionButton.extended(

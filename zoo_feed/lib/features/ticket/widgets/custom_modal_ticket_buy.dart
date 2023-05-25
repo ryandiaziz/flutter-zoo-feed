@@ -57,20 +57,21 @@ class _ModalTicketBuyState extends State<ModalTicketBuy> {
         'qty': count.toString(),
         'ticketId': widget.ticketId.toString()
       };
-
-      final response = await http.post(url, headers: headers, body: body);
-      if (response.statusCode == 200) {
-        await QuickAlert.show(
-          context: context,
-          type: QuickAlertType.success,
-          text: '${widget.destext} Ticket added to your cart',
-        );
-      } else {
+      try {
+        final response = await http.post(url, headers: headers, body: body);
+        if (response.statusCode == 200) {
+          await QuickAlert.show(
+            context: context,
+            type: QuickAlertType.success,
+            text: '${widget.destext} Ticket added to your cart',
+          );
+        }
+      } catch (error) {
         QuickAlert.show(
           context: context,
           type: QuickAlertType.error,
           title: 'Oops...',
-          text: 'Sorry, something went wrong ${response.statusCode}',
+          text: 'Sorry, something went wrong ${error}',
         );
       }
     }

@@ -1,14 +1,15 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
 import 'package:zoo_feed/common/widgets/custom_textfield.dart';
-import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:dio/dio.dart';
+import 'package:http_parser/http_parser.dart';
 import '../../../common/utils/coloors.dart';
+import 'package:quickalert/quickalert.dart';
 
 class UserEditPage extends StatefulWidget {
   final Map<String, dynamic> users;
@@ -41,23 +42,81 @@ class _UserEditPageState extends State<UserEditPage> {
   void update() async {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString('access_token');
-    final url = Uri.parse(
-        'http://192.168.2.4:3000/api/users/update/${widget.users['id']}');
-    final body = {
-      'name': nameC.text,
-      'age': ageC.text,
-      'email': emailC.text,
-      'imageUrl': image,
-    };
-    final headers = {
-      'Content-Type': 'multipart/form-data',
-      'access_token': accessToken!,
-    };
+    final url =
+        'http://192.168.2.4:3000/api/users/update/${widget.users['id']}';
+    final dio = Dio();
+    dio.options.headers['Content-Type'] = 'multipart/form-data';
+    dio.options.headers['access_token'] = accessToken!;
 
-    final response = await http.put(
-      url,
-      body: body,
-      headers: headers,
+    final formData = FormData();
+
+    formData.fields
+      ..add(MapEntry('name', nameC.text))
+      ..add(MapEntry('age', ageC.text))
+      ..add(MapEntry('email', emailC.text));
+
+    if (image != null) {
+      final file = await MultipartFile.fromFile(
+        image!.path,
+        filename: image!.path.split('/').last,
+        contentType: MediaType('image', 'jpeg'),
+      );
+
+      formData.files.add(MapEntry('imageUrl', file));
+    }
+
+    showDialogLoading();
+
+    try {
+      final response = await dio.put(url, data: formData);
+      final dataResponse = response.data;
+      final pref = await SharedPreferences.getInstance();
+      pref.setString('access_token', dataResponse['access_token']);
+
+      final url2 = Uri.parse('http://192.168.2.4:3000/api/users/account');
+      Map<String, String> headers = {
+        'access_token': dataResponse!['access_token'],
+      };
+
+      final response2 = await http.get(url2, headers: headers);
+      if (response2.statusCode == 200) {
+        await pref.setString('user_data', response2.body);
+      } else {
+        throw Exception('Failed to user');
+      }
+
+      Navigator.of(context).pop();
+
+      if (response.statusCode == 200) {
+        await QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Your profile updated!',
+        );
+      }
+    } catch (error) {
+      print(error);
+      Navigator.of(context).pop();
+    }
+  }
+
+  void showDialogLoading() {
+    showDialog(
+      context: context,
+      barrierDismissible: false,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: Text('Loading'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Uploading your data'),
+                CircularProgressIndicator(),
+              ],
+            ),
+          ),
+        );
+      },
     );
   }
 

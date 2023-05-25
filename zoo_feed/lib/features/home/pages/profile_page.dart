@@ -27,6 +27,7 @@ class ProfilePage extends StatefulWidget {
 class _ProfilePageState extends State<ProfilePage> {
   Map<String, dynamic> users = {};
   List<Map<String, dynamic>> animalsLiked = [];
+  bool isLoading = true;
 
   Future<void> getUser() async {
     final pref = await SharedPreferences.getInstance();
@@ -64,6 +65,7 @@ class _ProfilePageState extends State<ProfilePage> {
             animalsLiked.add(element);
           });
         });
+        isLoading = false;
       }
     } catch (e) {
       print(e);
@@ -72,6 +74,8 @@ class _ProfilePageState extends State<ProfilePage> {
 
   Future refresh() async {
     animalsLiked.clear();
+    users.clear();
+    getUser();
     getAnimalLiked();
   }
 
@@ -105,7 +109,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             child: ClipRRect(
                               borderRadius: BorderRadius.circular(100),
                               child: Image.network(
-                                'http://192.168.1.6:3000/${users['imageUrl']}',
+                                'http://192.168.2.4:3000/${users['imageUrl']}',
                                 fit: BoxFit.cover,
                               ),
                             ),

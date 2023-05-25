@@ -3,8 +3,12 @@ import '../../../common/utils/coloors.dart';
 
 class CustomSmallButtonCircle extends StatelessWidget {
   final IconData iconData;
+  final VoidCallback onPressed;
 
-  const CustomSmallButtonCircle({required this.iconData});
+  const CustomSmallButtonCircle({
+    required this.iconData,
+    required this.onPressed,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +27,7 @@ class CustomSmallButtonCircle extends StatelessWidget {
                 iconData,
                 color: Colors.white,
               ),
-              onPressed: () {},
+              onPressed: onPressed,
             ),
           ),
         ),

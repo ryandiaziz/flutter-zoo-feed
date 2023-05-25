@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import '../../../common/utils/coloors.dart';
+import 'package:zoo_feed/common/widgets/costom_loading_screen.dart';
 import 'dart:convert';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoo_feed/features/cart/pages/sub_cart_page/cart_detail_page.dart';
@@ -40,11 +41,7 @@ class _CartPageState extends State<CartPage>
   @override
   Widget build(BuildContext context) {
     if (!isUserDataLoaded) {
-      return Scaffold(
-        body: Center(
-          child: CircularProgressIndicator(),
-        ),
-      );
+      return LoadingScreen();
     } else {
       return Scaffold(
         appBar: AppBar(

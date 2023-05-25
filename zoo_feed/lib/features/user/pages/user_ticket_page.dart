@@ -105,7 +105,7 @@ class _UserTicketPageState extends State<UserTicketPage> {
                                   MediaQuery.of(context).size.height * 1 / 3,
                               width: MediaQuery.of(context).size.width * 3 / 4,
                               child: Image.network(
-                                'http://192.168.1.6:3000/${tickets[index]['barcode']}',
+                                'http://192.168.2.4:3000/${tickets[index]['barcode']}',
                                 fit: BoxFit.cover,
                               ),
                             ),
@@ -136,7 +136,7 @@ class _UserTicketPageState extends State<UserTicketPage> {
                               height: 150,
                               width: 150,
                               child: Image.network(
-                                'http://192.168.1.6:3000/${tickets[index]['barcode']}',
+                                'http://192.168.2.4:3000/${tickets[index]['barcode']}',
                                 fit: BoxFit.cover,
                               ),
                             ),

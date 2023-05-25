@@ -29,20 +29,21 @@ class _custom_modal_checkoutState extends State<custom_modal_checkout> {
       "Content-Type": "application/json"
     };
     String jsonBody = await jsonEncode(widget.checkedData);
-    print(jsonBody);
-    final response = await http.post(url, headers: headers, body: jsonBody);
-    if (response.statusCode == 200) {
-      await QuickAlert.show(
-        context: context,
-        type: QuickAlertType.success,
-        text: 'Order Success, please pay the order!',
-      );
-    } else {
+    try {
+      final response = await http.post(url, headers: headers, body: jsonBody);
+      if (response.statusCode == 200) {
+        await QuickAlert.show(
+          context: context,
+          type: QuickAlertType.success,
+          text: 'Order Success, please pay the order!',
+        );
+      }
+    } catch (error) {
       QuickAlert.show(
         context: context,
         type: QuickAlertType.error,
         title: 'Oops...',
-        text: 'Sorry, something went wrong ${response.statusCode}',
+        text: 'Sorry, something went wrong ${error}',
       );
     }
   }

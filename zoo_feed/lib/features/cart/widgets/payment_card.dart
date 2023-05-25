@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:intl/intl.dart';
+import 'dart:convert';
 import 'package:zoo_feed/features/cart/widgets/custom_modal_payment.dart';
 import '../../../common/utils/coloors.dart';
+import 'package:crypto/crypto.dart';
 
 class OrderList extends StatelessWidget {
   final List<dynamic> orderList;
@@ -21,6 +22,12 @@ class OrderList extends StatelessWidget {
 
 class OrderCard extends StatelessWidget {
   final dynamic order;
+
+  String encryptText(String text) {
+    var bytes = utf8.encode(text);
+    var digest = sha256.convert(bytes);
+    return digest.toString();
+  }
 
   OrderCard({required this.order});
 
@@ -62,7 +69,7 @@ class OrderCard extends StatelessWidget {
             ),
             const SizedBox(height: 4.0),
             Text(
-              '$orderId',
+              encryptText('${orderId}'),
               style: const TextStyle(fontSize: 16.0),
             ),
             const SizedBox(height: 12.0),

@@ -95,7 +95,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           image: NetworkImage(
-                            'http://192.168.1.6:3000/${users['imageUrl']}',
+                            'http://192.168.2.4:3000/${users['imageUrl']}',
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -143,7 +143,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                                 color: Colors.transparent,
                                 child: Image(
                                   image: NetworkImage(
-                                    'http://192.168.1.6:3000/' +
+                                    'http://192.168.2.4:3000/' +
                                         animalDetail['resultAF']['imageUrl'],
                                   ),
                                   fit: BoxFit.cover,
