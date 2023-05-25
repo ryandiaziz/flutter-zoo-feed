@@ -43,7 +43,7 @@ class _UserEditPageState extends State<UserEditPage> {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString('access_token');
     final url =
-        'http://192.168.2.4:3000/api/users/update/${widget.users['id']}';
+        'http://192.168.1.6:3000/api/users/update/${widget.users['id']}';
     final dio = Dio();
     dio.options.headers['Content-Type'] = 'multipart/form-data';
     dio.options.headers['access_token'] = accessToken!;
@@ -73,7 +73,7 @@ class _UserEditPageState extends State<UserEditPage> {
       final pref = await SharedPreferences.getInstance();
       pref.setString('access_token', dataResponse['access_token']);
 
-      final url2 = Uri.parse('http://192.168.2.4:3000/api/users/account');
+      final url2 = Uri.parse('http://192.168.1.6:3000/api/users/account');
       Map<String, String> headers = {
         'access_token': dataResponse!['access_token'],
       };

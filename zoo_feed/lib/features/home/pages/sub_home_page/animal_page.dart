@@ -37,7 +37,7 @@ class _AnimalPageState extends State<AnimalPage> {
   Future like(int id) async {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString('access_token');
-    final url = Uri.parse('http://192.168.2.4:3000/api/animaluser/add');
+    final url = Uri.parse('http://192.168.1.6:3000/api/animaluser/add');
     final response = await http.post(
       url,
       headers: {
@@ -57,7 +57,7 @@ class _AnimalPageState extends State<AnimalPage> {
   Future unLike(int id) async {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString('access_token');
-    final url = Uri.parse('http://192.168.2.4:3000/api/animaluser/delete/$id');
+    final url = Uri.parse('http://192.168.1.6:3000/api/animaluser/delete/$id');
     final response = await http.delete(url, headers: {
       'access_token': accessToken!,
     });
@@ -72,7 +72,7 @@ class _AnimalPageState extends State<AnimalPage> {
     try {
       final prefs = await SharedPreferences.getInstance();
       final accessToken = prefs.getString('access_token');
-      final url = Uri.parse('http://192.168.2.4:3000/api/animaluser/info');
+      final url = Uri.parse('http://192.168.1.6:3000/api/animaluser/info');
 
       final response =
           await http.get(url, headers: {'access_token': accessToken!});
