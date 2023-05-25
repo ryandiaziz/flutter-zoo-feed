@@ -259,7 +259,7 @@ class _UserEditPageState extends State<UserEditPage> {
                         borderRadius: BorderRadius.circular(100),
                         child: image == null
                             ? Image.network(
-                                'http://192.168.2.4:3000/${widget.users['imageUrl']}',
+                                'http://192.168.1.6:3000/${widget.users['imageUrl']}',
                                 fit: BoxFit.cover,
                               )
                             : Image.file(

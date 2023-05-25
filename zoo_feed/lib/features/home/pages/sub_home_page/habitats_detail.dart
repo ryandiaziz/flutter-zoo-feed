@@ -40,7 +40,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
 
   Future<void> gethabitatDetail() async {
     final response = await http.get(Uri.parse(
-        'http://192.168.2.4:3000/api/habitats/detail/${widget.habitatId}'));
+        'http://192.168.1.6:3000/api/habitats/detail/${widget.habitatId}'));
     if (response.statusCode == 200) {
       setState(() {
         habitatDetail = json.decode(response.body);
@@ -90,7 +90,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           image: NetworkImage(
-                            'http://192.168.2.4:3000/${users['imageUrl']}',
+                            'http://192.168.1.6:3000/${users['imageUrl']}',
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -138,7 +138,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                                 color: Colors.transparent,
                                 child: Image(
                                   image: NetworkImage(
-                                    'http://192.168.2.4:3000/' +
+                                    'http://192.168.1.6:3000/' +
                                         habitatDetail['imageUrl'],
                                   ),
                                   fit: BoxFit.cover,

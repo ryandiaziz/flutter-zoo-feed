@@ -15,7 +15,7 @@ class _AnimalPageState extends State<AnimalPage> {
 
   Future<void> getAnimals() async {
     final response =
-        await http.get(Uri.parse('http://192.168.2.4:3000/api/animals/'));
+        await http.get(Uri.parse('http://192.168.1.6:3000/api/animals/'));
     if (response.statusCode == 200) {
       setState(() {
         animals = json.decode(response.body);
@@ -128,11 +128,11 @@ class _AnimalPageState extends State<AnimalPage> {
                   return Stack(
                     children: [
                       ClipRRect(
-                        borderRadius: BorderRadius.vertical(
+                        borderRadius: const BorderRadius.vertical(
                             top: Radius.circular(15.0),
                             bottom: Radius.circular(15.0)),
                         child: Image.network(
-                          'http://192.168.2.4:3000/' + animal['imageUrl'],
+                          'http://192.168.1.6:3000/${animal['imageUrl']}',
                           fit: BoxFit.cover,
                           width: constraints.maxWidth,
                           height: constraints.maxHeight,
@@ -143,21 +143,21 @@ class _AnimalPageState extends State<AnimalPage> {
                         left: 10,
                         right: 0,
                         child: Container(
-                          padding: EdgeInsets.all(8.0),
+                          padding: const EdgeInsets.all(8.0),
                           color: Colors.transparent,
                           child: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
                                 animal['name'],
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 16,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.white),
                               ),
                               Text(
                                 animal['classType']['name'],
-                                style: TextStyle(
+                                style: const TextStyle(
                                     color: Colors.white,
                                     fontSize: 10,
                                     fontWeight: FontWeight.w300),
@@ -177,7 +177,6 @@ class _AnimalPageState extends State<AnimalPage> {
                                 color: Colors.white,
                                 onPressed: () {
                                   like(animal['id']);
-                                  // print(animal['id']);
                                 },
                               ),
                             )
@@ -191,8 +190,6 @@ class _AnimalPageState extends State<AnimalPage> {
                                 ),
                                 color: Colors.white,
                                 onPressed: () {
-                                  // like(animal['id']);
-                                  // print(animal['id']);
                                   unLike(animal['id']);
                                 },
                               ),

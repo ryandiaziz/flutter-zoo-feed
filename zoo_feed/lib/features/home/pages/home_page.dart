@@ -8,6 +8,7 @@ import 'package:zoo_feed/features/home/pages/sub_home_page/habitats_page.dart';
 import 'package:zoo_feed/features/home/pages/sub_home_page/typeclass_page.dart';
 import 'package:http/http.dart' as http;
 import 'package:zoo_feed/common/widgets/custom_headline_animation.dart';
+import 'package:zoo_feed/features/search/pages/search_page.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = '/home';
@@ -21,10 +22,8 @@ class _HomePageState extends State<HomePage>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
   int _tabIndex = 0;
-  bool _isSearching = false;
   late Map<String, dynamic> users;
   bool isLoading = true;
-  TextEditingController _searchController = TextEditingController();
 
   List<Tab> myTab = const [
     Tab(text: "Animals"),
@@ -65,7 +64,7 @@ class _HomePageState extends State<HomePage>
   Future<void> fetchUser() async {
     final pref = await SharedPreferences.getInstance();
     final accessToken = pref.getString('access_token');
-    final url = Uri.parse('http://192.168.2.4:3000/api/users/account');
+    final url = Uri.parse('http://192.168.1.6:3000/api/users/account');
     Map<String, String> headers = {
       'access_token': accessToken!,
     };
@@ -103,20 +102,11 @@ class _HomePageState extends State<HomePage>
     });
   }
 
-  void _toggleSearchBar() {
-    setState(() {
-      _isSearching = !_isSearching;
-      if (!_isSearching) {
-        _searchController.clear();
-      }
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
       return LoadingScreen();
-    } else
+    } else {
       return Scaffold(
         appBar: AppBar(
           automaticallyImplyLeading: false,
@@ -130,34 +120,33 @@ class _HomePageState extends State<HomePage>
             statusBarColor: Colors.transparent,
           ),
           backgroundColor: const Color(0xFF019267),
-          title: _isSearching
-              ? TextField(
-                  controller: _searchController,
-                  style: const TextStyle(color: Colors.white, fontSize: 15),
-                  decoration: InputDecoration(
-                    hintText: "Search",
-                    hintStyle: TextStyle(color: Colors.white.withOpacity(0.75)),
-                    enabledBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                    focusedBorder: const UnderlineInputBorder(
-                      borderSide: BorderSide(color: Colors.white),
-                    ),
-                  ),
-                )
-              : GestureDetector(
-                  onTap: _toggleSearchBar,
-                  child: AnimatedTitleWidget(
-                    username: users['name'],
-                  ),
+          title: GestureDetector(
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchPage(),
                 ),
+              );
+            },
+            child: AnimatedTitleWidget(
+              username: users['name'],
+            ),
+          ),
           centerTitle: true,
           leading: IconButton(
-            icon: Icon(
-              _isSearching ? Icons.clear : Icons.search,
+            icon: const Icon(
+              Icons.search,
               color: Colors.white,
             ),
-            onPressed: _toggleSearchBar,
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => const SearchPage(),
+                ),
+              );
+            },
           ),
           actions: [
             Padding(
@@ -170,7 +159,7 @@ class _HomePageState extends State<HomePage>
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     image: NetworkImage(
-                        'http://192.168.2.4:3000/${users['imageUrl']}'),
+                        'http://192.168.1.6:3000/${users['imageUrl']}'),
                     fit: BoxFit.cover,
                   ),
                 ),
@@ -267,5 +256,6 @@ class _HomePageState extends State<HomePage>
           ],
         ),
       );
+    }
   }
 }

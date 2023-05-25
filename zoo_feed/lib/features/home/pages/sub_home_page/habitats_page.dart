@@ -19,7 +19,7 @@ class _HabitatPageState extends State<HabitatPage> {
 
   Future<void> fetchData() async {
     final response =
-        await http.get(Uri.parse('http://192.168.2.4:3000/api/habitats'));
+        await http.get(Uri.parse('http://192.168.1.6:3000/api/habitats'));
     if (response.statusCode == 200) {
       setState(() {
         habitats = json.decode(response.body);
@@ -64,7 +64,7 @@ class _HabitatPageState extends State<HabitatPage> {
                     fit: StackFit.expand,
                     children: [
                       Image.network(
-                        'http://192.168.2.4:3000/' + habitat['imageUrl'],
+                        'http://192.168.1.6:3000/' + habitat['imageUrl'],
                         fit: BoxFit.cover,
                       ),
                       Align(

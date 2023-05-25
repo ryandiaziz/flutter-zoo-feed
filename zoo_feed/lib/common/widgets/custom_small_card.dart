@@ -39,7 +39,7 @@ class smallcard extends StatelessWidget {
                 color: Color(0xFFFB983E),
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: NetworkImage('http://192.168.2.4:3000/' + imageUrl),
+                  image: NetworkImage('http://192.168.1.6:3000/' + imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
