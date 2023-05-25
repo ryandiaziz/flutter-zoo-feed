@@ -70,7 +70,7 @@ class _CartCardState extends State<CartCard> {
                               ? 'assets/img/ticket_vip.png'
                               : 'assets/img/ticket_regular.png')
                           as ImageProvider<Object>
-                      : NetworkImage('http://192.168.2.4:3000/' + widget.image),
+                      : NetworkImage('http://192.168.1.6:3000/' + widget.image),
                   fit: BoxFit.cover,
                 ),
                 borderRadius: BorderRadius.circular(8.0),

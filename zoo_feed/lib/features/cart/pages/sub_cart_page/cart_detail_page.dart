@@ -22,7 +22,7 @@ class _CartDetailPageState extends State<CartDetailPage> {
   List<int> checkedItems = [];
 
   Future<void> getCart() async {
-    final url = Uri.parse('http://192.168.2.4:3000/api/cart/');
+    final url = Uri.parse('http://192.168.1.6:3000/api/cart/');
     final pref = await SharedPreferences.getInstance();
     final accessToken = pref.getString('access_token');
     Map<String, String> headers = {'access_token': accessToken!};
@@ -40,7 +40,7 @@ class _CartDetailPageState extends State<CartDetailPage> {
   Future<void> deleteCartItem(int index) async {
     final item = cart[index];
     final cartId = item['id'];
-    final url = Uri.parse('http://192.168.2.4:3000/api/cart/delete/$cartId');
+    final url = Uri.parse('http://192.168.1.6:3000/api/cart/delete/$cartId');
     final pref = await SharedPreferences.getInstance();
     final accessToken = pref.getString('access_token');
     Map<String, String> headers = {'access_token': accessToken!};

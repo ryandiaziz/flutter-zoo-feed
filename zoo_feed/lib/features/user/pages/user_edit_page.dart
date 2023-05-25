@@ -42,7 +42,7 @@ class _UserEditPageState extends State<UserEditPage> {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString('access_token');
     final url = Uri.parse(
-        'http://192.168.2.4:3000/api/users/update/${widget.users['id']}');
+        'http://192.168.1.6:3000/api/users/update/${widget.users['id']}');
     final body = {
       'name': nameC.text,
       'age': ageC.text,
@@ -200,7 +200,7 @@ class _UserEditPageState extends State<UserEditPage> {
                         borderRadius: BorderRadius.circular(100),
                         child: image == null
                             ? Image.network(
-                                'http://192.168.2.4:3000/${widget.users['imageUrl']}',
+                                'http://192.168.1.6:3000/${widget.users['imageUrl']}',
                                 fit: BoxFit.cover,
                               )
                             : Image.file(

@@ -15,13 +15,13 @@ class UserTicketPage extends StatefulWidget {
 }
 
 class _UserTicketPageState extends State<UserTicketPage> {
-  List<Map<String, dynamic>> tickets = [];
+  List<dynamic> tickets = [];
 
   Future getTickets() async {
     try {
       final prefs = await SharedPreferences.getInstance();
       final accessToken = prefs.getString('access_token');
-      final url = Uri.parse('http://192.168.2.4:3000/api/userTicket/user');
+      final url = Uri.parse('http://192.168.1.6:3000/api/userTicket/user');
 
       final response = await http.get(
         url,
@@ -29,12 +29,11 @@ class _UserTicketPageState extends State<UserTicketPage> {
       );
 
       if (response.statusCode == 200) {
-        final data = json.decode(response.body);
+        final res = json.decode(response.body);
         setState(() {
-          data.forEach((item) {
-            tickets.add(item);
-          });
+          tickets = res.where((item) => item['status'] == false).toList();
         });
+        print(tickets);
       }
     } catch (e) {
       print(e);
@@ -92,75 +91,72 @@ class _UserTicketPageState extends State<UserTicketPage> {
             crossAxisSpacing: 10,
           ),
           itemBuilder: (BuildContext context, int index) {
-            return tickets[index]['status']
-                ? const SizedBox()
-                : GestureDetector(
-                    onTap: () {
-                      showDialog(
-                        context: context,
-                        builder: (context) {
-                          return AlertDialog(
-                            content: SizedBox(
-                              height:
-                                  MediaQuery.of(context).size.height * 1 / 3,
-                              width: MediaQuery.of(context).size.width * 3 / 4,
-                              child: Image.network(
-                                'http://192.168.1.6:3000/${tickets[index]['barcode']}',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          );
-                        },
-                      );
-                    },
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.white,
-                        borderRadius: BorderRadius.circular(15.0),
-                        boxShadow: const [
-                          BoxShadow(
-                            color: Colors.grey,
-                            blurRadius: 20.0, // Soften the shaodw
-                            spreadRadius: 2.0,
-                            offset: Offset(0.0, 0.0),
-                          )
-                        ],
+            return GestureDetector(
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder: (context) {
+                    return AlertDialog(
+                      content: SizedBox(
+                        height: MediaQuery.of(context).size.height * 1 / 3,
+                        width: MediaQuery.of(context).size.width * 3 / 4,
+                        child: Image.network(
+                          'http://192.168.1.6:3000/${tickets[index]['barcode']}',
+                          fit: BoxFit.cover,
+                        ),
                       ),
+                    );
+                  },
+                );
+              },
+              child: Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(15.0),
+                  boxShadow: const [
+                    BoxShadow(
+                      color: Colors.grey,
+                      blurRadius: 20.0, // Soften the shaodw
+                      spreadRadius: 2.0,
+                      offset: Offset(0.0, 0.0),
+                    )
+                  ],
+                ),
+                child: Column(
+                  children: [
+                    ClipRRect(
+                      borderRadius: const BorderRadius.vertical(
+                          top: Radius.circular(15.0),
+                          bottom: Radius.circular(15.0)),
+                      child: SizedBox(
+                        height: 150,
+                        width: 150,
+                        child: Image.network(
+                          'http://192.168.1.6:3000/${tickets[index]['barcode']}',
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    ),
+                    Container(
+                      color: Colors.transparent,
                       child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
                         children: [
-                          ClipRRect(
-                            borderRadius: const BorderRadius.vertical(
-                                top: Radius.circular(15.0),
-                                bottom: Radius.circular(15.0)),
-                            child: SizedBox(
-                              height: 150,
-                              width: 150,
-                              child: Image.network(
-                                'http://192.168.1.6:3000/${tickets[index]['barcode']}',
-                                fit: BoxFit.cover,
-                              ),
-                            ),
-                          ),
-                          Container(
-                            color: Colors.transparent,
-                            child: Column(
-                              crossAxisAlignment: CrossAxisAlignment.center,
-                              children: [
-                                Text('ID ${tickets[index]['id']}'),
-                                Text(
-                                  tickets[index]['ticketType']['category'],
-                                  style: TextStyle(
-                                      fontSize: 16,
-                                      fontWeight: FontWeight.bold,
-                                      color: Colors.grey.shade700),
-                                ),
-                              ],
-                            ),
+                          Text('ID ${tickets[index]['id']}'),
+                          Text(
+                            tickets[index]['ticketType']['category'],
+                            style: TextStyle(
+                                fontSize: 16,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.grey.shade700),
                           ),
                         ],
                       ),
                     ),
-                  );
+                  ],
+                ),
+              ),
+            );
           },
         ),
       ),
