@@ -115,7 +115,7 @@ class _UserHistoryPageState extends State<UserHistoryPage> {
         ),
         backgroundColor: Coloors.green,
         title: const Text(
-          "History",
+          "Payment History",
           style: TextStyle(
             fontSize: 18,
             fontFamily: "inter",

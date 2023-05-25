@@ -26,7 +26,7 @@ class DetailHistoryPage extends StatelessWidget {
         ),
         backgroundColor: Coloors.green,
         title: const Text(
-          "History",
+          "Detail Payment History",
           style: TextStyle(
             fontSize: 18,
             fontFamily: "inter",
