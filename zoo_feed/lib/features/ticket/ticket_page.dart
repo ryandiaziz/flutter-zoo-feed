@@ -34,7 +34,7 @@ class _TicketPageState extends State<TicketPage> {
   }
 
   Future<void> getTicketData() async {
-    final url = Uri.parse("http://192.168.1.6:3000/api/ticket/");
+    final url = Uri.parse("http://192.168.2.4:3000/api/ticket/");
     final response = await http.get(url);
     setState(() {
       tickets = json.decode(response.body);

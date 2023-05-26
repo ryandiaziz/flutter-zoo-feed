@@ -42,7 +42,7 @@ class HistoryCard extends StatelessWidget {
                     image: image != null
                         ? DecorationImage(
                             image:
-                                NetworkImage('http://192.168.1.6:3000/$image'),
+                                NetworkImage('http://192.168.2.4:3000/$image'),
                             fit: BoxFit.cover,
                           )
                         : DecorationImage(

@@ -52,7 +52,7 @@ class _ProfilePageState extends State<ProfilePage> {
     try {
       final prefs = await SharedPreferences.getInstance();
       final accessToken = prefs.getString('access_token');
-      final url = Uri.parse('http://192.168.1.6:3000/api/animaluser/info');
+      final url = Uri.parse('http://192.168.2.4:3000/api/animaluser/info');
 
       final response =
           await http.get(url, headers: {'access_token': accessToken!});

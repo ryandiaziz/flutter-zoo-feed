@@ -32,7 +32,7 @@ class _custom_modal_paymentState extends State<custom_modal_payment> {
           text: 'Please select a payment method');
       return;
     }
-    final url = Uri.parse('http://192.168.1.6:3000/api/payment/update');
+    final url = Uri.parse('http://192.168.2.4:3000/api/payment/update');
     final pref = await SharedPreferences.getInstance();
     final accessToken = pref.getString('access_token');
     Map<String, String> headers = {

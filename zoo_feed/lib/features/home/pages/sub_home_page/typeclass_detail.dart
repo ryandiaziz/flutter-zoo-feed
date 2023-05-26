@@ -40,7 +40,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
 
   Future<void> getclassDetail() async {
     final response = await http.get(Uri.parse(
-        'http://192.168.1.6:3000/api/classtypes/detail/${widget.typeId}'));
+        'http://192.168.2.4:3000/api/classtypes/detail/${widget.typeId}'));
     if (response.statusCode == 200) {
       setState(() {
         classDetail = json.decode(response.body);
@@ -90,7 +90,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                           image: NetworkImage(
-                            'http://192.168.1.6:3000/${users['imageUrl']}',
+                            'http://192.168.2.4:3000/${users['imageUrl']}',
                           ),
                           fit: BoxFit.cover,
                         ),
@@ -138,7 +138,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
                                 color: Colors.transparent,
                                 child: Image(
                                   image: NetworkImage(
-                                    'http://192.168.1.6:3000/' +
+                                    'http://192.168.2.4:3000/' +
                                         classDetail['imageUrl'],
                                   ),
                                   fit: BoxFit.cover,

@@ -33,12 +33,12 @@ class _SignUpPageState extends State<SignUpPage> {
       'password': passwordC.text,
       'roleId': '1',
     };
-    final url = Uri.parse('http://192.168.1.6:3000/api/users/create');
+    final url = Uri.parse('http://192.168.2.4:3000/api/users/create');
     final responseSignUp = await http.post(url, body: dataSignUp);
 
     if (responseSignUp.statusCode == 201) {
       final responseSignIn = await http.post(
-        Uri.parse('http://192.168.1.6:3000/api/users/login'),
+        Uri.parse('http://192.168.2.4:3000/api/users/login'),
         body: {
           'email': emailC.text,
           'password': passwordC.text,

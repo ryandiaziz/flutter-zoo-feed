@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:zoo_feed/features/cart/widgets/custom_modal_payment.dart';
 import '../../../common/utils/coloors.dart';
 import 'package:crypto/crypto.dart';
+import 'package:intl/intl.dart';
 
 class OrderList extends StatelessWidget {
   final List<dynamic> orderList;
@@ -82,7 +83,11 @@ class OrderCard extends StatelessWidget {
             ),
             const SizedBox(height: 4.0),
             Text(
-              '$total',
+              NumberFormat.currency(
+                locale: 'id',
+                symbol: 'Rp ',
+                decimalDigits: 0,
+              ).format(total),
               style: const TextStyle(fontSize: 16.0),
             ),
             const SizedBox(height: 12.0),
