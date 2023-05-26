@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:zoo_feed/features/home/pages/sub_home_page/animal_detail.dart';
 import '../../../../common/utils/coloors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoo_feed/common/widgets/custom_small_card.dart';
@@ -66,7 +67,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
     } else {
       return Scaffold(
         body: Container(
-          constraints: BoxConstraints.expand(),
+          constraints: const BoxConstraints.expand(),
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -112,7 +113,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                           right: 0,
                           bottom: top - 150,
                           child: Container(
-                            decoration: BoxDecoration(
+                            decoration: const BoxDecoration(
                               color: Coloors.green,
                               borderRadius: BorderRadius.only(
                                 bottomLeft: Radius.circular(37),
@@ -127,7 +128,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                           right: 20,
                           child: Card(
                             elevation: 8,
-                            margin: EdgeInsets.symmetric(horizontal: 40),
+                            margin: const EdgeInsets.symmetric(horizontal: 40),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(37),
                             ),
@@ -169,7 +170,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Container(
                       width: 350,
                       child: Text(
@@ -181,13 +182,13 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                         textAlign: TextAlign.justify,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Container(
                       width: 350,
-                      child: Center(
+                      child: const Center(
                         child: Text(
                           'Corresponding Animals',
-                          style: const TextStyle(
+                          style: TextStyle(
                             fontSize: 25,
                             fontFamily: 'inter',
                             color: Coloors.green,
@@ -203,8 +204,8 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                         child: Row(
                           children: [
                             if (animals.isEmpty)
-                              Text(
-                                'No food available',
+                              const Text(
+                                'No animals were found',
                                 style: TextStyle(
                                   fontSize: 16,
                                   color: Colors.black,
@@ -212,17 +213,29 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                               )
                             else
                               for (var animal in animals)
-                                Container(
-                                  padding: EdgeInsets.only(right: 10),
-                                  child: smallcard(
-                                      imageUrl: animal['imageUrl'],
-                                      text: '',
-                                      destext: animal['name']),
+                                GestureDetector(
+                                  onTap: () {
+                                    Navigator.push(
+                                      context,
+                                      MaterialPageRoute(
+                                        builder: (context) => AnimalDetailPage(
+                                            animalId: animal['id']),
+                                      ),
+                                    );
+                                  },
+                                  child: Container(
+                                    padding: const EdgeInsets.only(right: 10),
+                                    child: smallcard(
+                                        imageUrl: animal['imageUrl'],
+                                        text: '',
+                                        destext: animal['name']),
+                                  ),
                                 ),
                           ],
                         ),
                       ),
                     ),
+                    const SizedBox(height: 20),
                   ],
                 ),
               ),

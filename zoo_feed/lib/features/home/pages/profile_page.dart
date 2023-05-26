@@ -111,6 +111,12 @@ class _ProfilePageState extends State<ProfilePage> {
                               child: Image.network(
                                 'http://192.168.2.4:3000/${users['imageUrl']}',
                                 fit: BoxFit.cover,
+                                errorBuilder: (context, error, stackTrace) {
+                                  return Image.asset(
+                                    'assets/icon/user.png',
+                                    fit: BoxFit.cover,
+                                  );
+                                },
                               ),
                             ),
                           ),

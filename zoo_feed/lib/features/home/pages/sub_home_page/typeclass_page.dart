@@ -80,13 +80,13 @@ class _TypeclassPageState extends State<TypeclassPage> {
                       Align(
                         alignment: Alignment.bottomLeft,
                         child: Container(
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(15),
+                          decoration: const BoxDecoration(
                             color: Colors.transparent,
                           ),
                           child: Text(
                             type['name'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,

@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:flutter/services.dart';
+import 'package:zoo_feed/features/home/pages/sub_home_page/habitats_detail.dart';
 import '../../../../common/utils/coloors.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoo_feed/common/widgets/custom_small_card.dart';
 import 'package:zoo_feed/common/widgets/custom_small_card_buy.dart';
+import 'package:zoo_feed/features/home/pages/sub_home_page/typeclass_detail.dart';
 
 class AnimalDetailPage extends StatefulWidget {
   final int animalId;
@@ -185,20 +187,44 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                               destext: 'Like',
                             ),
                             SizedBox(width: 10),
-                            smallcard(
-                              imageUrl: animalDetail['classTypeData'][0]
-                                  ['imageUrl'],
-                              text: animalDetail['classTypeData'][0]['name'],
-                              destext: 'Class',
-                              fontsize: 15,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => TypeClassDetailPage(
+                                        typeId: animalDetail['classTypeData'][0]
+                                            ['id']),
+                                  ),
+                                );
+                              },
+                              child: smallcard(
+                                imageUrl: animalDetail['classTypeData'][0]
+                                    ['imageUrl'],
+                                text: animalDetail['classTypeData'][0]['name'],
+                                destext: 'Class',
+                                fontsize: 15,
+                              ),
                             ),
                             SizedBox(width: 10),
-                            smallcard(
-                              imageUrl: animalDetail['habitatData'][0]
-                                  ['imageUrl'],
-                              text: animalDetail['habitatData'][0]['name'],
-                              destext: 'Habitat',
-                              fontsize: 15,
+                            GestureDetector(
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) => HabitatDetailPage(
+                                        habitatId: animalDetail['habitatData']
+                                            [0]['id']),
+                                  ),
+                                );
+                              },
+                              child: smallcard(
+                                imageUrl: animalDetail['habitatData'][0]
+                                    ['imageUrl'],
+                                text: animalDetail['habitatData'][0]['name'],
+                                destext: 'Habitat',
+                                fontsize: 15,
+                              ),
                             ),
                           ],
                         ),

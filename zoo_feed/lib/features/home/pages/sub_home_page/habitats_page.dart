@@ -33,7 +33,7 @@ class _HabitatPageState extends State<HabitatPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         height: 500.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -70,13 +70,13 @@ class _HabitatPageState extends State<HabitatPage> {
                       Align(
                         alignment: Alignment.bottomLeft,
                         child: Container(
-                          padding: EdgeInsets.all(15),
-                          decoration: BoxDecoration(
+                          padding: const EdgeInsets.all(15),
+                          decoration: const BoxDecoration(
                             color: Colors.transparent,
                           ),
                           child: Text(
                             habitat['name'],
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.white,
                               fontSize: 16.0,
                               fontWeight: FontWeight.bold,

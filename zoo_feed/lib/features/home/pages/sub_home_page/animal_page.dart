@@ -86,7 +86,6 @@ class _AnimalPageState extends State<AnimalPage> {
           });
         });
       }
-      print(animalsLiked);
     } catch (e) {
       print(e);
     }
