@@ -49,7 +49,7 @@ class _ModalTicketBuyState extends State<ModalTicketBuy> {
         text: 'Must have at least one item',
       );
     } else {
-      final url = Uri.parse('http://192.168.2.4:3000/api/cartTicket/create');
+      final url = Uri.parse('http://54.206.202.155:3000/api/cartTicket/create');
       final pref = await SharedPreferences.getInstance();
       final accessToken = pref.getString('access_token');
       Map<String, String> headers = {'access_token': accessToken!};

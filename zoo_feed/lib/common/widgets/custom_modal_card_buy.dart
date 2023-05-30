@@ -51,7 +51,7 @@ class _ModalBuyWidgetState extends State<ModalBuyWidget> {
         text: 'Must have at least one item',
       );
     } else {
-      final url = Uri.parse('http://192.168.2.4:3000/api/cartfood/create');
+      final url = Uri.parse('http://54.206.202.155:3000/api/cartfood/create');
       final pref = await SharedPreferences.getInstance();
       final accessToken = pref.getString('access_token');
       Map<String, String> headers = {'access_token': accessToken!};
@@ -105,7 +105,7 @@ class _ModalBuyWidgetState extends State<ModalBuyWidget> {
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                   image: NetworkImage(
-                      'http://192.168.2.4:3000/' + widget.imageUrl),
+                      'http://54.206.202.155:3000/' + widget.imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),
