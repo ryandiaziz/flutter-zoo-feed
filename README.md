@@ -4,5 +4,5 @@ Project ZooFeed This project is a CMS project to manage users, animals, and seve
 ## Figma
 https://www.figma.com/file/ZehAmb7gqS9T2I9gUElhU1/Zoo-Feed?type=design&node-id=0%3A1&t=716Fq21WCwAW2tSG-1
 
-##Mockups
+## Mockups
 ![zoofeed mockup-01](https://github.com/ryandiaziz/flutter-zoo-feed/assets/90899681/ee47b2a2-1709-4fe8-a5c9-ee28a00cffc2)
