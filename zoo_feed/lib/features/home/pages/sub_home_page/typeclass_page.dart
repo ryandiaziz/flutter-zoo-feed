@@ -20,7 +20,7 @@ class _TypeclassPageState extends State<TypeclassPage> {
 
   Future<void> fetchData() async {
     final response =
-        await http.get(Uri.parse('http://54.206.202.155:3000/api/classtypes'));
+        await http.get(Uri.parse('http://13.55.144.244:3000/api/classtypes'));
     if (response.statusCode == 200) {
       setState(() {
         classTypes = json.decode(response.body);
@@ -74,7 +74,7 @@ class _TypeclassPageState extends State<TypeclassPage> {
                     fit: StackFit.expand,
                     children: [
                       Image.network(
-                        'http://54.206.202.155:3000/' + type['imageUrl'],
+                        'http://13.55.144.244:3000/' + type['imageUrl'],
                         fit: BoxFit.cover,
                       ),
                       Align(

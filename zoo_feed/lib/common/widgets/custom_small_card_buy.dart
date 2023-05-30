@@ -47,7 +47,7 @@ class smallcardbuy extends StatelessWidget {
                 color: const Color(0xFFFB983E),
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
-                  image: NetworkImage('http://54.206.202.155:3000/' + imageUrl),
+                  image: NetworkImage('http://13.55.144.244:3000/' + imageUrl),
                   fit: BoxFit.cover,
                 ),
               ),

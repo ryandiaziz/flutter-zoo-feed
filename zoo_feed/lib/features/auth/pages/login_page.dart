@@ -33,7 +33,7 @@ class _LoginPageState extends State<LoginPage> {
   Future<void> login() async {
     final data = {'email': emailC.text, 'password': passwordC.text};
     final response = await http.post(
-        Uri.parse('http://54.206.202.155:3000/api/users/login'),
+        Uri.parse('http://13.55.144.244:3000/api/users/login'),
         body: data);
     if (response.statusCode == 200) {
       final Map<String, dynamic> dataResponse = json.decode(response.body);

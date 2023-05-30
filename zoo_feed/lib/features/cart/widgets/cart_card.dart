@@ -105,7 +105,7 @@ class _CartCardState extends State<CartCard> {
                           ? 'assets/img/ticket_vip.png'
                           : 'assets/img/ticket_regular.png')
                       : NetworkImage(
-                              'http://54.206.202.155:3000/' + widget.image)
+                              'http://13.55.144.244:3000/' + widget.image)
                           as ImageProvider,
                   fit: BoxFit.cover,
                 ),
