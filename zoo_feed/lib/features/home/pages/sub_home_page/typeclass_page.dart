@@ -55,7 +55,7 @@ class _TypeclassPageState extends State<TypeclassPage> {
                 navigateToClassDetail(type['id']);
               },
               child: Container(
-                margin: EdgeInsets.all(8.0),
+                margin: const EdgeInsets.all(8.0),
                 width: 150.0,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(8.0),
@@ -64,7 +64,7 @@ class _TypeclassPageState extends State<TypeclassPage> {
                       color: Colors.grey.withOpacity(0.5),
                       spreadRadius: 2,
                       blurRadius: 5,
-                      offset: Offset(0, 3),
+                      offset: const Offset(0, 3),
                     ),
                   ],
                 ),

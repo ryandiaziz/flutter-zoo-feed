@@ -80,7 +80,7 @@ class _CartPageState extends State<CartPage>
           ],
           bottom: TabBar(
             controller: _tabController,
-            indicator: UnderlineTabIndicator(
+            indicator: const UnderlineTabIndicator(
               borderSide: BorderSide(
                 color: Coloors.orange,
                 width: 8,

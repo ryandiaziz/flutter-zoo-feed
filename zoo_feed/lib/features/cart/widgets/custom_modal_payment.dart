@@ -72,10 +72,10 @@ class _custom_modal_paymentState extends State<custom_modal_payment> {
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: Text('Loading'),
+          title: const Text('Loading'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
+              children: const <Widget>[
                 Text('Uploading your data'),
                 CircularProgressIndicator(),
               ],
@@ -138,7 +138,7 @@ class _custom_modal_paymentState extends State<custom_modal_payment> {
               DropdownButtonFormField<String>(
                 decoration: InputDecoration(
                   labelText: 'Method Payment',
-                  border: OutlineInputBorder(),
+                  border: const OutlineInputBorder(),
                   filled: true,
                   fillColor: Colors.grey[200],
                 ),

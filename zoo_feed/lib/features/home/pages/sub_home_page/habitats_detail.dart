@@ -59,7 +59,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
   @override
   Widget build(BuildContext context) {
     if (habitatDetail == null) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
         ),

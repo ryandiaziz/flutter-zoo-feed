@@ -73,7 +73,7 @@ class _CartCardState extends State<CartCard> {
         borderRadius: BorderRadius.circular(16.0),
       ),
       child: Padding(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         child: Row(
           children: [
             Checkbox(
@@ -94,7 +94,7 @@ class _CartCardState extends State<CartCard> {
                 return null;
               }),
             ),
-            SizedBox(width: 10.0),
+            const SizedBox(width: 10.0),
             Container(
               width: 80,
               height: 80,
@@ -112,26 +112,26 @@ class _CartCardState extends State<CartCard> {
                 borderRadius: BorderRadius.circular(8.0),
               ),
             ),
-            SizedBox(width: 16.0),
+            const SizedBox(width: 16.0),
             Expanded(
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
                     widget.name,
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 16.0,
                       fontWeight: FontWeight.bold,
                     ),
                   ),
-                  SizedBox(height: 8.0),
+                  const SizedBox(height: 8.0),
                   Text(
                     NumberFormat.currency(
                       locale: 'id',
                       symbol: 'Rp ',
                       decimalDigits: 0,
                     ).format(widget.price),
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14.0,
                       color: Colors.grey,
                     ),
@@ -139,7 +139,7 @@ class _CartCardState extends State<CartCard> {
                   SizedBox(height: 8.0),
                   Text(
                     'Max Stock: ${widget.stock}',
-                    style: TextStyle(
+                    style: const TextStyle(
                       fontSize: 14.0,
                       color: Colors.red,
                     ),
@@ -147,7 +147,7 @@ class _CartCardState extends State<CartCard> {
                 ],
               ),
             ),
-            SizedBox(width: 16.0),
+            const SizedBox(width: 16.0),
             Row(
               children: [
                 CustomSmallButtonCircle(
@@ -158,15 +158,15 @@ class _CartCardState extends State<CartCard> {
                     });
                   },
                 ),
-                SizedBox(width: 15),
+                const SizedBox(width: 15),
                 Text(
                   _qty.toString(),
-                  style: TextStyle(
+                  style: const TextStyle(
                     fontSize: 16.0,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
-                SizedBox(width: 15),
+                const SizedBox(width: 15),
                 CustomSmallButtonCircle(
                   iconData: Icons.add,
                   onPressed: () {

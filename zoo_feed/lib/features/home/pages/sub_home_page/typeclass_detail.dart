@@ -59,7 +59,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
   @override
   Widget build(BuildContext context) {
     if (classDetail == null) {
-      return Scaffold(
+      return const Scaffold(
         body: Center(
           child: CircularProgressIndicator(),
         ),
@@ -170,7 +170,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
                         ),
                       ),
                     ),
-                    SizedBox(height: 10),
+                    const SizedBox(height: 10),
                     Container(
                       width: 350,
                       child: Text(
@@ -182,7 +182,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
                         textAlign: TextAlign.justify,
                       ),
                     ),
-                    SizedBox(height: 20),
+                    const SizedBox(height: 20),
                     Container(
                       width: 350,
                       child: const Center(
@@ -224,7 +224,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
                                     );
                                   },
                                   child: Container(
-                                    padding: EdgeInsets.only(right: 10),
+                                    padding: const EdgeInsets.only(right: 10),
                                     child: smallcard(
                                         imageUrl: animal['imageUrl'],
                                         text: '',

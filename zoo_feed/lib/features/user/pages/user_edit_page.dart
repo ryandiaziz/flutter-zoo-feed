@@ -109,7 +109,7 @@ class _UserEditPageState extends State<UserEditPage> {
           title: Text('Loading'),
           content: SingleChildScrollView(
             child: ListBody(
-              children: <Widget>[
+              children: const <Widget>[
                 Text('Uploading your data'),
                 CircularProgressIndicator(),
               ],

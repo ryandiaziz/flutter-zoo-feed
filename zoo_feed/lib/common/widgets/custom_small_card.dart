@@ -36,7 +36,7 @@ class smallcard extends StatelessWidget {
               width: 100,
               height: 100,
               decoration: BoxDecoration(
-                color: Color(0xFFFB983E),
+                color: const Color(0xFFFB983E),
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                   image: NetworkImage('http://54.206.202.155:3000/' + imageUrl),
@@ -66,7 +66,7 @@ class smallcard extends StatelessWidget {
               child: Text(
                 destext,
                 textAlign: TextAlign.justify,
-                style: TextStyle(
+                style: const TextStyle(
                   fontSize: 16,
                   color: Colors.green,
                   fontWeight: FontWeight.bold,
