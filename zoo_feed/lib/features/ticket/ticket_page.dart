@@ -98,35 +98,34 @@ class _TicketPageState extends State<TicketPage> {
         body: RefreshIndicator(
           onRefresh: refresh,
           child: Padding(
-            padding: const EdgeInsets.only(top: 16.0),
-            child: ListView.builder(
-              itemCount: tickets.length,
-              itemBuilder: (BuildContext context, int index) {
-                return GestureDetector(
-                  onTap: () {
-                    showModalBottomSheet(
-                      context: context,
-                      builder: (BuildContext context) {
-                        return ModalTicketBuy(
-                          destext: tickets[index]['ticketType']['category'],
-                          stock: tickets[index]['stock'],
-                          price: tickets[index]['ticketType']['price'],
-                          ticketId: tickets[index]['id'],
-                        );
-                      },
-                    );
-                  },
-                  child: TicketCard(
-                    ticketType: tickets[index]['ticketType']['category'],
-                    price: tickets[index]['ticketType']['price'],
-                    image: tickets[index]['ticketTypeId'] == 1
-                        ? 'assets/img/ticket_regular.png'
-                        : 'assets/img/ticket_vip.png',
-                  ),
-                );
-              },
-            ),
-          ),
+              padding: const EdgeInsets.only(top: 16.0),
+              child: ListView.builder(
+                itemCount: tickets.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return GestureDetector(
+                    onTap: () {
+                      showModalBottomSheet(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return ModalTicketBuy(
+                            destext: tickets[index]['ticketType']['category'],
+                            stock: tickets[index]['stock'],
+                            price: tickets[index]['ticketType']['price'],
+                            ticketId: tickets[index]['id'],
+                          );
+                        },
+                      );
+                    },
+                    child: TicketCard(
+                      ticketType: tickets[index]['ticketType']['category'],
+                      price: tickets[index]['ticketType']['price'],
+                      image: tickets[index]['ticketTypeId'] == 1
+                          ? 'assets/img/ticket_regular.png'
+                          : 'assets/img/ticket_vip.png',
+                    ),
+                  );
+                },
+              )),
         ),
       );
     }

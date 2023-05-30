@@ -79,10 +79,10 @@ class _LoginPageState extends State<LoginPage> {
         ),
       );
     } else {
-      login();
       setState(() {
         isLoading = true;
       });
+      login();
     }
   }
 
@@ -105,12 +105,6 @@ class _LoginPageState extends State<LoginPage> {
 
     return Scaffold(
       appBar: AppBar(
-        leading: const Icon(
-          Icons.arrow_back_rounded,
-          color: Coloors.green,
-          weight: 50,
-          size: 30,
-        ),
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
