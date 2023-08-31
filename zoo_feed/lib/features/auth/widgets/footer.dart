@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:zoo_feed/features/auth/pages/sign_up_page.dart';
+import 'package:zoo_feed/features/auth/pages/register.dart';
 
 import '../../../common/utils/coloors.dart';
 

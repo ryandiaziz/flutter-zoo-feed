@@ -5,7 +5,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:zoo_feed/common/utils/coloors.dart';
 import 'package:http/http.dart' as http;
 import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
-import 'package:zoo_feed/features/auth/pages/login_page.dart';
+import 'package:zoo_feed/features/auth/pages/login.dart';
 import 'package:zoo_feed/features/page_controller.dart';
 import 'package:zoo_feed/features/home/widgets/profile_menu.dart';
 import 'package:zoo_feed/features/user/pages/user_edit_page.dart';
@@ -43,7 +43,7 @@ class _ProfilePageState extends State<ProfilePage> {
     Navigator.pushReplacement(
       context,
       MaterialPageRoute(
-        builder: (context) => const LoginPage(),
+        builder: (context) => LoginPage(),
       ),
     );
   }

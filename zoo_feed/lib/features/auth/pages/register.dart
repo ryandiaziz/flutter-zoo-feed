@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zoo_feed/features/auth/pages/login_page.dart';
+import 'package:zoo_feed/features/auth/pages/login.dart';
 import 'package:zoo_feed/features/auth/widgets/footer.dart';
 import 'package:http/http.dart' as http;
 
@@ -12,14 +12,14 @@ import '../../../common/widgets/custom_passwordfield.dart';
 import '../../../common/widgets/custom_textfield.dart';
 import '../../page_controller.dart';
 
-class SignUpPage extends StatefulWidget {
-  const SignUpPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<SignUpPage> createState() => _SignUpPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _SignUpPageState extends State<SignUpPage> {
+class _RegisterPageState extends State<RegisterPage> {
   TextEditingController nameC = TextEditingController();
   TextEditingController ageC = TextEditingController();
   TextEditingController emailC = TextEditingController();
@@ -92,12 +92,6 @@ class _SignUpPageState extends State<SignUpPage> {
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           content: Text("Name Is Empty"),
-        ),
-      );
-    } else if (!regExp.hasMatch(emailC.text)) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Please Try Vaild Email"),
         ),
       );
     } else if (passwordC.text.isEmpty) {
@@ -189,7 +183,7 @@ class _SignUpPageState extends State<SignUpPage> {
               onTap: () => Navigator.push(
                 context,
                 MaterialPageRoute(
-                  builder: (context) => const LoginPage(),
+                  builder: (context) => LoginPage(),
                 ),
               ),
             ),
