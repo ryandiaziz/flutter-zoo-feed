@@ -22,7 +22,7 @@ class _UserLikedPageState extends State<UserLikedPage> {
     try {
       final prefs = await SharedPreferences.getInstance();
       final accessToken = prefs.getString('access_token');
-      final url = Uri.parse('http://54.206.202.155:3000/api/animaluser/info');
+      final url = Uri.parse('http://13.55.144.244:3000/api/animaluser/info');
 
       final response =
           await http.get(url, headers: {'access_token': accessToken!});
@@ -45,7 +45,7 @@ class _UserLikedPageState extends State<UserLikedPage> {
     final prefs = await SharedPreferences.getInstance();
     final accessToken = prefs.getString('access_token');
     final url =
-        Uri.parse('http://54.206.202.155:3000/api/animaluser/delete/$id');
+        Uri.parse('http://13.55.144.244:3000/api/animaluser/delete/$id');
     final response = await http.delete(url, headers: {
       'access_token': accessToken!,
     });
@@ -125,7 +125,7 @@ class _UserLikedPageState extends State<UserLikedPage> {
                             top: Radius.circular(15.0),
                             bottom: Radius.circular(15.0)),
                         child: Image.network(
-                          'http://54.206.202.155:3000/${animalsLiked[index]['imageUrl']}',
+                          'http://13.55.144.244:3000/${animalsLiked[index]['imageUrl']}',
                           fit: BoxFit.cover,
                           width: constraints.maxWidth,
                           height: constraints.maxHeight,

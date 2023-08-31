@@ -70,7 +70,7 @@ class _CartPageState extends State<CartPage>
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     image: NetworkImage(
-                      'http://54.206.202.155:3000/${users['imageUrl']}',
+                      'http://13.55.144.244:3000/${users['imageUrl']}',
                     ),
                     fit: BoxFit.cover,
                   ),
