@@ -16,16 +16,21 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           );
           emit(AuthStateComplete());
         } catch (e) {
-          print(e);
+          emit(
+            AuthStateError(e.toString()),
+          );
         }
       }),
     );
+
     on<AuthEventLogout>((event, emit) async {
       try {
         emit(AuthStateLoading());
         await AuthRepo.logout();
         emit(AuthStateComplete());
-      } catch (e) {}
+      } catch (e) {
+        emit(AuthStateError(e.toString()));
+      }
     });
   }
 }
