@@ -322,7 +322,7 @@ class _UserEditPageState extends State<UserEditPage> {
                 read: false,
               ),
               const SizedBox(height: 20),
-              CustomElevatedButton(
+              CustomAuthButton(
                 onPressed: vaildation,
                 text: "Submit",
                 isOutline: false,

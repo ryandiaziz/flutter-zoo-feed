@@ -1,112 +1,19 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zoo_feed/features/auth/pages/login.dart';
-import 'package:zoo_feed/features/auth/widgets/footer.dart';
-import 'package:http/http.dart' as http;
 
+import '../../../common/router/router.dart';
 import '../../../common/utils/coloors.dart';
 import '../../../common/widgets/custom_elevated_button.dart';
 import '../../../common/widgets/custom_passwordfield.dart';
 import '../../../common/widgets/custom_textfield.dart';
-import '../../page_controller.dart';
+import '../widgets/footer.dart';
 
-class RegisterPage extends StatefulWidget {
-  const RegisterPage({super.key});
+class RegisterPage extends StatelessWidget {
+  RegisterPage({super.key});
 
-  @override
-  State<RegisterPage> createState() => _RegisterPageState();
-}
-
-class _RegisterPageState extends State<RegisterPage> {
-  TextEditingController nameC = TextEditingController();
-  TextEditingController ageC = TextEditingController();
-  TextEditingController emailC = TextEditingController();
-  TextEditingController passwordC = TextEditingController();
-  bool isLoading = false;
-
-  void signUp() async {
-    final dataSignUp = {
-      'name': nameC.text,
-      'age': ageC.text,
-      'email': emailC.text,
-      'password': passwordC.text,
-      'roleId': '1',
-    };
-    final url = Uri.parse('http://13.55.144.244:3000/api/users/create');
-    final responseSignUp = await http.post(url, body: dataSignUp);
-
-    if (responseSignUp.statusCode == 201) {
-      final responseSignIn = await http.post(
-        Uri.parse('http://13.55.144.244:3000/api/users/login'),
-        body: {
-          'email': emailC.text,
-          'password': passwordC.text,
-        },
-      );
-      if (responseSignIn.statusCode == 200) {
-        final Map<String, dynamic> dataResponse =
-            json.decode(responseSignIn.body);
-        final pref = await SharedPreferences.getInstance();
-        pref.setString('access_token', dataResponse['access_token']);
-        Navigator.pushReplacement(
-          context,
-          MaterialPageRoute(
-            builder: (context) => MyHomePage(),
-          ),
-        );
-        setState(() {});
-      } else {
-        throw Exception('Failed to login');
-      }
-    } else {
-      throw Exception('Failed to Sign Up');
-    }
-  }
-
-  void vaildation() async {
-    if (emailC.text.isEmpty &&
-        ageC.text.isEmpty &&
-        passwordC.text.isEmpty &&
-        nameC.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          duration: Duration(seconds: 1),
-          content: Text("Fields Are Empty"),
-        ),
-      );
-    } else if (emailC.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Email Is Empty"),
-        ),
-      );
-    } else if (ageC.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Age Is Empty"),
-        ),
-      );
-    } else if (nameC.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Name Is Empty"),
-        ),
-      );
-    } else if (passwordC.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(
-          content: Text("Password Is Empty"),
-        ),
-      );
-    } else {
-      setState(() {
-        isLoading = true;
-      });
-      signUp();
-    }
-  }
+  final TextEditingController nameC = TextEditingController();
+  final TextEditingController ageC = TextEditingController();
+  final TextEditingController emailC = TextEditingController();
+  final TextEditingController passwordC = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -123,7 +30,7 @@ class _RegisterPageState extends State<RegisterPage> {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
-            Navigator.of(context).pop();
+            context.goNamed(Routes.login);
           },
           child: const Icon(
             Icons.arrow_back_rounded,
@@ -168,25 +75,17 @@ class _RegisterPageState extends State<RegisterPage> {
             ),
             CustomPasswordField(controller: passwordC),
             const SizedBox(height: 30),
-            isLoading
-                ? const Center(
-                    child: CircularProgressIndicator(),
-                  )
-                : CustomElevatedButton(
-                    onPressed: vaildation,
-                    text: 'Sign Up',
-                    isOutline: false,
-                  ),
-            Footer(
-              text: 'Already have an account?',
-              title: 'Sign In',
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => LoginPage(),
-                ),
-              ),
+            CustomAuthButton(
+              onPressed: () {},
+              text: 'Sign Up',
+              isOutline: false,
             ),
+            Footer(
+                text: 'Already have an account?',
+                title: 'Sign In',
+                onTap: () {
+                  context.goNamed(Routes.login);
+                }),
           ],
         ),
       ),

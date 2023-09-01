@@ -48,10 +48,10 @@ class OnboardingPage extends StatelessWidget {
             margin: const EdgeInsets.only(bottom: 20, left: 30, right: 30),
             child: Column(
               children: [
-                CustomElevatedButton(
+                CustomAuthButton(
                     onPressed: () => {}, text: 'Explore', isOutline: false),
                 const SizedBox(height: 10),
-                CustomElevatedButton(
+                CustomAuthButton(
                   onPressed: () => {},
                   text: 'Sign Up',
                   isOutline: true,

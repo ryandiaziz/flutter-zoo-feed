@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:zoo_feed/features/home/pages/home_page.dart';
-import 'package:zoo_feed/features/cart/pages/cart_page.dart';
-import 'package:zoo_feed/features/ticket/ticket_page.dart';
-import 'package:zoo_feed/features/home/pages/profile_page.dart';
-import 'package:zoo_feed/common/widgets/costom_bottom_navigation_bar.dart';
+import 'home/pages/home_page.dart';
+import 'cart/pages/cart_page.dart';
+import 'ticket/ticket_page.dart';
+import 'home/pages/profile_page.dart';
+import '../common/widgets/costom_bottom_navigation_bar.dart';
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({super.key});
+
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
@@ -15,10 +17,10 @@ class _MyHomePageState extends State<MyHomePage>
   int _selectedIndex = 0;
 
   final List<Widget> _pages = [
-    HomePage(),
+    const HomePage(),
     TicketPage(),
-    CartPage(),
-    ProfilePage(),
+    const CartPage(),
+    const ProfilePage(),
   ];
 
   void _onNavBarIndexChanged(int newIndex) {

@@ -1,15 +1,20 @@
 import 'package:flutter/material.dart';
-import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
-import 'package:zoo_feed/common/widgets/custom_passwordfield.dart';
-import 'package:zoo_feed/common/widgets/custom_textfield.dart';
-import 'package:zoo_feed/features/auth/pages/register.dart';
-import 'package:zoo_feed/features/auth/widgets/footer.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zoo_feed/features/auth/bloc/auth_bloc.dart';
+
+import '../../../common/router/router.dart';
+import '../../../common/widgets/custom_passwordfield.dart';
+import '../../../common/widgets/custom_textfield.dart';
+import '../widgets/auth_button.dart';
+import '../widgets/footer.dart';
 
 class LoginPage extends StatelessWidget {
   LoginPage({super.key});
 
-  final TextEditingController emailC = TextEditingController();
-  final TextEditingController passwordC = TextEditingController();
+  final TextEditingController emailC =
+      TextEditingController(text: "cipung@mail.com");
+  final TextEditingController passwordC =
+      TextEditingController(text: "12345678");
 
   @override
   Widget build(BuildContext context) {
@@ -45,20 +50,21 @@ class LoginPage extends StatelessWidget {
             ),
             CustomPasswordField(controller: passwordC),
             const SizedBox(height: 30),
-            CustomElevatedButton(
-              onPressed: () {},
+            CustomAuthButton(
+              onPressed: () {
+                context.read<AuthBloc>().add(AuthEventLogin(
+                      email: emailC.text,
+                      password: passwordC.text,
+                    ));
+              },
               text: 'Log In',
-              isOutline: false,
             ),
             Footer(
               text: 'Don’t have an account?',
               title: 'Sign Up',
-              onTap: () => Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => const RegisterPage(),
-                ),
-              ),
+              onTap: () {
+                context.goNamed(Routes.register);
+              },
             )
           ],
         ),

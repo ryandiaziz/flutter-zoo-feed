@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 import '../utils/coloors.dart';
 
-class CustomElevatedButton extends StatelessWidget {
+class CustomAuthButton extends StatelessWidget {
   final double? buttonWidth;
   final VoidCallback onPressed;
   final String text;
   final bool isOutline;
   final bool? isLoading;
 
-  const CustomElevatedButton(
+  const CustomAuthButton(
       {Key? key,
       this.buttonWidth,
       required this.onPressed,

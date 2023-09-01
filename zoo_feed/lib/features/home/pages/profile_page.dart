@@ -1,10 +1,13 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:zoo_feed/common/router/router.dart';
 import 'package:zoo_feed/common/utils/coloors.dart';
 import 'package:http/http.dart' as http;
 import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
+import 'package:zoo_feed/features/auth/bloc/auth_bloc.dart';
 import 'package:zoo_feed/features/auth/pages/login.dart';
 import 'package:zoo_feed/features/page_controller.dart';
 import 'package:zoo_feed/features/home/widgets/profile_menu.dart';
@@ -34,18 +37,6 @@ class _ProfilePageState extends State<ProfilePage> {
     setState(() {
       users = json.decode(pref.getString('user_data')!);
     });
-  }
-
-  void logout() async {
-    final prefs = await SharedPreferences.getInstance();
-    await prefs.remove('access_token');
-
-    Navigator.pushReplacement(
-      context,
-      MaterialPageRoute(
-        builder: (context) => LoginPage(),
-      ),
-    );
   }
 
   Future getAnimalLiked() async {
@@ -213,13 +204,15 @@ class _ProfilePageState extends State<ProfilePage> {
                     title: const Text('CONFIRM'),
                     content: const Text('are you sure to logout?'),
                     actions: [
-                      CustomElevatedButton(
-                        onPressed: logout,
+                      CustomAuthButton(
+                        onPressed: () {
+                          context.read<AuthBloc>().add(AuthEventLogout());
+                        },
                         text: 'Yes',
                         isOutline: true,
                         buttonWidth: 60,
                       ),
-                      CustomElevatedButton(
+                      CustomAuthButton(
                         onPressed: () => Navigator.of(context).pop(),
                         text: 'No',
                         isOutline: false,
@@ -307,60 +300,69 @@ class _ProfilePageState extends State<ProfilePage> {
       );
     }
 
-    return Scaffold(
-      backgroundColor: Colors.grey.shade200,
-      body: RefreshIndicator(
-        onRefresh: refresh,
-        child: Stack(
-          children: [
-            ListView(
-              children: [
-                Column(
-                  children: [
-                    profileHeader(),
-                    animalLiked(),
-                    // profile menu
-                    Container(
-                      padding: const EdgeInsets.symmetric(vertical: 16),
-                      decoration: const BoxDecoration(
-                        color: Colors.white,
+    return BlocListener<AuthBloc, AuthState>(
+      listener: (context, state) {
+        if (state is AuthStateComplete) {
+          context.goNamed(Routes.login);
+        }
+      },
+      child: Scaffold(
+        backgroundColor: Colors.grey.shade200,
+        body: RefreshIndicator(
+          onRefresh: refresh,
+          child: Stack(
+            children: [
+              ListView(
+                children: [
+                  Column(
+                    children: [
+                      profileHeader(),
+                      animalLiked(),
+                      // profile menu
+                      Container(
+                        padding: const EdgeInsets.symmetric(vertical: 16),
+                        decoration: const BoxDecoration(
+                          color: Colors.white,
+                        ),
+                        child: Column(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            ProfileMenu(
+                              title: 'Your tickets',
+                              icon: 'assets/icon/ticket.png',
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const UserTicketPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                            ProfileMenu(
+                              title: 'Payments History',
+                              icon: 'assets/icon/time-past.png',
+                              onTap: () {
+                                Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                    builder: (context) =>
+                                        const UserHistoryPage(),
+                                  ),
+                                );
+                              },
+                            ),
+                            logoutMenu(),
+                          ],
+                        ),
                       ),
-                      child: Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          ProfileMenu(
-                            title: 'Your tickets',
-                            icon: 'assets/icon/ticket.png',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const UserTicketPage(),
-                                ),
-                              );
-                            },
-                          ),
-                          ProfileMenu(
-                            title: 'Payments History',
-                            icon: 'assets/icon/time-past.png',
-                            onTap: () {
-                              Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => const UserHistoryPage(),
-                                ),
-                              );
-                            },
-                          ),
-                          logoutMenu(),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-              ],
-            ),
-          ],
+                    ],
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

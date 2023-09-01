@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:zoo_feed/features/auth/pages/login.dart';
-import 'package:zoo_feed/features/auth/pages/register.dart';
-import 'package:zoo_feed/features/welcome/pages/splash_page.dart';
+import 'package:zoo_feed/features/home/pages/home_page.dart';
+import 'package:zoo_feed/features/page_controller.dart';
 
+import '../../features/auth/pages/login.dart';
+import '../../features/auth/pages/register.dart';
+import '../../features/welcome/pages/splash_page.dart';
+
+export 'package:go_router/go_router.dart';
 part 'routes_name.dart';
 
 final GoRouter router = GoRouter(
@@ -26,7 +30,14 @@ final GoRouter router = GoRouter(
       path: '/register',
       name: Routes.register,
       builder: (BuildContext context, GoRouterState state) {
-        return const RegisterPage();
+        return RegisterPage();
+      },
+    ),
+    GoRoute(
+      path: '/home',
+      name: Routes.home,
+      builder: (BuildContext context, GoRouterState state) {
+        return MyHomePage();
       },
     ),
   ],
