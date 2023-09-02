@@ -19,9 +19,12 @@ class RegisterPage extends StatelessWidget {
   Widget build(BuildContext context) {
     Widget title() {
       return const Text(
-        'Sign Up',
+        'Register',
         style: TextStyle(
-            color: Colors.black, fontSize: 40, fontWeight: FontWeight.w500),
+          color: Colors.black,
+          fontSize: 40,
+          fontWeight: FontWeight.w500,
+        ),
       );
     }
 
@@ -46,7 +49,10 @@ class RegisterPage extends StatelessWidget {
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(10),
         ),
-        margin: const EdgeInsets.only(left: 30, right: 30, top: 30),
+        margin: const EdgeInsets.only(
+          left: 30,
+          right: 30,
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

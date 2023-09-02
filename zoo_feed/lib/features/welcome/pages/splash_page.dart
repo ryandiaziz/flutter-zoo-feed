@@ -1,10 +1,9 @@
 import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zoo_feed/common/router/router.dart';
-import 'package:zoo_feed/features/auth/pages/login.dart';
-import 'package:zoo_feed/features/page_controller.dart';
+
+import '../../../common/router/router.dart';
 
 class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
