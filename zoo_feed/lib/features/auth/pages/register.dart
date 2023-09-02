@@ -5,7 +5,7 @@ import '../../../common/utils/coloors.dart';
 import '../../../common/widgets/custom_elevated_button.dart';
 import '../../../common/widgets/custom_passwordfield.dart';
 import '../../../common/widgets/custom_textfield.dart';
-import '../widgets/footer.dart';
+import '../widgets/auth_footer.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
@@ -86,7 +86,7 @@ class RegisterPage extends StatelessWidget {
               text: 'Sign Up',
               isOutline: false,
             ),
-            Footer(
+            AuthFooter(
                 text: 'Already have an account?',
                 title: 'Sign In',
                 onTap: () {

@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:zoo_feed/features/auth/pages/register.dart';
 
 import '../../../common/utils/coloors.dart';
 
-class Footer extends StatelessWidget {
+class AuthFooter extends StatelessWidget {
   final String text;
   final String title;
   final VoidCallback onTap;
-  const Footer({
+  const AuthFooter({
     super.key,
     required this.text,
     required this.title,
@@ -20,7 +19,12 @@ class Footer extends StatelessWidget {
       padding: const EdgeInsets.only(top: 16.0),
       child: Row(
         children: [
-          Text(text),
+          Text(
+            text,
+            style: const TextStyle(
+              fontSize: 16,
+            ),
+          ),
           const SizedBox(width: 10),
           GestureDetector(
             onTap: onTap,
@@ -29,6 +33,7 @@ class Footer extends StatelessWidget {
               style: const TextStyle(
                 color: Coloors.green,
                 fontWeight: FontWeight.w700,
+                fontSize: 16,
               ),
             ),
           ),

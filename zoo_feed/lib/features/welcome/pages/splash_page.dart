@@ -9,7 +9,7 @@ class SplashPage extends StatefulWidget {
   const SplashPage({Key? key}) : super(key: key);
 
   @override
-  _SplashPageState createState() => _SplashPageState();
+  State<SplashPage> createState() => _SplashPageState();
 }
 
 class _SplashPageState extends State<SplashPage> {
@@ -37,8 +37,8 @@ class _SplashPageState extends State<SplashPage> {
       backgroundColor: Colors.white,
       body: Center(
         child: Container(
-          width: 240,
-          height: 240,
+          width: 200,
+          height: 200,
           decoration: const BoxDecoration(
             image: DecorationImage(
               image: AssetImage(

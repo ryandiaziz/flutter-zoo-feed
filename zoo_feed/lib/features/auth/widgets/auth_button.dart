@@ -5,25 +5,20 @@ import 'package:zoo_feed/common/router/router.dart';
 import '../../../common/utils/coloors.dart';
 import '../bloc/auth_bloc.dart';
 
-class CustomAuthButton extends StatelessWidget {
-  final double? buttonWidth;
+class AuthButton extends StatelessWidget {
   final VoidCallback onPressed;
   final String text;
   final bool? isLoading;
 
-  const CustomAuthButton(
-      {Key? key,
-      this.buttonWidth,
-      required this.onPressed,
-      required this.text,
-      this.isLoading})
+  const AuthButton(
+      {Key? key, required this.onPressed, required this.text, this.isLoading})
       : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return SizedBox(
-      height: 42,
-      width: buttonWidth ?? double.infinity,
+      height: 50,
+      width: double.infinity,
       child: ElevatedButton(
         style: ElevatedButton.styleFrom(
           elevation: 0,
@@ -43,10 +38,22 @@ class CustomAuthButton extends StatelessWidget {
           builder: (context, state) {
             if (state is AuthStateLoading) {
               return const Center(
-                child: CircularProgressIndicator(),
+                child: SizedBox(
+                  height: 25,
+                  width: 25,
+                  child: CircularProgressIndicator(
+                    color: Colors.white,
+                  ),
+                ),
               );
             }
-            return Text(text);
+            return Text(
+              text,
+              style: const TextStyle(
+                fontSize: 18,
+                fontWeight: FontWeight.bold,
+              ),
+            );
           },
         ),
       ),
