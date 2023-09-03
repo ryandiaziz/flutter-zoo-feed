@@ -1,31 +1,31 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:zoo_feed/common/themes/cubit/theme_cubit.dart';
 
-import 'common/router/router.dart';
 import 'features/auth/bloc/auth_bloc.dart';
+import 'app.dart';
 
 void main() {
   runApp(
-    const MyApp(),
+    const Provider(),
   );
 }
 
-class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+class Provider extends StatelessWidget {
+  const Provider({super.key});
 
   @override
   Widget build(BuildContext context) {
-    return BlocProvider(
-      create: (context) => AuthBloc(),
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        title: 'Zoo Feed',
-        theme: ThemeData(
-          primarySwatch: Colors.red,
-          useMaterial3: true,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider(
+          create: (context) => ThemeCubit(),
         ),
-        routerConfig: router,
-      ),
+        BlocProvider(
+          create: (context) => AuthBloc(),
+        ),
+      ],
+      child: const MyApp(),
     );
   }
 }

@@ -15,15 +15,14 @@ class AuthFooter extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    TextTheme textTheme = Theme.of(context).textTheme;
     return Padding(
       padding: const EdgeInsets.only(top: 16.0),
       child: Row(
         children: [
           Text(
             text,
-            style: const TextStyle(
-              fontSize: 16,
-            ),
+            style: textTheme.bodyLarge,
           ),
           const SizedBox(width: 10),
           GestureDetector(

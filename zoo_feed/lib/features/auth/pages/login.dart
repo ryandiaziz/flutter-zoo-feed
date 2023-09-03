@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:zoo_feed/common/helper/show_snackbar.dart';
+import 'package:zoo_feed/common/themes/cubit/theme_cubit.dart';
 import 'package:zoo_feed/features/auth/bloc/auth_bloc.dart';
 import 'package:zoo_feed/features/auth/widgets/auth_password_field.dart';
 import 'package:zoo_feed/features/auth/widgets/auth_text_field.dart';
@@ -35,6 +36,16 @@ class LoginPage extends StatelessWidget {
             margin: const EdgeInsets.symmetric(horizontal: 20),
             child: ListView(
               children: [
+                // BlocBuilder<ThemeCubit, bool>(
+                //   builder: (context, state) {
+                //     return Switch(
+                //       value: state,
+                //       onChanged: (state) {
+                //         context.read<ThemeCubit>().changeTheme();
+                //       },
+                //     );
+                //   },
+                // ),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 30),
                   child: Center(
@@ -56,7 +67,6 @@ class LoginPage extends StatelessWidget {
                   controller: emailC,
                   label: 'Email',
                   keyBoardType: TextInputType.emailAddress,
-                  isRead: false,
                 ),
                 AuthPasswordField(
                   controller: passwordC,

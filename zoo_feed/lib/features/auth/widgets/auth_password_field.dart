@@ -26,13 +26,6 @@ class _AuthPasswordFieldState extends State<AuthPasswordField> {
       controller: widget.controller,
       obscureText: _isHiddenPassword,
       decoration: InputDecoration(
-        focusedBorder: OutlineInputBorder(
-          borderSide: const BorderSide(
-            color: Coloors.orange,
-            width: 2,
-          ),
-          borderRadius: BorderRadius.circular(12),
-        ),
         label: const Text("Password"),
         prefixIcon: Padding(
           padding: const EdgeInsets.all(12.0),
@@ -48,9 +41,6 @@ class _AuthPasswordFieldState extends State<AuthPasswordField> {
             _isHiddenPassword ? Icons.visibility_off : Icons.visibility,
             color: _isHiddenPassword ? Coloors.gray : Colors.grey,
           ),
-        ),
-        border: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
         ),
       ),
     );

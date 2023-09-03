@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:zoo_feed/features/auth/widgets/auth_password_field.dart';
 
 import '../../../common/router/router.dart';
 import '../../../common/utils/coloors.dart';
-import '../../../common/widgets/custom_elevated_button.dart';
-import '../../../common/widgets/custom_passwordfield.dart';
-import '../../../common/widgets/custom_textfield.dart';
+import '../widgets/auth_button.dart';
 import '../widgets/auth_footer.dart';
+import '../widgets/auth_text_field.dart';
 
 class RegisterPage extends StatelessWidget {
   RegisterPage({super.key});
@@ -46,45 +46,37 @@ class RegisterPage extends StatelessWidget {
         elevation: 0,
       ),
       body: Container(
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
-        ),
-        margin: const EdgeInsets.only(
-          left: 30,
-          right: 30,
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
+        margin: const EdgeInsets.symmetric(horizontal: 20),
+        child: ListView(
           children: [
             title(),
             const SizedBox(height: 30),
-            CustomTextField(
+            AuthTextField(
               image: 'assets/icon/Name.png',
               controller: nameC,
-              hintText: 'Full Name',
+              label: 'Full Name',
               keyBoardType: TextInputType.text,
-              read: false,
             ),
-            CustomTextField(
+            AuthTextField(
               image: 'assets/icon/calendar.png',
               controller: ageC,
-              hintText: 'Age',
+              label: 'Age',
               keyBoardType: TextInputType.number,
-              read: false,
             ),
-            CustomTextField(
+            AuthTextField(
               image: 'assets/icon/Mail.png',
               controller: emailC,
-              hintText: 'Email',
+              label: 'Email',
               keyBoardType: TextInputType.emailAddress,
-              read: false,
             ),
-            CustomPasswordField(controller: passwordC),
+            AuthPasswordField(
+              controller: passwordC,
+              icon: "assets/icon/Lock.png",
+            ),
             const SizedBox(height: 30),
-            CustomAuthButton(
+            AuthButton(
               onPressed: () {},
-              text: 'Sign Up',
-              isOutline: false,
+              text: "Submit",
             ),
             AuthFooter(
                 text: 'Already have an account?',
