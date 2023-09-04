@@ -5,8 +5,10 @@ import 'dart:convert';
 import 'package:zoo_feed/features/home/pages/sub_home_page/animal_detail.dart';
 
 class AnimalPage extends StatefulWidget {
+  const AnimalPage({super.key});
+
   @override
-  _AnimalPageState createState() => _AnimalPageState();
+  State<AnimalPage> createState() => _AnimalPageState();
 }
 
 class _AnimalPageState extends State<AnimalPage> {
@@ -82,9 +84,9 @@ class _AnimalPageState extends State<AnimalPage> {
         List data = (json.decode(response.body)
             as Map<String, dynamic>)['resultUA']['animals'];
         setState(() {
-          data.forEach((element) {
+          for (var element in data) {
             animalsLiked.add(element);
-          });
+          }
         });
       }
     } catch (e) {

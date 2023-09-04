@@ -2,21 +2,20 @@ import 'dart:convert';
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zoo_feed/common/router/router.dart';
-import 'package:zoo_feed/common/utils/coloors.dart';
 import 'package:http/http.dart' as http;
-import 'package:zoo_feed/common/widgets/custom_elevated_button.dart';
-import 'package:zoo_feed/features/auth/bloc/auth_bloc.dart';
-import 'package:zoo_feed/features/auth/pages/login.dart';
-import 'package:zoo_feed/features/page_controller.dart';
-import 'package:zoo_feed/features/home/widgets/profile_menu.dart';
-import 'package:zoo_feed/features/user/pages/user_edit_page.dart';
-import 'package:zoo_feed/features/user/pages/user_history_page.dart';
-import 'package:zoo_feed/features/user/pages/user_liked_page.dart';
-import 'package:zoo_feed/features/user/pages/user_ticket_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../../common/router/router.dart';
+import '../../../common/utils/coloors.dart';
+import '../../../common/widgets/custom_elevated_button.dart';
+import '../../auth/bloc/auth_bloc.dart';
+import '../../page_controller.dart';
+import '../../user/pages/user_edit_page.dart';
+import '../../user/pages/user_history_page.dart';
+import '../../user/pages/user_liked_page.dart';
+import '../../user/pages/user_ticket_page.dart';
 import '../../user/widgets/animal_liked_item.dart';
+import '../widgets/profile_menu.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String routeName = '/profile';
@@ -52,9 +51,9 @@ class _ProfilePageState extends State<ProfilePage> {
         List data = (json.decode(response.body)
             as Map<String, dynamic>)['resultUA']['animals'];
         setState(() {
-          data.forEach((element) {
+          for (var element in data) {
             animalsLiked.add(element);
-          });
+          }
         });
         isLoading = false;
       }
@@ -286,7 +285,7 @@ class _ProfilePageState extends State<ProfilePage> {
                             Navigator.pushReplacement(
                               context,
                               MaterialPageRoute(
-                                builder: (context) => MyHomePage(),
+                                builder: (context) => const MyHomePage(),
                               ),
                             );
                           },

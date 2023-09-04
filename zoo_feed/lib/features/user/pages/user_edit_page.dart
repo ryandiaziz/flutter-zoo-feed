@@ -106,7 +106,7 @@ class _UserEditPageState extends State<UserEditPage> {
       barrierDismissible: false,
       builder: (BuildContext dialogContext) {
         return AlertDialog(
-          title: Text('Loading'),
+          title: const Text('Loading'),
           content: SingleChildScrollView(
             child: ListBody(
               children: const <Widget>[

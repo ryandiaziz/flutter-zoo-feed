@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../../../../../common/utils/coloors.dart';
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../../common/utils/coloors.dart';
 
 class ModalTicketBuy extends StatefulWidget {
   final String destext;
@@ -12,6 +13,7 @@ class ModalTicketBuy extends StatefulWidget {
   final int ticketId;
 
   const ModalTicketBuy({
+    super.key,
     required this.destext,
     required this.stock,
     required this.price,
@@ -19,7 +21,7 @@ class ModalTicketBuy extends StatefulWidget {
   });
 
   @override
-  _ModalTicketBuyState createState() => _ModalTicketBuyState();
+  State<ModalTicketBuy> createState() => _ModalTicketBuyState();
 }
 
 class _ModalTicketBuyState extends State<ModalTicketBuy> {
@@ -71,7 +73,7 @@ class _ModalTicketBuyState extends State<ModalTicketBuy> {
           context: context,
           type: QuickAlertType.error,
           title: 'Oops...',
-          text: 'Sorry, something went wrong ${error}',
+          text: 'Sorry, something went wrong $error',
         );
       }
     }
@@ -86,9 +88,9 @@ class _ModalTicketBuyState extends State<ModalTicketBuy> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
-              '${widget.destext}',
+              widget.destext,
               style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -96,7 +98,7 @@ class _ModalTicketBuyState extends State<ModalTicketBuy> {
                   fontFamily: 'inter'),
             ),
             const SizedBox(height: 20),
-            Container(
+            SizedBox(
               width: 300,
               height: 200,
               child: Image.asset('assets/img/ticket_regular.png'),
@@ -116,7 +118,7 @@ class _ModalTicketBuyState extends State<ModalTicketBuy> {
                           fontWeight: FontWeight.bold),
                     ),
                   ),
-                  SizedBox(height: 10),
+                  const SizedBox(height: 10),
                   Align(
                     alignment: Alignment.centerLeft,
                     child: Text(
@@ -155,11 +157,11 @@ class _ModalTicketBuyState extends State<ModalTicketBuy> {
                 const SizedBox(
                   width: 20,
                 ),
-                Container(
+                SizedBox(
                   width: 80,
                   child: Center(
                     child: Text(
-                      'Qty : ' + count.toString(),
+                      'Qty : $count',
                       style: const TextStyle(
                           fontSize: 18,
                           fontFamily: 'inter',

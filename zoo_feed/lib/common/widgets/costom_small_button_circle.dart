@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import '../../../common/utils/coloors.dart';
 
 class CustomSmallButtonCircle extends StatelessWidget {
@@ -6,13 +7,14 @@ class CustomSmallButtonCircle extends StatelessWidget {
   final VoidCallback onPressed;
 
   const CustomSmallButtonCircle({
+    super.key,
     required this.iconData,
     required this.onPressed,
   });
 
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return SizedBox(
       width: 40.0,
       child: AspectRatio(
         aspectRatio: 1.1,

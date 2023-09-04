@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-import '../../../../common/utils/coloors.dart';
 import 'package:intl/intl.dart';
 import 'package:quickalert/quickalert.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../../common/utils/coloors.dart';
 
 class ModalBuyWidget extends StatefulWidget {
   final String imageUrl;
@@ -13,6 +14,7 @@ class ModalBuyWidget extends StatefulWidget {
   final int foodId;
 
   const ModalBuyWidget({
+    super.key,
     required this.imageUrl,
     required this.destext,
     required this.stock,
@@ -21,7 +23,7 @@ class ModalBuyWidget extends StatefulWidget {
   });
 
   @override
-  _ModalBuyWidgetState createState() => _ModalBuyWidgetState();
+  State<ModalBuyWidget> createState() => _ModalBuyWidgetState();
 }
 
 class _ModalBuyWidgetState extends State<ModalBuyWidget> {
@@ -87,9 +89,9 @@ class _ModalBuyWidgetState extends State<ModalBuyWidget> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SizedBox(height: 16),
+            const SizedBox(height: 16),
             Text(
-              '${widget.destext}',
+              widget.destext,
               style: const TextStyle(
                   fontSize: 24,
                   fontWeight: FontWeight.bold,
@@ -105,7 +107,8 @@ class _ModalBuyWidgetState extends State<ModalBuyWidget> {
                 borderRadius: BorderRadius.circular(15),
                 image: DecorationImage(
                   image: NetworkImage(
-                      'http://13.55.144.244:3000/' + widget.imageUrl),
+                    'http://13.55.144.244:3000/${widget.imageUrl}',
+                  ),
                   fit: BoxFit.cover,
                 ),
               ),

@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
-import 'home/pages/home_page.dart';
-import 'cart/pages/cart_page.dart';
-import 'ticket/ticket_page.dart';
-import 'home/pages/profile_page.dart';
+
 import '../common/widgets/costom_bottom_navigation_bar.dart';
+import 'cart/pages/cart_page.dart';
+import 'home/pages/home.dart';
+import 'home/pages/profile_page.dart';
+import 'ticket/ticket_page.dart';
 
 class MyHomePage extends StatefulWidget {
   const MyHomePage({super.key});
 
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  State<MyHomePage> createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage>
@@ -33,7 +34,7 @@ class _MyHomePageState extends State<MyHomePage>
   Widget build(BuildContext context) {
     return Scaffold(
         body: _pages[_selectedIndex],
-        bottomNavigationBar: bottomnavbar(
+        bottomNavigationBar: BottomNavbar(
             selectedIndex: _selectedIndex,
             onIndexChanged: _onNavBarIndexChanged));
   }

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:zoo_feed/features/home/pages/home_page.dart';
 import 'package:zoo_feed/features/page_controller.dart';
 
 import '../../features/auth/pages/login.dart';
@@ -37,7 +36,7 @@ final GoRouter router = GoRouter(
       path: '/home',
       name: Routes.home,
       builder: (BuildContext context, GoRouterState state) {
-        return MyHomePage();
+        return const MyHomePage();
       },
     ),
   ],

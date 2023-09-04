@@ -1,21 +1,23 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zoo_feed/common/widgets/costom_loading_screen.dart';
-import 'package:zoo_feed/features/home/pages/sub_home_page/animal_page.dart';
-import 'package:zoo_feed/features/home/pages/sub_home_page/habitats_page.dart';
-import 'package:zoo_feed/features/home/pages/sub_home_page/typeclass_page.dart';
 import 'package:http/http.dart' as http;
-import 'package:zoo_feed/common/widgets/custom_headline_animation.dart';
-import 'package:zoo_feed/features/search/pages/search_page.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../../common/widgets/costom_loading_screen.dart';
+import '../../../common/widgets/custom_headline_animation.dart';
+import '../../search/pages/search_page.dart';
+import 'sub_home_page/animal_page.dart';
+import 'sub_home_page/habitats_page.dart';
+import 'sub_home_page/typeclass_page.dart';
 
 class HomePage extends StatefulWidget {
   static const String routeName = '/home';
 
   const HomePage({super.key});
   @override
-  _HomePageState createState() => _HomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage>

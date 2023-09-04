@@ -31,9 +31,9 @@ class _UserLikedPageState extends State<UserLikedPage> {
         List data = (json.decode(response.body)
             as Map<String, dynamic>)['resultUA']['animals'];
         setState(() {
-          data.forEach((element) {
+          for (var element in data) {
             animalsLiked.add(element);
-          });
+          }
         });
       }
     } catch (e) {

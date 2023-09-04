@@ -4,6 +4,8 @@ import 'dart:convert';
 import 'package:zoo_feed/features/home/pages/sub_home_page/habitats_detail.dart';
 
 class HabitatPage extends StatefulWidget {
+  const HabitatPage({super.key});
+
   @override
   State<HabitatPage> createState() => _HabitatPageState();
 }
@@ -64,7 +66,7 @@ class _HabitatPageState extends State<HabitatPage> {
                     fit: StackFit.expand,
                     children: [
                       Image.network(
-                        'http://13.55.144.244:3000/' + habitat['imageUrl'],
+                        'http://13.55.144.244:3000/${habitat['imageUrl']}',
                         fit: BoxFit.cover,
                       ),
                       Align(

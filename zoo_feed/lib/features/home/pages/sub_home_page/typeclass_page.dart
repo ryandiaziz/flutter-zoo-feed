@@ -1,10 +1,13 @@
-import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-import 'package:zoo_feed/features/home/pages/sub_home_page/typeclass_detail.dart';
+import 'package:flutter/material.dart';
+import 'package:http/http.dart' as http;
+
+import 'typeclass_detail.dart';
 
 class TypeclassPage extends StatefulWidget {
+  const TypeclassPage({super.key});
+
   @override
   State<TypeclassPage> createState() => _TypeclassPageState();
 }
@@ -43,7 +46,7 @@ class _TypeclassPageState extends State<TypeclassPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        padding: EdgeInsets.all(10),
+        padding: const EdgeInsets.all(10),
         height: 500.0,
         child: ListView.builder(
           scrollDirection: Axis.horizontal,
@@ -74,7 +77,7 @@ class _TypeclassPageState extends State<TypeclassPage> {
                     fit: StackFit.expand,
                     children: [
                       Image.network(
-                        'http://13.55.144.244:3000/' + type['imageUrl'],
+                        'http://13.55.144.244:3000/${type['imageUrl']}',
                         fit: BoxFit.cover,
                       ),
                       Align(

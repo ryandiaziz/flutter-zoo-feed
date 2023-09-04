@@ -1,15 +1,16 @@
 import 'package:flutter/material.dart';
 
-class bottomnavbar extends StatefulWidget {
+class BottomNavbar extends StatefulWidget {
   late int selectedIndex;
   final Function(int) onIndexChanged;
-  bottomnavbar({required this.selectedIndex, required this.onIndexChanged});
+  BottomNavbar(
+      {super.key, required this.selectedIndex, required this.onIndexChanged});
 
   @override
-  State<bottomnavbar> createState() => _bottomnavbarState();
+  State<BottomNavbar> createState() => _BottomNavbarState();
 }
 
-class _bottomnavbarState extends State<bottomnavbar> {
+class _BottomNavbarState extends State<BottomNavbar> {
   late int selectedIndex;
 
   @override

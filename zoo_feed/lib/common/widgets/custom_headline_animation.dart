@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 class AnimatedTitleWidget extends StatefulWidget {
   final dynamic username;
 
-  const AnimatedTitleWidget({required this.username});
+  const AnimatedTitleWidget({super.key, required this.username});
 
   @override
-  _AnimatedTitleWidgetState createState() => _AnimatedTitleWidgetState();
+  State<AnimatedTitleWidget> createState() => _AnimatedTitleWidgetState();
 }
 
 class _AnimatedTitleWidgetState extends State<AnimatedTitleWidget> {

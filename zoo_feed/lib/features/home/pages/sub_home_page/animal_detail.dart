@@ -12,10 +12,10 @@ import 'package:zoo_feed/features/home/pages/sub_home_page/typeclass_detail.dart
 class AnimalDetailPage extends StatefulWidget {
   final int animalId;
 
-  const AnimalDetailPage({required this.animalId});
+  const AnimalDetailPage({super.key, required this.animalId});
 
   @override
-  _AnimalDetailPageState createState() => _AnimalDetailPageState();
+  State<AnimalDetailPage> createState() => _AnimalDetailPageState();
 }
 
 class _AnimalDetailPageState extends State<AnimalDetailPage> {
@@ -145,8 +145,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                                 color: Colors.transparent,
                                 child: Image(
                                   image: NetworkImage(
-                                    'http://13.55.144.244:3000/' +
-                                        animalDetail['resultAF']['imageUrl'],
+                                    'http://13.55.144.244:3000/${animalDetail['resultAF']['imageUrl']}',
                                   ),
                                   fit: BoxFit.cover,
                                 ),
@@ -231,7 +230,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Container(
+                    SizedBox(
                       width: 350,
                       child: Text(
                         '${animalDetail['resultAF']['description']}',
@@ -243,9 +242,9 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
+                    const SizedBox(
                       width: 350,
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           'FOOD',
                           style: TextStyle(
@@ -274,7 +273,7 @@ class _AnimalDetailPageState extends State<AnimalDetailPage> {
                             else
                               for (var food in foods)
                                 Container(
-                                  padding: EdgeInsets.only(right: 10),
+                                  padding: const EdgeInsets.only(right: 10),
                                   child: smallcardbuy(
                                     imageUrl: food['imageUrl'],
                                     destext: food['name'],

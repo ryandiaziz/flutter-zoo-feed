@@ -1,16 +1,18 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:zoo_feed/common/utils/coloors.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import 'package:zoo_feed/common/widgets/costom_loading_screen.dart';
-import 'dart:convert';
 import 'package:http/http.dart' as http;
-import 'package:zoo_feed/features/ticket/widgets/custom_modal_ticket_buy.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
+import '../../common/utils/coloors.dart';
+import '../../common/widgets/costom_loading_screen.dart';
+import '../../common/widgets/custom_headline_animation.dart';
+import 'widgets/custom_modal_ticket_buy.dart';
 import 'widgets/ticket_card.dart';
-import 'package:zoo_feed/common/widgets/custom_headline_animation.dart';
 
 class TicketPage extends StatefulWidget {
-  TicketPage({Key? key});
+  const TicketPage({super.key});
 
   @override
   State<TicketPage> createState() => _TicketPageState();
@@ -57,7 +59,7 @@ class _TicketPageState extends State<TicketPage> {
   @override
   Widget build(BuildContext context) {
     if (!isUserDataLoaded || !isTicketDataLoaded) {
-      return LoadingScreen();
+      return const LoadingScreen();
     } else {
       return Scaffold(
         appBar: AppBar(

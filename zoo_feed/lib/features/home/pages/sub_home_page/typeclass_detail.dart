@@ -11,7 +11,7 @@ import 'package:zoo_feed/common/widgets/custom_headline_animation.dart';
 class TypeClassDetailPage extends StatefulWidget {
   final int typeId;
 
-  const TypeClassDetailPage({required this.typeId});
+  const TypeClassDetailPage({super.key, required this.typeId});
 
   @override
   State<TypeClassDetailPage> createState() => _TypeClassDetailPageState();
@@ -67,7 +67,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
     } else {
       return Scaffold(
         body: Container(
-          constraints: BoxConstraints.expand(),
+          constraints: const BoxConstraints.expand(),
           child: CustomScrollView(
             slivers: [
               SliverAppBar(
@@ -128,7 +128,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
                           right: 20,
                           child: Card(
                             elevation: 8,
-                            margin: EdgeInsets.symmetric(horizontal: 40),
+                            margin: const EdgeInsets.symmetric(horizontal: 40),
                             shape: RoundedRectangleBorder(
                               borderRadius: BorderRadius.circular(37),
                             ),
@@ -139,8 +139,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
                                 color: Colors.transparent,
                                 child: Image(
                                   image: NetworkImage(
-                                    'http://13.55.144.244:3000/' +
-                                        classDetail['imageUrl'],
+                                    'http://13.55.144.244:3000/${classDetail['imageUrl']}',
                                   ),
                                   fit: BoxFit.cover,
                                 ),
@@ -156,7 +155,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 250,
                       child: Center(
                         child: Text(
@@ -171,7 +170,7 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Container(
+                    SizedBox(
                       width: 350,
                       child: Text(
                         '${classDetail['description']}',
@@ -183,9 +182,9 @@ class _TypeClassDetailPageState extends State<TypeClassDetailPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
+                    const SizedBox(
                       width: 350,
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           'Corresponding Animals',
                           style: TextStyle(

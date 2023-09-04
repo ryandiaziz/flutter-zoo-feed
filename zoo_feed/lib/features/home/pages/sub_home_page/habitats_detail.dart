@@ -11,7 +11,7 @@ import 'package:zoo_feed/common/widgets/custom_headline_animation.dart';
 class HabitatDetailPage extends StatefulWidget {
   final int habitatId;
 
-  const HabitatDetailPage({required this.habitatId});
+  const HabitatDetailPage({super.key, required this.habitatId});
 
   @override
   State<HabitatDetailPage> createState() => _HabitatDetailPageState();
@@ -139,8 +139,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                                 color: Colors.transparent,
                                 child: Image(
                                   image: NetworkImage(
-                                    'http://13.55.144.244:3000/' +
-                                        habitatDetail['imageUrl'],
+                                    'http://13.55.144.244:3000/${habitatDetail['imageUrl']}',
                                   ),
                                   fit: BoxFit.cover,
                                 ),
@@ -156,7 +155,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
               SliverToBoxAdapter(
                 child: Column(
                   children: [
-                    Container(
+                    SizedBox(
                       width: 250,
                       child: Center(
                         child: Text(
@@ -171,7 +170,7 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                       ),
                     ),
                     const SizedBox(height: 10),
-                    Container(
+                    SizedBox(
                       width: 350,
                       child: Text(
                         '${habitatDetail['description']}',
@@ -183,9 +182,9 @@ class _HabitatDetailPageState extends State<HabitatDetailPage> {
                       ),
                     ),
                     const SizedBox(height: 20),
-                    Container(
+                    const SizedBox(
                       width: 350,
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           'Corresponding Animals',
                           style: TextStyle(
