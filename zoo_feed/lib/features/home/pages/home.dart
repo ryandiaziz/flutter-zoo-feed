@@ -35,7 +35,7 @@ class _HomePageState extends State<HomePage>
 
   List<Widget> appTitles = const [
     Text(
-      "Your Favorite Zoo",
+      "Your Favorite Animal",
       style: TextStyle(
         fontSize: 30,
         fontFamily: "inter",
@@ -107,7 +107,7 @@ class _HomePageState extends State<HomePage>
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
-      return LoadingScreen();
+      return const LoadingScreen();
     } else {
       return Scaffold(
         appBar: AppBar(
@@ -179,10 +179,18 @@ class _HomePageState extends State<HomePage>
                 height: 50,
                 width: 300,
                 child: TabBar(
+                  indicatorSize: TabBarIndicatorSize.tab,
+                  indicatorColor: Colors.red,
+                  labelColor: Colors.white,
+                  unselectedLabelColor: Colors.white,
                   controller: _tabController,
-                  labelStyle: const TextStyle(fontWeight: FontWeight.w800),
-                  unselectedLabelStyle:
-                      const TextStyle(fontWeight: FontWeight.normal),
+                  labelStyle: const TextStyle(
+                    fontWeight: FontWeight.w500,
+                    fontSize: 16,
+                  ),
+                  unselectedLabelStyle: const TextStyle(
+                    fontWeight: FontWeight.normal,
+                  ),
                   padding: const EdgeInsets.only(bottom: 10.0),
                   indicator: BoxDecoration(
                     color: const Color(0xFFFB983E),
@@ -212,7 +220,7 @@ class _HomePageState extends State<HomePage>
                 color: const Color(0xFF019267),
                 alignment: Alignment.center,
                 child: Container(
-                  height: 110,
+                  height: 120,
                   width: 400,
                   padding: const EdgeInsets.fromLTRB(50, 20, 0, 0),
                   child: Column(
@@ -251,7 +259,7 @@ class _HomePageState extends State<HomePage>
         ),
         body: TabBarView(
           controller: _tabController,
-          children: [
+          children: const [
             AnimalPage(),
             TypeclassPage(),
             HabitatPage(),

@@ -46,6 +46,7 @@ class _AnimatedTitleWidgetState extends State<AnimatedTitleWidget> {
         titles[currentIndex],
         key: ValueKey<String>(titles[currentIndex]),
         style: const TextStyle(
+          color: Colors.white,
           fontSize: 15,
           fontFamily: "inter",
         ),

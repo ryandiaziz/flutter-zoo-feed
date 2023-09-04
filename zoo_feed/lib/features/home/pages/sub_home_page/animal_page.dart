@@ -1,8 +1,10 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
-import 'dart:convert';
-import 'package:zoo_feed/features/home/pages/sub_home_page/animal_detail.dart';
+
+import 'animal_detail.dart';
 
 class AnimalPage extends StatefulWidget {
   const AnimalPage({super.key});
