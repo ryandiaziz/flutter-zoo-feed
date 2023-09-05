@@ -7,9 +7,9 @@ class AuthRepo {
     required String email,
     required String password,
   }) async {
-    var data = {'email': email, 'password': password};
-    var uri = Uri.parse("http://192.168.1.6:3000/api/users/login");
-    var response = await http.post(uri, body: data);
+    final data = {'email': email, 'password': password};
+    final uri = Uri.parse("http://192.168.1.6:3000/api/users/login");
+    final response = await http.post(uri, body: data);
     if (response.statusCode == 200) {
       final Map<String, dynamic> dataResponse = json.decode(response.body);
       final pref = await SharedPreferences.getInstance();

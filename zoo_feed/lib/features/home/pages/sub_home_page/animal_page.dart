@@ -1,9 +1,11 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:http/http.dart' as http;
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../bloc/user/user_bloc.dart';
 import 'animal_detail.dart';
 
 class AnimalPage extends StatefulWidget {
@@ -106,105 +108,119 @@ class _AnimalPageState extends State<AnimalPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: GridView.builder(
-        padding: const EdgeInsets.all(15.0),
-        itemCount: animals.length,
-        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 1,
-          mainAxisSpacing: 10,
-          crossAxisSpacing: 10,
-        ),
-        itemBuilder: (BuildContext context, int index) {
-          final animal = animals[index];
-          return GestureDetector(
-            onTap: () {
-              navigateToAnimalDetail(animal['id']);
+      body: Column(
+        children: [
+          ElevatedButton(
+            onPressed: () {
+              context.read<UserBloc>().add(UserEventGetData());
             },
-            child: Card(
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(15.0),
+            child: const Text('Get User Date'),
+          ),
+          Expanded(
+            child: GridView.builder(
+              padding: const EdgeInsets.all(15.0),
+              itemCount: animals.length,
+              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
+                crossAxisCount: 2,
+                childAspectRatio: 1,
+                mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
               ),
-              elevation: 30.0,
-              shadowColor: Colors.black,
-              child: LayoutBuilder(
-                builder: (BuildContext context, BoxConstraints constraints) {
-                  return Stack(
-                    children: [
-                      ClipRRect(
-                        borderRadius: const BorderRadius.vertical(
-                            top: Radius.circular(15.0),
-                            bottom: Radius.circular(15.0)),
-                        child: Image.network(
-                          'http://13.55.144.244:3000/${animal['imageUrl']}',
-                          fit: BoxFit.cover,
-                          width: constraints.maxWidth,
-                          height: constraints.maxHeight,
-                        ),
-                      ),
-                      Positioned(
-                        bottom: 10,
-                        left: 10,
-                        right: 0,
-                        child: Container(
-                          padding: const EdgeInsets.all(8.0),
-                          color: Colors.transparent,
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              Text(
-                                animal['name'],
-                                style: const TextStyle(
-                                    fontSize: 16,
-                                    fontWeight: FontWeight.bold,
-                                    color: Colors.white),
+              itemBuilder: (BuildContext context, int index) {
+                final animal = animals[index];
+                return GestureDetector(
+                  onTap: () {
+                    navigateToAnimalDetail(animal['id']);
+                  },
+                  child: Card(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(15.0),
+                    ),
+                    elevation: 30.0,
+                    shadowColor: Colors.black,
+                    child: LayoutBuilder(
+                      builder:
+                          (BuildContext context, BoxConstraints constraints) {
+                        return Stack(
+                          children: [
+                            ClipRRect(
+                              borderRadius: const BorderRadius.vertical(
+                                  top: Radius.circular(15.0),
+                                  bottom: Radius.circular(15.0)),
+                              child: Image.network(
+                                'http://13.55.144.244:3000/${animal['imageUrl']}',
+                                fit: BoxFit.cover,
+                                width: constraints.maxWidth,
+                                height: constraints.maxHeight,
                               ),
-                              Text(
-                                animal['classType']['name'],
-                                style: const TextStyle(
-                                    color: Colors.white,
-                                    fontSize: 10,
-                                    fontWeight: FontWeight.w300),
-                              ),
-                            ],
-                          ),
-                        ),
-                      ),
-                      animalsLiked
-                              .where((element) => element['id'] == animal['id'])
-                              .isEmpty
-                          ? Positioned(
-                              top: 8,
-                              right: 8,
-                              child: IconButton(
-                                icon: const Icon(Icons.favorite_border),
-                                color: Colors.white,
-                                onPressed: () {
-                                  like(animal['id']);
-                                },
-                              ),
-                            )
-                          : Positioned(
-                              top: 8,
-                              right: 8,
-                              child: IconButton(
-                                icon: Icon(
-                                  Icons.favorite,
-                                  color: Colors.red.shade300,
+                            ),
+                            Positioned(
+                              bottom: 10,
+                              left: 10,
+                              right: 0,
+                              child: Container(
+                                padding: const EdgeInsets.all(8.0),
+                                color: Colors.transparent,
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Text(
+                                      animal['name'],
+                                      style: const TextStyle(
+                                          fontSize: 16,
+                                          fontWeight: FontWeight.bold,
+                                          color: Colors.white),
+                                    ),
+                                    Text(
+                                      animal['classType']['name'],
+                                      style: const TextStyle(
+                                          color: Colors.white,
+                                          fontSize: 10,
+                                          fontWeight: FontWeight.w300),
+                                    ),
+                                  ],
                                 ),
-                                color: Colors.white,
-                                onPressed: () {
-                                  unLike(animal['id']);
-                                },
                               ),
-                            )
-                    ],
-                  );
-                },
-              ),
+                            ),
+                            animalsLiked
+                                    .where((element) =>
+                                        element['id'] == animal['id'])
+                                    .isEmpty
+                                ? Positioned(
+                                    top: 8,
+                                    right: 8,
+                                    child: IconButton(
+                                      icon: const Icon(Icons.favorite_border),
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        like(animal['id']);
+                                      },
+                                    ),
+                                  )
+                                : Positioned(
+                                    top: 8,
+                                    right: 8,
+                                    child: IconButton(
+                                      icon: Icon(
+                                        Icons.favorite,
+                                        color: Colors.red.shade300,
+                                      ),
+                                      color: Colors.white,
+                                      onPressed: () {
+                                        unLike(animal['id']);
+                                      },
+                                    ),
+                                  )
+                          ],
+                        );
+                      },
+                    ),
+                  ),
+                );
+              },
             ),
-          );
-        },
+          ),
+        ],
       ),
     );
   }

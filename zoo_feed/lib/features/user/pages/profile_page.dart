@@ -10,12 +10,12 @@ import '../../../common/utils/coloors.dart';
 import '../../../common/widgets/custom_elevated_button.dart';
 import '../../auth/bloc/auth_bloc.dart';
 import '../../page_controller.dart';
-import '../../user/pages/user_edit_page.dart';
-import '../../user/pages/user_history_page.dart';
-import '../../user/pages/user_liked_page.dart';
-import '../../user/pages/user_ticket_page.dart';
-import '../../user/widgets/animal_liked_item.dart';
-import '../widgets/profile_menu.dart';
+import 'user_edit_page.dart';
+import 'user_history_page.dart';
+import 'user_liked_page.dart';
+import 'user_ticket_page.dart';
+import '../widgets/animal_liked_item.dart';
+import '../../home/widgets/profile_menu.dart';
 
 class ProfilePage extends StatefulWidget {
   static const String routeName = '/profile';

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zoo_feed/common/themes/bloc/theme_bloc.dart';
 
+import 'common/bloc/theme/theme_bloc.dart';
 import 'common/router/router.dart';
 import 'common/themes/dark_theme.dart';
 import 'common/themes/light_theme.dart';

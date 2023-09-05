@@ -1,15 +1,25 @@
 part of 'auth_bloc.dart';
 
-abstract class AuthState {}
+abstract class AuthState {
+  SharedPreferences? accessToken;
 
-class AuthStateInitial extends AuthState {}
+  AuthState(this.accessToken);
+}
 
-class AuthStateLoading extends AuthState {}
+class AuthStateInitial extends AuthState {
+  AuthStateInitial(super.accessToken);
+}
 
-class AuthStateComplete extends AuthState {}
+class AuthStateLoading extends AuthState {
+  AuthStateLoading(super.accessToken);
+}
+
+class AuthStateComplete extends AuthState {
+  AuthStateComplete(super.accessToken);
+}
 
 class AuthStateError extends AuthState {
   final String message;
 
-  AuthStateError(this.message);
+  AuthStateError(this.message) : super(null);
 }
