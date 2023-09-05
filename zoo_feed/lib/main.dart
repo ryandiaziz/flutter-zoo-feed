@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:zoo_feed/common/themes/cubit/theme_cubit.dart';
 
-import 'features/auth/bloc/auth_bloc.dart';
 import 'app.dart';
+import 'common/themes/bloc/theme_bloc.dart';
+import 'features/auth/bloc/auth_bloc.dart';
 
 void main() {
   runApp(
@@ -19,7 +19,7 @@ class Provider extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ThemeCubit(),
+          create: (context) => ThemeBloc(),
         ),
         BlocProvider(
           create: (context) => AuthBloc(),
